@@ -41,7 +41,6 @@ export const askRequest = z.object({
   today: ymd,
   history: z.array(z.string().max(200)).max(5).default([]),
   reviews,
-  expanded: z.boolean().default(false),
 });
 
 export type WashRequest = z.infer<typeof washRequest>;

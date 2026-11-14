@@ -22,7 +22,6 @@ export interface AskResponse {
   summary: Cited[];
   pros: Cited[];
   cons: Cited[];
-  expand: boolean;
   notice: string | null;
 }
 
@@ -30,7 +29,6 @@ export interface AskStats {
   reviews: number;
   batches: number;
   matched: number;
-  expand: boolean;
   summaryError: string | null;
 }
 
@@ -55,7 +53,7 @@ export async function runAsk(
   now: Clock = systemClock,
 ): Promise<{ response: AskResponse; stats: AskStats }> {
   const reviews = body.reviews as Review[];
-  const stats: AskStats = { reviews: reviews.length, batches: 0, matched: 0, expand: false, summaryError: null };
+  const stats: AskStats = { reviews: reviews.length, batches: 0, matched: 0, summaryError: null };
 
   let it: Interpretation;
   try {
@@ -68,7 +66,7 @@ export async function runAsk(
     throw new LlmUnavailable('interpret', [errorKind(err)]);
   }
 
-  if (!it.answerable) return finish(noMatch(it, false), stats);
+  if (!it.answerable) return finish(noMatch(it), stats);
 
   const filtered = applyConditions(reviews, it.conditions);
   const semantic = it.conditions.semantic?.trim() || null;
@@ -85,10 +83,8 @@ export async function runAsk(
     matches = inInputOrder(filtered, verifyMatches(filtered, res.ok.flat()));
   }
 
-  if (matches.length === 0) {
-    // 첫 질문이고 아직 더 불러오지 않았으면 확장에게 리뷰를 더 불러오라고 알린다 (Requirement 12).
-    return finish(noMatch(it, body.history.length === 0 && !body.expanded), stats);
-  }
+  // 입고한 리뷰 안에서만 찾는다. 더 불러오지 않는다 (Requirement 12, fairness.md 요청 10번).
+  if (matches.length === 0) return finish(noMatch(it), stats);
 
   const ids = new Set(matches.map((m) => m.id));
   const matchedReviews = reviews.filter((r) => ids.has(r.id));
@@ -122,14 +118,13 @@ export async function runAsk(
       summary: verifyCitations(summary.summary, allowed),
       pros: withProsCons ? verifyCitations(summary.pros, allowed) : [],
       cons: withProsCons ? verifyCitations(summary.cons, allowed) : [],
-      expand: false,
       notice: null,
     },
     stats,
   );
 }
 
-export function noMatch(it: Interpretation, expand: boolean): AskResponse {
+export function noMatch(it: Interpretation): AskResponse {
   return {
     conditions: it.conditions,
     label: it.label,
@@ -140,14 +135,12 @@ export function noMatch(it: Interpretation, expand: boolean): AskResponse {
     summary: [],
     pros: [],
     cons: [],
-    expand,
-    notice: expand ? null : NO_MATCH_NOTICE,
+    notice: NO_MATCH_NOTICE,
   };
 }
 
 function finish(response: AskResponse, stats: AskStats): { response: AskResponse; stats: AskStats } {
   stats.matched = response.matched;
-  stats.expand = response.expand;
   return { response, stats };
 }
 
