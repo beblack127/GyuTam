@@ -173,11 +173,11 @@
     - 예시: 6번째 push 거절
     - **Validates: Requirements 15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 15.7**
 
-- [ ] 9. Checkpoint (16:35 통합 전)
+- [x] 9. Checkpoint (16:35 통합 전)
   - Ensure all tests pass, ask the user if questions arise.
   - `npm run typecheck --workspace packages/core`와 `npm test --workspace packages/core`가 한 번에 통과해야 한다 (Requirement 16.6)
 
-- [ ] 10. 부분 세탁 바탕 전환: 단계 평균, 바탕 좁히기·넓히기 (16:45 전에 합침, 정민의 방식 전환이 사용)
+- [x] 10. 부분 세탁 바탕 전환: 단계 평균, 바탕 좁히기·넓히기 (16:45 전에 합침, 정민의 방식 전환이 사용)
   - `averageRating`(6.1)과 `verifyCitations`(7.1)에 기대므로 Task 6, 7 뒤에 한다
   - 시간이 모자라면 이 task를 통째로 미루고 Task 1.3의 빈 구현(`narrowSteps` → `steps.slice()`, `mergeIntoStep` → `{ ...step }`)을 그대로 남긴다. 화면은 "바탕을 바꿔도 단계는 그대로"로 동작한다. 이때도 10.4, 10.5(P16, P17)는 제출 체크리스트 항목이므로 체크하지 않고 미완료로 남겨 실제 상태와 맞춘다
   - [x] 10.1 `filter/stepRating.ts` 구현 (내부, `index.ts`에서 내보내지 않음)
@@ -196,7 +196,7 @@
     - 오라클은 `stepRating.ts`를 import하지 않고 테스트 안의 첫 등장 `byId` + `averageRating`, `verifyCitations`로 만든다
     - 예시: 2단계 중 둘째 단계가 비면 첫 단계만 남음, 근거 ID가 모두 빠진 요약 문장 삭제, 빈 `steps` → `[]`
     - **Validates: Requirements 19.1, 19.2, 19.3, 19.4, 19.5, 19.6, 19.7, 19.8, 19.9, 19.10**
-  - [-] 10.5 P17 속성 테스트 (`mergeIntoStep.test.ts`)
+  - [x] 10.5 P17 속성 테스트 (`mergeIntoStep.test.ts`)
     - **Property 25: (P17) 바탕 넓히기는 합집합을 만들고 평균을 다시 계산한다**
     - 오라클은 10.4와 같은 방식 (`stepRating.ts` import 안 함)
     - 예시: 이미 있는 ID를 더하면 중복 없음, 빈 `addedIds`면 `ids` 그대로·`rating` 재계산
