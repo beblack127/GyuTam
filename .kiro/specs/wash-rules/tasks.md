@@ -139,7 +139,7 @@
     - **Validates: Requirements 12.1, 12.3, 12.6**
 
 - [ ] 8. 부분 세탁: 조건 필터, 결과 검수, 단계 스택 (16:35 통합 전에 합침)
-  - [ ] 8.1 `applyConditions` 구현
+  - [x] 8.1 `applyConditions` 구현
     - 필드별 술어 (design 표), `option`·`includes`·`excludes`는 `normalizeLoose`, 정규화 후 빈 항목 무시, `semantic` 무시
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7, 13.8, 13.9, 13.10, 13.11_
   - [ ] 8.2 P11 속성 테스트 (`applyConditions.test.ts`)
@@ -149,7 +149,7 @@
   - [ ] 8.3 P12 속성 테스트
     - **Property 12: (P12) 정해진 조건 필터는 멱등이고 순서와 무관하다**
     - **Validates: Requirements 13.13, 13.14**
-  - [ ] 8.4 `verifyMatches` 구현
+  - [x] 8.4 `verifyMatches` 구현
     - 첫 등장 기준 `byId`, 원문 밖 `quote` 제거, `quote: null` 유지, `seen`은 통과 항목만 기록
     - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5, 14.6, 14.7_
   - [ ] 8.5 P9 속성 테스트 (`verifyMatches.test.ts`)
@@ -168,7 +168,7 @@
   - [x] 8.9 단계 스택 구현 (`filter/steps.ts`)
     - `pushStep`: 빈 `ids` 또는 5개면 `steps.slice()`, 아니면 `[...steps, step]`. `popStep`: `steps.slice(0, -1)`. `resetSteps`: `[]`
     - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5, 15.6_
-  - [ ] 8.10 P14 속성 테스트 (`steps.test.ts`)
+  - [x] 8.10 P14 속성 테스트 (`steps.test.ts`)
     - **Property 14: (P14) popStep(pushStep(s, x))는 s와 같다**
     - 예시: 6번째 push 거절
     - **Validates: Requirements 15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 15.7**
