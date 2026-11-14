@@ -190,13 +190,13 @@
   - [x] 10.3 `filter/mergeIntoStep.ts` 구현
     - `[...step.ids, ...addedIds]`에서 첫 등장만 남기고 `rating: stepRating(ids, reviews)`, 나머지 필드는 입력과 같다
     - _Requirements: 20.1, 20.4, 20.5_
-  - [ ] 10.4 P16 속성 테스트 (`narrowSteps.test.ts`)
+  - [x] 10.4 P16 속성 테스트 (`narrowSteps.test.ts`)
     - **Property 24: (P16) 바탕 좁히기는 허용 ID로 단계를 줄이고 평균을 다시 계산한다**
     - `testArbitraries.ts`에 `arbNestedSteps`(직전 단계 `ids`의 `fc.subarray`), `arbIdSubset`(빈 배열·풀 전체 포함) 추가. `reviews`에 같은 ID 중복이 나오게 `arbReview`의 작은 ID 풀을 쓴다
     - 오라클은 `stepRating.ts`를 import하지 않고 테스트 안의 첫 등장 `byId` + `averageRating`, `verifyCitations`로 만든다
     - 예시: 2단계 중 둘째 단계가 비면 첫 단계만 남음, 근거 ID가 모두 빠진 요약 문장 삭제, 빈 `steps` → `[]`
     - **Validates: Requirements 19.1, 19.2, 19.3, 19.4, 19.5, 19.6, 19.7, 19.8, 19.9, 19.10**
-  - [ ] 10.5 P17 속성 테스트 (`mergeIntoStep.test.ts`)
+  - [-] 10.5 P17 속성 테스트 (`mergeIntoStep.test.ts`)
     - **Property 25: (P17) 바탕 넓히기는 합집합을 만들고 평균을 다시 계산한다**
     - 오라클은 10.4와 같은 방식 (`stepRating.ts` import 안 함)
     - 예시: 이미 있는 ID를 더하면 중복 없음, 빈 `addedIds`면 `ids` 그대로·`rating` 재계산
