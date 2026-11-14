@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "별점세탁소",
+  "version": "0.1.0",
+  "description": "쿠팡 리뷰에서 대가성 리뷰를 걷어내고 세탁 후 평점과 요약을 보여줍니다. (쿠팡과 제휴하지 않은 비공식 도구)",
+  "minimum_chrome_version": "116",
+  "action": { "default_title": "별점세탁소 열기" },
+  "side_panel": { "default_path": "sidepanel.html" },
+  "background": { "service_worker": "background.js", "type": "module" },
+  "permissions": ["sidePanel", "storage", "tabs"],
+  "host_permissions": ["https://www.coupang.com/*", "http://localhost:8787/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.coupang.com/vp/products/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
