@@ -177,6 +177,7 @@ flowchart LR
 여름에 주머니에 넣긴 어려울 것 같아요. … [더보기]
 ```
 - 단계마다 그 조건에 맞는 리뷰의 **평균 별점**(코드 계산)과 **요약, 장점·단점**(LLM)을 보여준다. 결과가 4개 미만이면 장점·단점 없이 요약만 보여준다.
+- 세탁 순서는 자유롭게 섞을 수 있다. 첫 칩이 바탕 세탁(기본/섬세)이라, 좁혀 가던 중에도 바탕을 섬세로 바꾸면 쌓은 조건을 유지한 채 의심 얼룩만 빠진다.
 - 칩의 ✕는 한 단계 뒤로 간다. 저장해 둔 직전 결과를 보여주므로 다시 기다리지 않는다.
 - 리뷰 원문은 **사이드 패널의 리뷰 카드**로 모두 보여준다. 쿠팡 화면에는 지금 페이지의 리뷰 10개 정도만 있어서, 쿠팡 화면으로 이동하는 방식은 쓰지 않는다.
 - 리뷰 카드: 별점, 작성일, 구매 옵션, 사진 썸네일(누르면 크게), 본문 전체(긴 글은 더보기), 근거 문장 강조, 세탁 태그. **작성자 이름은 보여주지 않는다.**
@@ -292,7 +293,7 @@ POST /ask
 | 기능 | 별점세탁소에서의 활용 |
 |---|---|
 | **Specs** | [wash-rules](.kiro/specs/wash-rules)(재현) · [wash-llm](.kiro/specs/wash-llm)(주영) · [review-intake](.kiro/specs/review-intake)(규리) · [side-panel-receipt](.kiro/specs/side-panel-receipt)(정민). 각각 requirements → design → tasks를 검토·승인하고 tasks로 구현했다. 커밋에 task 번호를 남겼다 |
-| **속성 기반 테스트** | design의 correctness property 15개(예: "요약 근거는 항상 얼룩 아닌 리뷰", "evidence는 항상 원문에 있다")를 fast-check 테스트로 검증 ([testing.md](.kiro/steering/testing.md)) |
+| **속성 기반 테스트** | design의 correctness property 17개(예: "요약 근거는 항상 얼룩 아닌 리뷰", "evidence는 항상 원문에 있다")를 fast-check 테스트로 검증 ([testing.md](.kiro/steering/testing.md)) |
 | **Steering** | [10개](.kiro/steering). 공통 규칙 5개는 always, 입고·API 계약·얼룩 규칙·테스트 규칙은 fileMatch, 기록 규칙은 manual로 나눠 컨텍스트를 아꼈다. 루트에 [AGENTS.md](AGENTS.md) |
 | **Hooks** | [7개](.kiro/hooks). 비밀 정보 쓰기 차단, 커밋 전 비밀 정보·리뷰 원문 검사, 배포 전 사람 확인, 규칙·프롬프트 저장 시 품질 검사, API 계약 변경 시 README 동기화, task 시작·완료 시 spec 확인과 테스트·커밋, 세션 시작 시 최근 작업 공유 |
 | **Custom agents** | [fairness-reviewer](.kiro/agents/fairness-reviewer.md)(문구·프롬프트 공정성 검토, 읽기 전용), [kiro-evidence-writer](.kiro/agents/kiro-evidence-writer.md)(이 기록 갱신) |

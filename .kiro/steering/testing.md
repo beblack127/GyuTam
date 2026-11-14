@@ -28,5 +28,7 @@ spec의 design에 아래 속성을 적고(대부분 wash-rules, P1·P2는 review
 | P11 | 정해진 조건 필터는 정확하다: 결과의 모든 리뷰가 조건을 만족하고, 입력 중 조건을 만족하는 리뷰는 모두 결과에 있다 |
 | P12 | 정해진 조건 필터는 멱등이고 순서와 무관하다: 같은 조건을 두 번 적용하거나 조건을 나눠 차례로 적용해도 결과가 같다 |
 | P13 | `/ask`의 결과는 항상 입력 `reviews`의 부분집합이다. 단계를 쌓을수록 목록은 줄거나 같다 |
+| P16 | `narrowSteps` 뒤에 모든 단계의 `ids`는 허용 ID의 부분집합이고, 단계 순서대로 줄거나 같다. 각 단계의 `rating`은 그 `ids`의 `averageRating`과 같다 |
+| P17 | `mergeIntoStep`의 결과 `ids`는 원래 `ids`와 더한 ID의 합집합(중복 없음)이고, `rating`은 그 합집합의 `averageRating`과 같다 |
 | P15 | `/ask`의 `rating.average`는 `matches` 리뷰 별점 평균의 반올림이고, `count`는 `matched`와 같다. 결과가 0개일 때만 `null` |
 | P14 | 단계 스택: `popStep(pushStep(s, x))`는 `s`와 같고, `resetSteps`는 세탁된 리뷰 전체로 돌아간다. 결과가 0개인 단계는 쌓이지 않는다 |

@@ -8,7 +8,7 @@
 | Spec | __ / 4개 (requirements → design → tasks 완료) | [.kiro/specs](../.kiro/specs) |
 | 완료한 task | __ / __ | 각 spec의 `tasks.md` |
 | task 번호가 붙은 커밋 | __개 | `git log --grep "feat("` |
-| Correctness property (속성 기반 테스트) | __ / 15개 통과 | [testing.md](../.kiro/steering/testing.md) |
+| Correctness property (속성 기반 테스트) | __ / 17개 통과 | [testing.md](../.kiro/steering/testing.md) |
 | Steering | 10개 (always 5 · fileMatch 4 · manual 1) + AGENTS.md | [.kiro/steering](../.kiro/steering) |
 | Hooks | 7개 | [.kiro/hooks](../.kiro/hooks) |
 | 품질 검사 자동 실행 | __회 | [eval-history.md](eval-history.md) |
@@ -24,7 +24,7 @@
 | [side-panel-receipt](../.kiro/specs/side-panel-receipt) | 정민 | 세탁하기, 영수증, 질문 창, 조건 칩, 리뷰 카드 목록 | __ |
 
 - 각 spec은 Kiro Spec 세션에서 requirements → design → tasks 순서로 만들고, 단계마다 사람이 검토하고 승인했다.
-- design에 correctness property를 적고, 그대로 fast-check 테스트로 옮겼다 (P1~P15).
+- design에 correctness property를 적고, 그대로 fast-check 테스트로 옮겼다 (P1~P17).
 - 구현은 tasks의 Start task로 진행했고, `task-start`·`task-done` hook이 spec 확인과 테스트·커밋을 맡았다.
 
 ## 2. Steering: 필요한 때만 불러오기
