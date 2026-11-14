@@ -24,6 +24,9 @@ wash-llm은 `apps/api`에 세탁 API를 만든다. `POST /wash`와 `POST /ask`�
 | 가격 (글로벌) | 입력 $4.00, 출력 $20.00 / 100만 토큰. 할당량에서 출력 토큰은 10배로 계산 | 모델 카드 |
 | 판정 테스트 (추론 켬) | 리뷰 5개: 2,715 ms, 입력 934 / 출력 378 토큰. 리뷰 25개: 4,611 ms, 입력 1,176 / 출력 1,490 토큰. 25개 모두 기대 판정과 같고 evidence 원문 일치 | 플레이그라운드 + 대조 스크립트 |
 | 요약 테스트 (추론 켬) | 리뷰 2개: 4,121 ms, 입력 279 / 출력 933 토큰 (출력 대부분이 추론) | 플레이그라운드 |
+| `InvokeModel` 응답 (task 1.3) | OpenAI 호환 형식. 최종 답은 `choices[0].message.content`(문자열, JSON으로 시작). `message`에 추론 필드 없음. `usage.completion_tokens_details.reasoning_tokens: 0` | `dev/bedrockPing.ts` |
+| 추론 끔 (task 1.3) | 리뷰 2개 판정: 1,706~1,807 ms, 입력 160 / 출력 66 토큰. `reasoning_effort: "none"`, `temperature: 0` 둘 다 거부 없음 | `dev/bedrockPing.ts` |
+| 로컬 자격 증명 (task 1.2) | 단기 API 키 `AWS_BEARER_TOKEN_BEDROCK`로 호출 성공. `.env`는 레포 루트에 둔다 (루트 `.env.example`과 같은 위치, git 제외 확인) | `dev/bedrockPing.ts` |
 
 - 판정 모델과 요약 모델 모두 같은 ID를 쓴다. tech.md의 "판정은 경량, 요약은 상위"는 환경 변수만 바꾸면 되도록 그대로 둔다.
 - 글로벌 프로필은 요청을 서울 밖 리전에서 처리할 수 있다. README의 데이터 원칙에 한 줄 추가가 필요하다 (열린 결정).
