@@ -81,7 +81,7 @@ TypeScript + React 사이드 패널. 1~9번은 커밋 `3d32b72`(feat(side-panel-
   - [ ] 10.1 `package-lock.json` 되돌리기
     - `git checkout 3d32b72~1 -- package-lock.json`으로 지워진 `"libc": [...]` 30줄을 되살리고 이 파일만 따로 커밋한다 (G-X1)
     - _Requirements: 1.9_
-  - [-] 10.2 background에서 storage.session 접근 수준 열기
+  - [x] 10.2 background에서 storage.session 접근 수준 열기
     - `apps/extension/src/background/index.ts`: 서비스 워커 최상위에서 `chrome.storage.session.setAccessLevel({ accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS' })`를 호출한다. `onInstalled` 안에만 두지 않아 브라우저·서비스 워커 재시작 뒤에도 다시 실행된다. 실패한 promise는 무시하고 오류 종류만 로그로 남긴다
     - 기존 `setPanelBehavior`는 그대로 둔다
     - 이유를 주석으로 적는다: content script(규리)가 `tab:{tabId}` 레코드를 직접 쓴다 (intake.md) (G-X2)
