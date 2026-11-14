@@ -2,7 +2,7 @@
 
 ## Overview
 
-`apps/api`에 세탁 API를 만든다. Task 1은 재현의 PR 1(공통 타입, 코어 함수 시그니처)이 `main`에 합쳐진 뒤 시작한다. 코어 함수 본문이 아직 비어 있으면 그대로 import해서 쓴다 (시그니처는 바뀌지 않는다). Task 1~8은 16:35 통합 1 전에 끝내고, Task 10은 16:45~17:15 구현 2차, Task 11은 17:15 이후 배포 확인이다.
+`apps/api`에 세탁 API를 만든다. Task 1은 재현의 PR 1(공통 타입, 코어 함수 시그니처)이 `main`에 합쳐진 뒤 시작한다 (16:19 합쳐짐). 코어 함수 본문이 아직 비어 있으면 그대로 import해서 쓴다 (시그니처는 바뀌지 않는다). 16:20 일정 재조정에 따라 Task 1~8은 17:15 통합 전에 끝내고, Task 10은 시간이 남으면 통합 직후, 17:25 기능 동결, Task 11은 동결 이후 배포 확인이다.
 
 커밋 메시지에 task 번호를 쓴다: `feat(wash-llm): 5.2 washPipeline`, `test(wash-llm): 5.3 W1`.
 
@@ -79,11 +79,12 @@
     - **Validates: Requirements 3.4, 4.3, 4.5**
 
 - [ ] 6. `POST /ask`
-  - [ ] 6.1 `utils/requestSchemas.ts`의 `askRequest`
+  - [ ] 6.1 `utils/requestSchemas.ts`의 `askRequest` (선택 필드 `expanded`)
     - _Requirements: 1.2, 1.3, 1.4_
   - [ ] 6.2 `services/wash/askPipeline.ts`의 `runAsk`와 `LlmUnavailable` 오류
     - design 의사코드 그대로. 1~3개면 `pros`, `cons`는 `[]` 고정
-    - _Requirements: 5.1, 5.5, 5.6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6_
+    - 결과 0개: `noMatch(it, expand)`. `expand`는 첫 질문이고 `expanded`가 아닐 때만 `true`, 아니면 `notice: "관련된 리뷰를 찾을 수 없습니다."`
+    - _Requirements: 5.1, 5.5, 5.6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 12.1, 12.2, 12.3, 12.4_
   - [ ]* 6.3 W4, W5, W2(`/ask`) 속성 테스트 (`askPipeline.test.ts`)
     - **Property W4: 부분 세탁 결과는 입력 안에 있고 quote는 원문에 있다**
     - **Property W5: 부분 세탁 평균 별점은 코드가 계산한 값이다**
@@ -111,7 +112,7 @@
     - 결과(시간, 이상한 응답)를 design "확인된 사실"에 적는다. 리뷰 본문은 적지 않는다
     - _Requirements: 3.5, 4.3, 5.5, 6.2, 11.3_
 
-- [ ] 9. Checkpoint (16:35 통합 1)
+- [ ] 9. Checkpoint (17:15 통합)
   - Ensure all tests pass, ask the user if questions arise.
   - `npm run typecheck --workspace apps/api`, `npm test --workspace apps/api` 통과
   - 로컬 서버를 띄우고 규리·정민의 확장으로 실제 쿠팡 페이지 → `/wash` → 영수증까지 이어지는지 확인한다

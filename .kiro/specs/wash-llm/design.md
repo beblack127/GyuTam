@@ -224,7 +224,7 @@ export async function runAsk(body: AskRequest, llm: LlmCalls, clock: Deadlines):
 
 ```
 it = llm.interpret({request, history, today}, signal(clock.interpretEnd))   // 실패 → LlmUnavailable (503)
-if !it.answerable: return empty(it.label, unsupported = it.unsupported ?? NOT_ANSWERABLE_MESSAGE)
+if !it.answerable: return noMatch(it, expand = false)
 filtered = applyConditions(reviews, it.conditions)
 if semantic 비어 있음:
   matches = filtered.map(r => ({ id: r.id, quote: null }))
@@ -232,6 +232,8 @@ else:
   results = runBatches(chunk(filtered→{id,text}, 25), b => llm.select(b, semantic, signal), clock.selectEnd)
   하나라도 실패·시간 초과 → LlmUnavailable (503)
   matches = verifyMatches(filtered, 합친 결과)
+if matches 비어 있음:
+  return noMatch(it, expand = history 비어 있음 && !body.expanded)
 matchedReviews = 입력 순서대로 matches id의 리뷰
 rating   = { average: averageRating(matchedReviews), count: matches.length }
 summary  = matched 0 → 빈 값
@@ -243,7 +245,27 @@ return { conditions: it.conditions, label, unsupported, matches, matched: matche
          summary/pros/cons: verifyCitations(..., allowed) (1~3개면 pros, cons는 [] 고정) }
 ```
 
-`NOT_ANSWERABLE_MESSAGE = "리뷰에서 찾을 수 없는 질문이에요"`. 계약 응답에 별도 안내 필드가 없어서 `unsupported`에 담는다 (열린 결정 3).
+결과가 있으면 응답에 `expand: false`, `notice: null`을 붙인다.
+
+`noMatch(it, expand)`: `{ conditions, label, unsupported, matches: [], matched: 0, rating: { average: null, count: 0 }, summary: [], pros: [], cons: [], expand, notice: expand ? null : NO_MATCH_NOTICE }`. `NO_MATCH_NOTICE = "관련된 리뷰를 찾을 수 없습니다."`.
+
+### 결과가 없을 때 더 불러오기 (Requirement 12)
+
+API는 상태가 없고 리뷰를 가져오지 않는다. 재시도는 확장이 한 번만 한다.
+
+```
+1. 사이드 패널 → /ask (첫 질문, history 비어 있음)          → matched 0, expand: true
+2. 확장이 베스트순·최신순을 25개씩 더 불러온다 (입고 규칙 그대로, 기존 ID와 중복 제거)
+3. 사이드 패널 → /wash (새 리뷰만, 지금 바탕과 같은 strict)  → 새 리뷰의 tags
+4. 사이드 패널 → /ask (새 리뷰 중 include: true만, expanded: true) 
+   → matched ≥ 1: 그 결과를 단계로 쌓는다
+   → matched 0: expand: false, notice: "관련된 리뷰를 찾을 수 없습니다."
+```
+
+- 4단계에서 새 리뷰만 보내는 이유: 기존 리뷰는 1단계에서 이미 0개였고, 합치면 `/ask` 입력 한도 100개를 넘는다.
+- 두 번째 질문부터(`history`가 있으면)는 직전 단계 목록 안에서 좁히는 것이라 더 불러오지 않고 바로 `notice`를 준다.
+- `answerable: false`(리뷰와 관계없는 질문)는 리뷰를 더 불러와도 답이 없으므로 바로 `notice`를 준다.
+- 더 불러온 리뷰를 영수증(세탁 전·후 평점) 계산에 넣을지는 확장 쪽(규리·정민)이 정한다. API는 받은 리뷰로만 계산한다.
 
 ### `batches.ts`, `deadline.ts`
 
@@ -364,7 +386,8 @@ interface HttpResult { statusCode: number; headers: Record<string, string>; body
 ## 열린 결정
 
 1. **`/wash` 요청의 `sources`, `partial`** (결정됨, 재현·정민 동의): 영수증의 `sources`(입고 전 베스트·최신 개수, 중복 수)와 입고 `partial`은 확장만 안다. 그래서 `/wash` 요청에 선택 필드 `sources: { best, latest, duplicates }`, `partial: boolean`을 추가한다. 정민은 `dedupeReviews`가 낸 `sources`와 입고 결과의 `partial`을 그대로 보낸다. 없으면 API는 `source` 필드로 개수를 세고 `duplicates: 0`, `partial: false`로 둔다. 응답의 `receipt.partial`은 요청 `partial`과 본세탁 시간 초과 중 하나라도 참이면 `true`다. api-contract.md 수정은 재현에게 요청한다.
-2. **로컬 서버 자격 증명**: 이 PC에 AWS CLI와 자격 증명이 없다. 후보: (a) Bedrock 콘솔의 단기 API 키를 `apps/api/.env`의 `AWS_BEARER_TOKEN_BEDROCK`에 둔다 (최대 12시간, Bedrock 전용). 설치된 SDK 버전이 이 환경 변수를 읽는지 task 1.2에서 확인한다. (b) Bedrock 호출 권한만 가진 IAM 사용자의 액세스 키. root 액세스 키는 쓰지 않는다.
-3. **"리뷰에서 찾을 수 없는 질문" 안내 위치**: 계약에 안내 필드가 없어 `unsupported`에 담는다. 정민이 화면에서 `matches: []` + `unsupported`로 보여주면 계약을 바꾸지 않아도 된다.
+2. **로컬 서버 자격 증명** (결정됨, 주영): Bedrock 콘솔의 **단기 API 키**를 `apps/api/.env`의 `AWS_BEARER_TOKEN_BEDROCK`에 둔다. Bedrock 호출에만 쓸 수 있고 최대 12시간 뒤 만료된다. 만료되면 콘솔에서 다시 만든다. 설치된 SDK 버전이 이 환경 변수를 읽는지 task 1.2에서 확인하고, 안 되면 Bedrock 호출 권한만 가진 IAM 사용자의 액세스 키로 바꾼다. root 액세스 키는 쓰지 않는다. Lambda는 실행 역할을 쓰므로 이 키가 필요 없다.
+3. **결과가 없을 때 안내** (결정됨, 주영): `/ask` 요청에 `expanded`, 응답에 `expand`, `notice`를 추가한다. `unsupported`는 "적용하지 못한 조건" 용도로만 쓴다. api-contract.md 수정은 재현에게 요청한다.
+6. **추가 입고의 요청 수 상한**: 베스트·최신 25개씩 더 불러오면 페이지당 10개 기준으로 요청이 정렬마다 3번, 모두 6번 늘어 상품당 16번이 된다. fairness.md와 intake.md의 "상품당 요청 최대 10번", `MAX_REQUESTS_PER_PRODUCT = 10`, `MAX_REVIEWS = 100`과 충돌한다. 상한을 올릴지(steering 수정, 재현), 기존 10번 안에서 처리할지 팀 결정이 필요하다. 이 결정 전까지 API는 `expand`만 알려주고, 확장이 실제로 더 불러오는 부분(규리)은 보류한다.
 4. **데이터 처리 리전**: 글로벌 교차 리전 프로필이라 리뷰 본문이 서울 밖에서 처리될 수 있다. README "리뷰 수집 원칙"에 한 줄 추가할지 팀이 정한다.
 5. **`apps/api/package.json` scripts**: 재현이 task 1에서 만든 파일에 `dev`, `test`, `typecheck` 스크립트만 추가한다. 의존성은 바꾸지 않는다.
