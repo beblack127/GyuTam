@@ -12,3 +12,9 @@ coverage/
 
 # MCP 설정에는 토큰이 들어갈 수 있다
 .kiro/settings/mcp.json
+
+# 실제 리뷰 원문, HTML 스냅샷 (레포에 올리지 않음)
+scripts/eval/data/
+
+# CDK
+cdk.out/
