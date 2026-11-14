@@ -22,10 +22,11 @@ spec의 design에 아래 속성을 적고(대부분 wash-rules, P1·P2는 review
 | P5 | 포함 리뷰가 없을 때만 `after`가 `null`이다 |
 | P6 | `evidence`가 `null`이 아니면 항상 해당 리뷰 원문에 들어 있다 |
 | P7 | 원문에 없는 `evidence`를 댄 LLM 판정은 한 단계 낮아진다 (`certain` → `suspected`, `suspected` → `none`) |
-| P8 | `summary`, `pros`, `cons`의 `reviewIds`는 항상 `include: true` 리뷰 ID의 부분집합이고, 비어 있지 않다 |
+| P8 | `summary`, `pros`, `cons`의 `reviewIds`는 비어 있지 않고, `/wash`에서는 `include: true` 리뷰 ID의, `/ask`에서는 `matches` ID의 부분집합이다 |
 | P9 | `/ask`의 `quote`는 항상 해당 리뷰 원문에 들어 있다 |
 | P10 | `stains`의 합은 얼룩으로 판정된 리뷰 수와 같고, `removed`는 `include: false` 리뷰 수와 같다 |
 | P11 | 정해진 조건 필터는 정확하다: 결과의 모든 리뷰가 조건을 만족하고, 입력 중 조건을 만족하는 리뷰는 모두 결과에 있다 |
 | P12 | 정해진 조건 필터는 멱등이고 순서와 무관하다: 같은 조건을 두 번 적용하거나 조건을 나눠 차례로 적용해도 결과가 같다 |
 | P13 | `/ask`의 결과는 항상 입력 `reviews`의 부분집합이다. 단계를 쌓을수록 목록은 줄거나 같다 |
+| P15 | `/ask`의 `rating.average`는 `matches` 리뷰 별점 평균의 반올림이고, `count`는 `matched`와 같다. 결과가 0개일 때만 `null` |
 | P14 | 단계 스택: `popStep(pushStep(s, x))`는 `s`와 같고, `resetSteps`는 세탁된 리뷰 전체로 돌아간다. 결과가 0개인 단계는 쌓이지 않는다 |

@@ -88,7 +88,7 @@ inclusion: always
 - [ ] Releases에 `byeoljeom-laundry-extension.zip` 업로드
 - [ ] README의 예시 상품 URL, 품질 수치, 스크린샷 채우기 (작성자 이름 가림)
 - [ ] `.kiro/specs`에 spec 4개의 requirements, design, tasks 커밋, tasks 체크박스가 실제 상태와 같음
-- [ ] correctness property P1~P14 테스트 통과
+- [ ] correctness property P1~P15 테스트 통과
 - [ ] `kiro-evidence-writer`로 `docs/KIRO.md` 숫자 갱신, `__` 칸 정리
 - [ ] `fairness-reviewer`로 최종 문구·프롬프트 검토
 - [ ] 빈 폴더(`.gitkeep`만 있는 곳)와 쓰지 않은 설정 정리

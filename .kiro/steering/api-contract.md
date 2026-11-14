@@ -45,7 +45,8 @@ fileMatchPattern: ["apps/api/**", "packages/core/**", "apps/extension/src/servic
 2. 정해진 조건 필터: `packages/core/src/filter`가 코드로 거른다. LLM은 거르지 않는다.
 3. 의미 조건 고르기: 의미 조건이 있을 때만, 남은 리뷰를 25개씩 나눠 경량 모델이 고르고 원문 문장(`quote`)을 근거로 댄다.
 4. 검수: `quote`가 원문에 있는지, ID가 입력에 있는지 코드로 확인한다. 실패한 항목은 버린다.
-5. 요약: 상위 모델이 결과 리뷰로 `summary`(2~3문장)를 쓴다. 결과가 0개면 요약하지 않는다.
+5. 평균 별점: 코드가 결과 리뷰의 평균 별점을 계산한다 (`/wash`와 같은 평점 함수).
+6. 요약: 상위 모델이 결과 리뷰로 `summary`(2~3문장)와 장점·단점(`pros`, `cons`)을 쓴다. 결과가 0개면 요약하지 않는다. 결과가 4개 미만이면 `pros`, `cons`는 비우고 `summary`만 쓴다.
 
 ### 조건
 | 종류 | 필드 | 예시 질문 | 처리 |
@@ -84,16 +85,20 @@ fileMatchPattern: ["apps/api/**", "packages/core/**", "apps/extension/src/servic
   "unsupported": null,
   "matches": [{ "id": "cp-3", "quote": "30분 쓰니까 손으로 못 잡을 만큼 뜨거워요" }],
   "matched": 4,
-  "summary": [{ "text": "...", "reviewIds": ["cp-3"] }]
+  "rating": { "average": 2.3, "count": 4 },
+  "summary": [{ "text": "...", "reviewIds": ["cp-3"] }],
+  "pros": [{ "text": "...", "reviewIds": ["cp-3"] }],
+  "cons": [{ "text": "...", "reviewIds": ["cp-8"] }]
 }
 ```
 - 정해진 조건으로만 고른 리뷰는 `quote: null`.
-- 결과가 0개면 `matches: []`, `summary: []`. 확장은 이 단계를 쌓지 않고 직전 목록을 그대로 둔다.
+- `rating.average`는 코드가 계산한 값이다. 소수 첫째 자리 반올림, 결과가 0개면 `null`.
+- 결과가 0개면 `matches: []`, `summary: []`, `pros: []`, `cons: []`. 확장은 이 단계를 쌓지 않고 직전 목록을 그대로 둔다.
 - 리뷰와 관련 없는 질문(예: "배송 언제 와?")이면 `matches: []`와 "리뷰에서 찾을 수 없는 질문" 안내.
 
 ### 단계 쌓기 (확장 쪽, API는 상태 없음)
-- 확장은 단계 스택을 탭 메모리에 둔다: `[{ request, label, conditions, ids, summary }]`. 상태 변경 로직은 `packages/core/src/filter`의 순수 함수(`pushStep`, `popStep`, `resetSteps`)로 만든다.
-- 화면: 조건 칩 줄(`세탁된 리뷰 96 › 사진 있음 31 › 3점 이하 · 발열 4`), 그 아래 요약, 그 아래 리뷰 원문 목록.
+- 확장은 단계 스택을 탭 메모리에 둔다: `[{ request, label, conditions, ids, rating, summary, pros, cons }]`. 상태 변경 로직은 `packages/core/src/filter`의 순수 함수(`pushStep`, `popStep`, `resetSteps`)로 만든다.
+- 화면: 조건 칩 줄(`세탁된 리뷰 96 ★4.3 › 사진 있음 31 ★4.1 › 3점 이하 · 발열 4 ★2.3`), 그 아래 평균 별점, 요약, 장점·단점, 그 아래 리뷰 카드 목록.
 - 마지막 칩의 ✕ = 한 단계 뒤로 (저장된 직전 결과를 그대로 보여주고 API를 다시 부르지 않는다). "처음부터" = 세탁된 리뷰 전체로.
 - 중간 칩 삭제는 MVP에서 지원하지 않는다.
 - 단계는 최대 5개. 넘으면 "처음부터"를 안내한다.
