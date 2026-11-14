@@ -31,6 +31,8 @@ wash-llm은 별점세탁소의 세탁 API(`apps/api`)를 만드는 spec이다. �
 - **Deadline**: 요청 시작 시각 기준으로 정한 단계별 마감 시각.
 - **Core**: `@star-laundry/core`. `detectCertainStains`, `verifyJudgments`, `applyStrict`, `buildReceipt`, `averageRating`, `verifyCitations`, `applyConditions`, `verifyMatches`를 제공한다.
 - **Allowed_Ids**: 요약 근거로 허용되는 리뷰 ID. `/wash`는 `include: true` 리뷰, `/ask`는 `matches`의 리뷰.
+- **No_Match**: `/ask` 결과가 0개인 응답. `expand`로 리뷰를 더 불러올지 알려 주거나, `notice`로 "관련된 리뷰를 찾을 수 없습니다."를 돌려준다.
+- **Expansion**: 첫 질문의 결과가 0개일 때 확장이 베스트순 25개 + 최신순 25개를 더 불러와 세탁한 뒤, 그 리뷰만으로 같은 질문을 다시 보내는 한 번의 재시도.
 
 ## Requirements
 
@@ -41,7 +43,7 @@ wash-llm은 별점세탁소의 세탁 API(`apps/api`)를 만드는 spec이다. �
 #### Acceptance Criteria
 
 1. WHEN a `/wash` request arrives, THE Wash_Handler SHALL validate the body with zod: `site` is `"coupang"`, `strict` is boolean, `reviews` has 1~100 items, each `text` is at most 2,000 characters, each `rating` is an integer 1~5, each `date` is `YYYY-MM-DD`, optional `tags` items match the WashTag shape, optional `sources` is `{ best, latest, duplicates }` of non-negative integers, and optional `partial` is boolean.
-2. WHEN an `/ask` request arrives, THE Ask_Handler SHALL validate the body with zod: `site` is `"coupang"`, `request` is 1~200 characters, `today` is `YYYY-MM-DD`, `history` has at most 5 strings, and `reviews` has 1~100 items with the same review rules as 1.1.
+2. WHEN an `/ask` request arrives, THE Ask_Handler SHALL validate the body with zod: `site` is `"coupang"`, `request` is 1~200 characters, `today` is `YYYY-MM-DD`, `history` has at most 5 strings, `reviews` has 1~100 items with the same review rules as 1.1, and optional `expanded` is boolean (default `false`).
 3. IF validation fails or the body is not valid JSON, THEN THE handler SHALL respond `400` with `{ "error": "invalid_request", "message": <짧은 이유> }` and SHALL NOT call Bedrock.
 4. THE handlers SHALL ignore unknown fields, including `photos`, and SHALL NOT forward them to Bedrock.
 
@@ -93,7 +95,7 @@ wash-llm은 별점세탁소의 세탁 API(`apps/api`)를 만드는 spec이다. �
 2. THE Ask_Pipeline SHALL validate the interpreted `conditions` with zod: `rating.min`/`rating.max` integers 1~5, `date.from`/`date.to` in `YYYY-MM-DD`, `source` in `best | latest`, string arrays for `option`, `includes`, `excludes`, and `semantic` as string or `null`.
 3. WHEN the interpreter returns a relative period as a day count, THE Ask_Pipeline SHALL convert it to `date.from` in code using `today`, not by the LLM.
 4. THE Ask_Pipeline SHALL return `label` of at most 30 characters for the condition chip.
-5. WHEN the interpreter returns `answerable: false`, THE Ask_Pipeline SHALL return `matches: []`, `matched: 0`, `rating: { average: null, count: 0 }`, empty `summary`/`pros`/`cons`, and an `unsupported` message saying the question cannot be answered from reviews.
+5. WHEN the interpreter returns `answerable: false`, THE Ask_Pipeline SHALL return the No_Match response of Requirement 12 with `expand: false` and SHALL NOT filter or select reviews.
 6. IF the interpreter call fails or exceeds its Deadline (request start + 5 s), THEN THE Ask_Handler SHALL respond `503` with `{ "error": "llm_unavailable" }`.
 
 ### Requirement 6: 조건 필터와 의미 조건 고르기 (`/ask`)
@@ -168,3 +170,17 @@ wash-llm은 별점세탁소의 세탁 API(`apps/api`)를 만드는 spec이다. �
 1. THE Wash_Pipeline and Ask_Pipeline SHALL compute every Deadline from one start time taken when the handler begins.
 2. THE pipelines SHALL abort pending LLM calls when their Deadline passes.
 3. THE `/wash` and `/ask` responses SHALL be sent within 27 s of the handler start under any LLM behavior (slow, failing, or invalid output).
+
+### Requirement 12: 결과가 없을 때 리뷰를 더 불러와 다시 찾기 (`/ask`)
+
+**User Story:** As 쿠팡 사용자, I want 처음 불러온 리뷰에 원하는 내용이 없으면 리뷰를 더 불러와 다시 찾아 주기를, so that 리뷰가 실제로 있는데도 "없다"는 답을 받지 않는다.
+
+API는 리뷰를 직접 가져오지 않는다 (fairness.md "서버에서 크롤링하지 않는다"). 리뷰를 더 불러오는 일은 확장이 하고, API는 더 불러와야 하는지(`expand`)와 마지막 안내(`notice`)만 알려준다.
+
+#### Acceptance Criteria
+
+1. THE Ask_Pipeline SHALL always return `expand` (boolean) and `notice` (string or `null`) in the `/ask` response. When `matched` is 1 or more, `expand` SHALL be `false` and `notice` SHALL be `null`.
+2. WHEN `matched` is 0, the interpreter returned `answerable: true`, `history` is empty, and the request `expanded` is not `true`, THE Ask_Pipeline SHALL return `expand: true` and `notice: null`.
+3. WHEN `matched` is 0 and the condition of 12.2 does not hold (the request is already `expanded: true`, `history` is not empty, or `answerable` is `false`), THE Ask_Pipeline SHALL return `expand: false` and `notice: "관련된 리뷰를 찾을 수 없습니다."`.
+4. THE No_Match response SHALL have `matches: []`, `matched: 0`, `rating: { average: null, count: 0 }`, and empty `summary`, `pros`, `cons`, and SHALL keep the interpreted `conditions`, `label`, and `unsupported`.
+5. THE Wash_API SHALL NOT fetch reviews from Coupang or any other site. The extra reviews (베스트순 25개 + 최신순 25개) are fetched by the extension under the intake rules and judged by `/wash` before they are sent to `/ask` with `expanded: true`.
