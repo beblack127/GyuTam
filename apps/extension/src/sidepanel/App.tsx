@@ -72,7 +72,7 @@ function App() {
       setError(null);
       setView('washing');
       try {
-        const res = await wash(session.reviews, strict, reuse, useMock);
+        const res = await wash(session.reviews, strict, reuse, useMock, { sources: session.sources, partial: session.partial });
         if (id !== run.current) return;
         // 부분 세탁 중에 바탕이 바뀌면 단계를 맞춘다 (api-contract.md "세탁 순서 자유롭게 섞기").
         if (washState && washState.strict !== strict && steps.length > 0) {
@@ -96,7 +96,7 @@ function App() {
         setView('error');
       }
     },
-    [washState, steps, session.reviews, useMock],
+    [washState, steps, session.reviews, session.sources, session.partial, useMock],
   );
 
   const pick = (mode: ModeKey) => {

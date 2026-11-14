@@ -47,10 +47,29 @@ async function post<T>(path: string, body: unknown): Promise<T> {
 }
 
 /** reuse: 직전 판정. 있으면 strict만 바꿔 다시 계산한다 (본세탁을 건너뛰고 요약만 다시 만든다). */
-export function wash(reviews: Review[], strict: boolean, reuse?: WashTag[], useMock = isMockApi): Promise<WashResponse> {
+export interface IntakeInfo {
+  sources: { best: number; latest: number; duplicates: number } | null;
+  partial: boolean;
+}
+
+/** intake: 입고 범위와 일부만 입고됐는지. API가 영수증의 sources, partial에 그대로 담는다 (api-contract.md). */
+export function wash(
+  reviews: Review[],
+  strict: boolean,
+  reuse?: WashTag[],
+  useMock = isMockApi,
+  intake?: IntakeInfo,
+): Promise<WashResponse> {
   if (useMock) return mockWash(reviews, strict, reuse);
   const tags = reuse ? applyStrict(reuse, strict) : undefined;
-  return post<WashResponse>('/wash', { site: 'coupang', strict, reviews: forApi(reviews), ...(tags ? { tags } : {}) });
+  return post<WashResponse>('/wash', {
+    site: 'coupang',
+    strict,
+    reviews: forApi(reviews),
+    ...(intake?.sources ? { sources: intake.sources } : {}),
+    ...(intake ? { partial: intake.partial } : {}),
+    ...(tags ? { tags } : {}),
+  });
 }
 
 export function ask(request: string, history: string[], reviews: Review[], useMock = isMockApi): Promise<AskResponse> {
