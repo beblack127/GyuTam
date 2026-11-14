@@ -44,11 +44,11 @@
     - 예시: 줄바꿈·문장부호 차이, 빈 `quote`, 이모지
     - **Validates: Requirements 7.1, 7.2, 7.3, 7.4**
 
-- [ ] 3. 입고 중복 제거 (규리가 15:35부터 사용)
+- [x] 3. 입고 중복 제거 (규리가 15:35부터 사용)
   - [x] 3.1 `dedupeReviews` 구현
     - best 우선, 첫 등장 순서, `source` 덮어쓰기, `sources.duplicates = best.length + latest.length - reviews.length`
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
-  - [-] 3.2 P1 속성 테스트 (`dedupeReviews.test.ts`)
+  - [x] 3.2 P1 속성 테스트 (`dedupeReviews.test.ts`)
     - **Property 1: (P1) 입고 중복 제거는 멱등이다**
     - 예시: `best`·`latest` 겹침 1건
     - **Validates: Requirements 5.1, 5.6**

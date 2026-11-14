@@ -15,7 +15,7 @@ spec의 design에 아래 속성을 적고(대부분 wash-rules, P1·P2는 review
 
 | 번호 | 속성 |
 |---|---|
-| P1 | 입고 중복 제거는 멱등이다. 두 번 해도 결과가 같고, 결과의 ID는 모두 다르다 |
+| P1 | 입고 중복 제거는 멱등이다. 결과를 다시 넣어도 ID 목록·순서와 `source`를 뺀 나머지 필드가 같고, 결과의 ID는 모두 다르다 |
 | P2 | `basedOn`은 중복 제거 후 리뷰 수와 같다 |
 | P3 | `strict: true`의 `include: true` 집합은 `strict: false`의 집합에 포함된다 |
 | P4 | `after`는 `include: true` 리뷰 평점의 평균을 소수 첫째 자리로 반올림한 값이고, 1.0~5.0 사이이거나 `null`이다 |

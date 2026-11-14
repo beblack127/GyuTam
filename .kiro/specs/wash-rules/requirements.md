@@ -112,7 +112,7 @@ wash-rules는 별점세탁소의 공통 코어 패키지 `@star-laundry/core`(`p
 3. WHEN a Review `id` appears only in `latest`, THE Dedupe_Function SHALL set `source` to `"latest"`.
 4. THE Dedupe_Function SHALL order `reviews` by first occurrence, scanning `best` first and then `latest`.
 5. THE Dedupe_Function SHALL return `sources` where `best` equals the length of the `best` input, `latest` equals the length of the `latest` input, and `duplicates` equals `best.length + latest.length - reviews.length`.
-6. WHEN the Dedupe_Function output `reviews` is passed again as `best` with an empty `latest`, THE Dedupe_Function SHALL return the same `reviews` (P1).
+6. WHEN the Dedupe_Function output `reviews` is passed again as `best` with an empty `latest`, THE Dedupe_Function SHALL return `reviews` with the same IDs in the same order, no duplicate IDs, and every field other than `source` unchanged (P1). `source` may change because every item now comes from `best`.
 
 ### Requirement 6: 애벌빨래 규칙 탐지
 
