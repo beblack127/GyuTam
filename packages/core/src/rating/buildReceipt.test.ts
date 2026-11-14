@@ -101,4 +101,31 @@ describe('buildReceipt', () => {
       }),
     );
   });
+
+  // **Validates: Requirements 11.6, 11.7**
+  it('P10: stains 합은 얼룩 리뷰 수, removed는 제외 리뷰 수다', () => {
+    const arbCase = fc
+      .array(arbReview, { maxLength: 20 })
+      .chain((reviews) =>
+        fc.tuple(fc.constant(reviews), fc.tuple(...reviews.map(arbWashTagFor)), arbTags),
+      );
+    fc.assert(
+      fc.property(arbCase, ([reviews, ownTags, extraTags]) => {
+        const tags = [...ownTags, ...extraTags];
+        const firstTag = new Map<string, WashTag>();
+        for (const t of tags) if (!firstTag.has(t.id)) firstTag.set(t.id, t);
+        const stained = reviews.filter((r) => (firstTag.get(r.id)?.stain ?? 'none') !== 'none');
+        const excluded = reviews.filter((r) => !(firstTag.get(r.id)?.include ?? true));
+        const receipt = buildReceipt(
+          deepFreeze(reviews),
+          deepFreeze(tags),
+          { best: reviews.length, latest: 0, duplicates: 0 },
+          false,
+        );
+        const sum = Object.values(receipt.stains).reduce((a, b) => a + b, 0);
+        expect(sum).toBe(stained.length);
+        expect(receipt.removed).toBe(excluded.length);
+      }),
+    );
+  });
 });

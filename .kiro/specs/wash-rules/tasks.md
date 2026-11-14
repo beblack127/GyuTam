@@ -103,7 +103,7 @@
     - `detectCertainStains`, `verifyJudgments`, `applyStrict` 결과의 길이·순서·`id`와 WashTag 불변식
     - **Validates: Requirements 6.1, 6.9, 6.10, 8.1, 8.9, 8.10, 8.11, 9.1, 9.2, 9.3, 9.4, 9.5**
 
-- [ ] 6. 평점과 영수증
+- [x] 6. 평점과 영수증
   - [x] 6.1 `averageRating` 구현
     - 빈 배열 `null`, `Math.round((sum * 10) / n) / 10`
     - _Requirements: 10.1, 10.2, 10.3, 10.4_
@@ -122,7 +122,7 @@
     - **Property 5: (P5) 포함 리뷰가 없을 때만 after가 null이다**
     - 예시: `[]` → `null`
     - **Validates: Requirements 10.3, 10.4, 11.4**
-  - [-] 6.6 P10 속성 테스트 (`buildReceipt.test.ts`)
+  - [x] 6.6 P10 속성 테스트 (`buildReceipt.test.ts`)
     - **Property 10: (P10) stains 합은 얼룩 리뷰 수, removed는 제외 리뷰 수다**
     - **Validates: Requirements 11.6, 11.7**
   - [ ]* 6.7 S8 속성 테스트
@@ -183,11 +183,11 @@
   - [x] 10.1 `filter/stepRating.ts` 구현 (내부, `index.ts`에서 내보내지 않음)
     - `reviews`의 첫 등장 기준 `byId`, `ids` 중 `reviews`에 있는 리뷰만 `averageRating`, `count = ids.length`, 빈 `ids` → `{ average: null, count: 0 }`
     - _Requirements: 19.2, 19.10, 20.3_
-  - [-] 10.2 `filter/narrowSteps.ts` 구현
+  - [x] 10.2 `filter/narrowSteps.ts` 구현
     - 단계마다 `ids`를 `allowedIds`로 입력 순서대로 거르고, 비면 그 단계와 뒤 단계를 잘라낸다
     - `rating: stepRating(ids, reviews)`, `summary`·`pros`·`cons`는 `verifyCitations(필드, ids)`, `request`·`label`·`conditions`는 그대로(같은 참조)
     - _Requirements: 19.1, 19.2, 19.3, 19.4, 19.5, 19.6, 19.7_
-  - [ ] 10.3 `filter/mergeIntoStep.ts` 구현
+  - [x] 10.3 `filter/mergeIntoStep.ts` 구현
     - `[...step.ids, ...addedIds]`에서 첫 등장만 남기고 `rating: stepRating(ids, reviews)`, 나머지 필드는 입력과 같다
     - _Requirements: 20.1, 20.4, 20.5_
   - [ ] 10.4 P16 속성 테스트 (`narrowSteps.test.ts`)
