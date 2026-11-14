@@ -9,3 +9,6 @@ coverage/
 !.env.example
 .DS_Store
 *.log
+
+# MCP 설정에는 토큰이 들어갈 수 있다
+.kiro/settings/mcp.json
