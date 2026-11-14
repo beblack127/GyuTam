@@ -8,30 +8,30 @@
 
 ## Tasks
 
-- [ ] 1. 준비와 Bedrock 연결 확인
-  - [ ] 1.1 `main` 받기와 `apps/api` 설정
+- [x] 1. 준비와 Bedrock 연결 확인
+  - [x] 1.1 `main` 받기와 `apps/api` 설정
     - 재현의 PR 1이 합쳐지면 `git pull --rebase origin main`
     - `apps/api/package.json`에 scripts만 추가: `dev`(`node --env-file=.env src/dev/localServer.ts`), `test`(`vitest --run --passWithNoTests`), `typecheck`(`tsc --noEmit -p .`). 의존성은 바꾸지 않는다
     - `apps/api/tsconfig.json`: base 상속, `lib: ["ES2022"]`, `types: ["node"]`. `@types/node`가 설치되어 있지 않으면 재현에게 요청한다
     - _Requirements: 10.2, design 열린 결정 5_
-  - [ ] 1.2 로컬 자격 증명 정하기
+  - [x] 1.2 로컬 자격 증명 정하기
     - design 열린 결정 2의 (a) 또는 (b)를 정하고 `apps/api/.env`에 넣는다 (`AWS_REGION=ap-northeast-2`, 두 모델 ID `global.moonshotai.kimi-k3.1`)
     - `git status`로 `.env`가 추적되지 않는지 확인한다
     - _Requirements: 2.1, 10.3_
-  - [ ] 1.3 `dev/bedrockPing.ts`로 실제 응답 형태와 지연 확인
+  - [x] 1.3 `dev/bedrockPing.ts`로 실제 응답 형태와 지연 확인
     - 가상 리뷰 2개로 `InvokeModel` 한 번 (`reasoning_effort: "none"`, `temperature: 0`)
     - 응답 본문의 최상위 키와 최종 텍스트 위치만 출력한다 (본문 전체는 출력하지 않음). 지연 ms, 입력·출력 토큰 수 출력
     - 결과로 design "bedrockClient.ts 응답 처리" 1번과 "확인된 사실" 표를 고친다. `temperature`나 `reasoning_effort`가 거부되면 design을 먼저 고친다
     - _Requirements: 2.2, 2.4_
 
 - [ ] 2. LLM 클라이언트
-  - [ ] 2.1 `utils/deadline.ts`와 `services/wash/batches.ts`
+  - [x] 2.1 `utils/deadline.ts`와 `services/wash/batches.ts`
     - `createDeadlines`(+20s, +5s, +17s, +26s), `signalUntil`, `chunk`, `runBatches`(allSettled, 남은 시간 1초 미만이면 호출 안 함)
     - _Requirements: 3.3, 3.4, 6.3, 11.1, 11.2_
-  - [ ] 2.2 `services/llm/llmSchemas.ts`
+  - [x] 2.2 `services/llm/llmSchemas.ts`
     - `judgeOutput`, `summaryOutput`, `interpretOutput`(+`lastDays`), `selectOutput` (design 표). 알 수 없는 키는 버린다
     - _Requirements: 2.4, 5.2_
-  - [ ] 2.3 `services/llm/bedrockClient.ts`
+  - [x] 2.3 `services/llm/bedrockClient.ts`
     - 모듈 수준 `BedrockRuntimeClient`(`maxAttempts: 1`), `invokeJson`, `extractJson`, 오류 종류 4개. 로그에 본문을 남기지 않는다
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6_
   - [ ]* 2.4 `extractJson` 예시 테스트
@@ -39,22 +39,22 @@
     - _Requirements: 2.4, 2.5_
 
 - [ ] 3. 프롬프트 4개
-  - [ ] 3.1 `prompts/judgePrompt.ts`
+  - [x] 3.1 `prompts/judgePrompt.ts`
     - design 프롬프트 표 + stain-rules.md 🟡 네 기준. 금지 단어를 쓰지 않는다
     - _Requirements: 8.1, 8.2, 8.3, 8.5_
-  - [ ] 3.2 `prompts/summaryPrompt.ts` (`topic`, `withProsCons` 인자)
+  - [x] 3.2 `prompts/summaryPrompt.ts` (`topic`, `withProsCons` 인자)
     - _Requirements: 8.1, 8.3, 8.4, 8.5_
-  - [ ] 3.3 `prompts/interpretPrompt.ts`
+  - [x] 3.3 `prompts/interpretPrompt.ts`
     - 계약 조건 표, `lastDays`, `unsupported`, `answerable`, `label`. 예시 질문: "사진 있는 리뷰만", "그중에 3점 이하이고 발열 얘기한 것만", "최근 한 달 리뷰 중에 발볼 넓은 사람 후기", "배송 언제 와?"
     - _Requirements: 5.1, 5.3, 5.4, 5.5, 8.1, 8.5_
-  - [ ] 3.4 `prompts/selectPrompt.ts`
+  - [x] 3.4 `prompts/selectPrompt.ts`
     - _Requirements: 6.3, 8.1, 8.3, 8.5_
   - [ ] 3.5 `fairness-reviewer` 에이전트로 프롬프트 4개 검토
     - 지적 사항을 고친 뒤 커밋. 바뀐 점이 있으면 `docs/KIRO.md` 7장에 적는다
     - _Requirements: 8.6_
 
 - [ ] 4. `Llm_Calls` 실제 구현
-  - [ ] 4.1 `services/llm/llmCalls.ts`
+  - [x] 4.1 `services/llm/llmCalls.ts`
     - `createBedrockLlmCalls(env)`: 프롬프트 + `invokeJson`. `judge`는 `include: true`를 붙여 `WashTag[]`로, `interpret`는 `lastDays` → `date.from` 변환과 `label` 30자 자르기를 코드로 한다
     - _Requirements: 3.2, 5.1, 5.3, 5.4, 6.3_
   - [ ]* 4.2 `lastDays` 변환 예시 테스트
@@ -62,10 +62,10 @@
     - _Requirements: 5.3_
 
 - [ ] 5. `POST /wash`
-  - [ ] 5.1 `utils/requestSchemas.ts`의 `washRequest`
+  - [x] 5.1 `utils/requestSchemas.ts`의 `washRequest`
     - Requirement 1.1 + 선택 필드 `tags`, `sources`, `partial` (design 열린 결정 1)
     - _Requirements: 1.1, 1.3, 1.4_
-  - [ ] 5.2 `services/wash/washPipeline.ts`의 `runWash`
+  - [x] 5.2 `services/wash/washPipeline.ts`의 `runWash`
     - design 의사코드 그대로. 숫자는 `buildReceipt`만, 근거는 `verifyCitations`만
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 4.1, 4.2, 4.3, 4.4, 4.5_
   - [ ]* 5.3 W1, W3 속성 테스트 (`washPipeline.test.ts`)
@@ -79,9 +79,9 @@
     - **Validates: Requirements 3.4, 4.3, 4.5**
 
 - [ ] 6. `POST /ask`
-  - [ ] 6.1 `utils/requestSchemas.ts`의 `askRequest` (선택 필드 `expanded`)
+  - [x] 6.1 `utils/requestSchemas.ts`의 `askRequest` (선택 필드 `expanded`)
     - _Requirements: 1.2, 1.3, 1.4_
-  - [ ] 6.2 `services/wash/askPipeline.ts`의 `runAsk`와 `LlmUnavailable` 오류
+  - [x] 6.2 `services/wash/askPipeline.ts`의 `runAsk`와 `LlmUnavailable` 오류
     - design 의사코드 그대로. 1~3개면 `pros`, `cons`는 `[]` 고정
     - 결과 0개: `noMatch(it, expand)`. `expand`는 첫 질문이고 `expanded`가 아닐 때만 `true`, 아니면 `notice: "관련된 리뷰를 찾을 수 없습니다."`
     - _Requirements: 5.1, 5.5, 5.6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 12.1, 12.2, 12.3, 12.4_
@@ -93,10 +93,10 @@
     - **Validates: Requirements 6.1, 6.2, 6.4, 6.6, 7.1, 7.2, 7.3, 7.5**
 
 - [ ] 7. 핸들러
-  - [ ] 7.1 `utils/http.ts`
+  - [x] 7.1 `utils/http.ts`
     - `HttpEvent`/`HttpResult`, 메서드 읽기(REST·Function URL), base64 해제, CORS(`chrome-extension://` 반사), `json(status, body, origin)`, 요청 한 줄 로그
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 2.6_
-  - [ ] 7.2 `handlers/washHandler.ts`, `handlers/askHandler.ts`
+  - [x] 7.2 `handlers/washHandler.ts`, `handlers/askHandler.ts`
     - 시작 시각 → `createDeadlines` → 검증 → 파이프라인 → 상태 코드 표(200/400/405/503/500)
     - _Requirements: 1.3, 5.6, 6.5, 9.6, 11.1_
   - [ ]* 7.3 CORS·상태 코드 예시 테스트
@@ -104,7 +104,7 @@
     - _Requirements: 1.3, 9.3, 9.4, 9.5_
 
 - [ ] 8. 로컬 API 서버
-  - [ ] 8.1 `dev/localServer.ts`
+  - [x] 8.1 `dev/localServer.ts`
     - `node:http` 8787, 라우팅, 1MB 413, 404, 필수 환경 변수 확인(이름만 출력)
     - _Requirements: 10.1, 10.2, 10.3, 10.4_
   - [ ] 8.2 로컬 수동 확인
