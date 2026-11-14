@@ -165,7 +165,7 @@
   - [ ]* 8.8 S7 속성 테스트 (`verifyCitations.test.ts`, `verifyMatches.test.ts`)
     - **Property 22: (S7) 근거 검증과 매치 검수는 순서를 지키는 필터 모델과 같다**
     - **Validates: Requirements 12.1, 12.2, 12.3, 12.4, 12.5, 14.1, 14.2, 14.3, 14.4, 14.5**
-  - [ ] 8.9 단계 스택 구현 (`filter/steps.ts`)
+  - [x] 8.9 단계 스택 구현 (`filter/steps.ts`)
     - `pushStep`: 빈 `ids` 또는 5개면 `steps.slice()`, 아니면 `[...steps, step]`. `popStep`: `steps.slice(0, -1)`. `resetSteps`: `[]`
     - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5, 15.6_
   - [ ] 8.10 P14 속성 테스트 (`steps.test.ts`)
