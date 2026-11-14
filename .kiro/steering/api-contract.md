@@ -16,8 +16,12 @@ fileMatchPattern: ["apps/api/**", "packages/core/**", "apps/extension/src/servic
 요청
 ```json
 { "site": "coupang", "strict": false,
+  "sources": { "best": 50, "latest": 50, "duplicates": 4 },
+  "partial": false,
   "reviews": [{ "id": "cp-123456", "rating": 5, "date": "2026-10-21", "text": "...", "badges": ["체험단"], "hasPhoto": false, "option": "블랙 / 10000mAh", "source": "best" }] }
 ```
+- `sources`(선택): 입고 범위. 확장이 `dedupeReviews` 결과를 그대로 보낸다. API는 `receipt.sources`에 그대로 담는다. 없으면 `reviews`의 `source`로 센다(`duplicates: 0`).
+- `partial`(선택): 입고가 일부만 됐는지(`intake.partial`). API는 본세탁 시간 초과 여부와 OR 해서 `receipt.partial`에 담는다. 없으면 `false`.
 응답
 ```json
 {
@@ -83,6 +87,7 @@ fileMatchPattern: ["apps/api/**", "packages/core/**", "apps/extension/src/servic
   "conditions": { "rating": { "max": 3 }, "semantic": "발열" },
   "label": "3점 이하 · 발열",
   "unsupported": null,
+  "notice": null,
   "matches": [{ "id": "cp-3", "quote": "30분 쓰니까 손으로 못 잡을 만큼 뜨거워요" }],
   "matched": 4,
   "rating": { "average": 2.3, "count": 4 },
@@ -91,10 +96,11 @@ fileMatchPattern: ["apps/api/**", "packages/core/**", "apps/extension/src/servic
   "cons": [{ "text": "...", "reviewIds": ["cp-8"] }]
 }
 ```
+- `notice`: 사용자에게 보여줄 안내 문구. 평소에는 `null`. 결과가 0개이거나 리뷰와 관련 없는 질문이면 "관련된 리뷰를 찾을 수 없습니다." 같은 문구가 들어간다. 사이드 패널은 `notice`가 있으면 결과 목록 대신 이 문구를 보여준다.
 - 정해진 조건으로만 고른 리뷰는 `quote: null`.
 - `rating.average`는 코드가 계산한 값이다. 소수 첫째 자리 반올림, 결과가 0개면 `null`.
 - 결과가 0개면 `matches: []`, `summary: []`, `pros: []`, `cons: []`. 확장은 이 단계를 쌓지 않고 직전 목록을 그대로 둔다.
-- 리뷰와 관련 없는 질문(예: "배송 언제 와?")이면 `matches: []`와 "리뷰에서 찾을 수 없는 질문" 안내.
+- 리뷰와 관련 없는 질문(예: "배송 언제 와?")이면 `matches: []`와 `notice`로 안내한다.
 
 ### 단계 쌓기 (확장 쪽, API는 상태 없음)
 - 확장은 단계 스택을 탭 메모리에 둔다: `[{ request, label, conditions, ids, rating, summary, pros, cons }]`. 상태 변경 로직은 `packages/core/src/filter`의 순수 함수(`pushStep`, `popStep`, `resetSteps`)로 만든다.
