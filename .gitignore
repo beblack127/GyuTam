@@ -18,3 +18,6 @@ scripts/eval/data/
 
 # CDK
 cdk.out/
+
+# 확장 배포 파일 (Releases에만 올린다)
+*.zip
