@@ -22,21 +22,26 @@ Kirothon 2026 출품작 · 주제: *내 일상에 바로 적용할 수 있는 �
 
 ---
 
-## ⚡ 평가자용 빠른 체험 (3분)
+## ⚡ 평가자용 빠른 체험
 
-1. [Releases](../../releases)에서 `byeoljeom-laundry-extension.zip`을 내려받아 압축을 푼다.
-2. 크롬에서 `chrome://extensions` → 오른쪽 위 **개발자 모드** 켜기 → **압축해제된 확장 프로그램 로드** → 압축을 푼 폴더를 선택한다.
-3. 쿠팡 예시 상품 페이지를 열고 툴바의 🧺 아이콘을 눌러 사이드 패널을 연다. 리뷰 입고가 자동으로 시작된다.
+API는 클라우드에 배포하지 않았다. 레포 루트에 확장 zip 두 개가 있다.
+
+| 파일 | 내용 | 필요한 것 |
+|---|---|---|
+| `byeoljeom-laundry-demo.zip` | **예시 데이터판.** 서버 없이 화면 흐름 전체(시작 화면, 영수증, 리뷰 카드, 부분 세탁, 조건 칩)를 확인 | 없음 |
+| `byeoljeom-laundry-extension.zip` | **실제 동작판.** 쿠팡 리뷰를 입고하고 로컬 세탁 API(`http://localhost:8787`)로 세탁 | 아래 "개발자용 실행 방법"의 로컬 API 서버 (Amazon Bedrock 권한 필요) |
+
+실제 쿠팡 페이지에서 처음부터 끝까지 동작하는 장면은 별도로 제출한 데모 영상에서 볼 수 있다.
+
+1. zip을 풀고 크롬 `chrome://extensions` → 오른쪽 위 **개발자 모드** 켜기 → **압축해제된 확장 프로그램 로드** → 압축을 푼 폴더를 선택한다.
+2. 쿠팡 예시 상품 페이지를 열고 툴바의 🧺 아이콘을 눌러 사이드 패널을 연다. 리뷰 입고가 자동으로 시작된다.
    - 쿠팡 예시 상품: [맥세이프 보조배터리 10000mAh](https://www.coupang.com/vp/products/8476098818?itemId=25071030734&vendorItemId=92075130632)
-4. 시작 화면에 **🧺 기본 세탁 · 🔍 섬세 세탁 · 🎯 부분 세탁** 버튼과 각 설명이 나온다. **🧺 기본 세탁**을 누른다. 세탁 후 평점과 세탁 후 요약, 세탁된 리뷰 카드 목록이 나온다. **빠진 리뷰 보기**에서 🔴🟡 태그와 근거를 확인한다.
-5. 위쪽에서 **🔍 섬세 세탁**으로 바꿔 본다. 의심 얼룩까지 뺀 평점이 바로 나온다.
-6. **🎯 이 결과에서 원하는 리뷰 찾기**를 누르고 원하는 리뷰를 문장으로 입력한다. 조건에 맞는 리뷰 카드와 평균 별점, 요약, 장점·단점이 뜬다. (부분 세탁)
+3. 시작 화면에 **🧺 기본 세탁 · 🔍 섬세 세탁 · 🎯 부분 세탁** 버튼과 각 설명이 나온다. **🧺 기본 세탁**을 누르면 세탁 후 평점, 세탁 후 요약, 세탁된 리뷰 카드 목록이 나온다. **빠진 리뷰 보기**에서 🔴🟡 태그와 근거를 확인한다.
+4. 위쪽에서 **🔍 섬세 세탁**으로 바꿔 본다. 의심 얼룩까지 뺀 평점이 바로 나온다.
+5. **🎯 이 결과에서 원하는 리뷰 찾기**를 누르고 원하는 리뷰를 문장으로 입력한다. 조건에 맞는 리뷰 카드와 평균 별점, 요약, 장점·단점이 뜬다.
    - `사진 있는 리뷰만 보여줘`
-7. 그 결과에 이어서 질문해 더 좁힌다. 칩의 ✕로 한 단계 뒤로 간다.
+6. 그 결과에 이어서 질문해 더 좁힌다. 칩의 ✕로 한 단계 뒤로 간다.
    - `그중에 3점 이하이고 발열 얘기한 것만`
-   - `최근 한 달 리뷰 중에 발볼 넓은 사람 후기`
-
-> 백엔드는 AWS에 배포되어 있어서 API 키를 따로 설정할 필요가 없어요.
 
 ---
 
@@ -120,27 +125,25 @@ flowchart LR
     CS["Content Script<br/>입고 어댑터"]
     SP["Side Panel<br/>세탁 방식 선택 · 질문 · 영수증 · 리뷰 목록"]
   end
-  subgraph AWS["AWS"]
-    GW["API Gateway<br/>(요청 제한)"]
-    W["Lambda<br/>POST /wash"]
-    A["Lambda<br/>POST /ask"]
-    BR["Amazon Bedrock"]
+  subgraph Local["로컬 세탁 API (localhost:8787)"]
+    W["POST /wash"]
+    A["POST /ask"]
   end
+  BR["Amazon Bedrock"]
   P -->|패널 열면 자동 입고| CS
   CS -->|리뷰 JSON| SP
-  SP -->|기본·섬세 세탁| GW
-  SP -->|질문| GW
-  GW --> W --> BR
-  GW --> A --> BR
-  GW -->|판정 · 평점 · 요약| SP
+  SP -->|기본·섬세 세탁| W
+  SP -->|질문| A
+  W --> BR
+  A --> BR
+  W -->|판정 · 평점 · 요약| SP
 ```
 
 | 구성 | 역할 |
 |---|---|
 | **크롬 확장** (`apps/extension`) | Manifest V3. 패널을 열면 입고 어댑터가 리뷰를 읽고, 사이드 패널(세탁 방식 선택·질문·영수증·조건 칩·리뷰 카드 목록)에 결과와 리뷰 원문을 모두 보여준다 |
-| **세탁 API** (`apps/api`) | AWS Lambda. `POST /wash`: 애벌빨래(규칙) → 본세탁(Bedrock) → 검수(코드 계산) → 세탁 후 요약. `POST /ask`: 질문 해석 → 코드 필터 → 의미 조건 고르기 → 요약 |
+| **세탁 API** (`apps/api`) | Node.js 로컬 서버(`src/dev/localServer.ts`). 핸들러는 Lambda 형식으로 작성해 나중에 그대로 배포할 수 있다. `POST /wash`: 애벌빨래(규칙) → 본세탁(Bedrock) → 검수(코드 계산) → 세탁 후 요약. `POST /ask`: 질문 해석 → 코드 필터 → 의미 조건 고르기 → 요약 |
 | **코어 로직** (`packages/core`) | 리뷰 타입, 세탁 후 평점 계산, 규칙 기반 얼룩 탐지, 정해진 조건 필터, 단계 스택, 근거 검증. 순수 함수로 작성하고 속성 기반 테스트를 붙인다 |
-| **인프라** (`infra`) | API Gateway + Lambda 배포(마지막에 진행). 남용 방지를 위한 요청 제한, 입력 크기 제한, 비용 알림 |
 
 ## 5. 세탁 과정
 
@@ -182,7 +185,7 @@ flowchart LR
 - 리뷰 원문은 **사이드 패널의 리뷰 카드**로 모두 보여준다. 쿠팡 화면에는 지금 페이지의 리뷰 10개 정도만 있어서, 쿠팡 화면으로 이동하는 방식은 쓰지 않는다.
 - 리뷰 카드: 별점, 작성일, 구매 옵션, 사진 썸네일(누르면 크게), 본문 전체(긴 글은 더보기), 근거 문장 강조, 세탁 태그. **작성자 이름은 보여주지 않는다.**
 
-- 본세탁은 25개씩 나눠 병렬로 판정한다. 20초 안에 끝나지 않으면 남은 리뷰는 애벌빨래 결과로 대신하고 영수증에 표시한다 (API Gateway 응답 제한 29초).
+- 본세탁은 25개씩 나눠 병렬로 판정한다. 20초 안에 끝나지 않으면 남은 리뷰는 애벌빨래 결과로 대신하고 영수증에 표시한다 (응답 29초 안에 끝나도록 시간 예산을 둔다).
 - 판정 결과는 탭 메모리에 두고, 부분 세탁에서는 다시 판정하지 않는다. 그래서 질문은 빠르게 답한다.
 
 ### API (초안)
@@ -231,19 +234,16 @@ POST /ask
 
 ## 6. 세탁 품질 검사 (실제 데이터로 평가)
 
-실제 쿠팡 리뷰로 평가한다.
+코드로 검증한 것과 아직 측정하지 못한 것을 구분해 적는다.
 
-| 지표 | 정답 라벨 | 결과 |
+| 지표 | 검증 방법 | 결과 |
 |---|---|---|
-| 쿠팡 확실한 얼룩 탐지 | 쿠팡이 붙인 **체험단 표시** (자동 정답) | __% |
-| 부분 세탁 정확도 | 질문 __개마다 팀원이 정답 리뷰를 라벨링 | 정밀도 __% / 재현율 __% |
-| 정해진 조건 필터 | 속성 기반 테스트 P11 (조건을 만족하는 리뷰만, 빠짐없이) | 통과 / 실패 |
-| 세탁 후 요약 근거 정확도 | 요약 문장의 근거 리뷰가 실제로 그 내용을 말하는지 팀원이 확인 __문장 | __% |
-| 부분 세탁 정확도 | 팀원이 직접 라벨링한 주제(무게 등) __개 | 정밀도 __% / 재현율 __% |
-| 세탁 후 평점 | 정답 라벨 기준 평점과의 차이 | ±__ |
-
-- 평가 스크립트: `scripts/eval` (판별 로직을 수정할 때마다 **Kiro Hook이 자동 실행**)
-- **실제 리뷰 원문은 레포에 올리지 않는다.** 평가용 원문은 로컬 `scripts/eval/data/`(git 제외)에만 두고, 레포에는 스크립트와 결과 수치만 올린다.
+| 코어 로직 정확성 | correctness property P1~P17 (fast-check 속성 기반 테스트) + 예시 테스트 | 테스트 42개 통과 (`npm test --workspaces`) |
+| 정해진 조건 필터 | P11 (조건을 만족하는 리뷰만, 빠짐없이), P12 (멱등, 순서 무관) | 통과. P11이 빈 조건 항목 버그를 찾아 수정 |
+| 근거 검증 | P6 (evidence는 원문에 있음), P8 (요약 근거는 얼룩 아닌 리뷰), P9 (quote는 원문에 있음) | 통과 |
+| 확실한 얼룩 규칙 | 가상 리뷰 fixture 예시 테스트 (배지, 고지 문구, 대가성 문구, 부정 문장 "체험단 아닙니다") | 10개 통과 |
+| 실제 쿠팡 리뷰 정확도 (정밀도·재현율) | 팀원 라벨링 | **측정 전.** 시간 안에 라벨링과 평가 스크립트를 만들지 못했다 |
+- **실제 리뷰 원문은 레포에 올리지 않는다.** 평가용 원문은 로컬 `scripts/eval/data/`(git 제외)에만 둔다.
 - 단위 테스트에는 AI로 만든 소량의 가상 리뷰(`packages/core/__fixtures__`)를 쓴다. 이건 테스트 전용이고 평가 수치에는 쓰지 않는다.
 
 ## 7. 한계 (정직하게)
@@ -251,18 +251,18 @@ POST /ask
 - **대가성 표시를 하지 않은 리뷰이벤트 리뷰는 리뷰 한 개만 보고 확실히 가려낼 수 없다.** 그래서 이런 리뷰는 🟡 의심 얼룩으로만 표시하고, 근거 문장을 함께 보여준다. 세탁 후 평점은 기본적으로 🔴 확실한 얼룩만 제외하고 계산한다(섬세 세탁에서는 의심 얼룩도 뺀다).
 - 분석 범위는 **입고한 리뷰(베스트순 50 + 최신순 50, 중복 제외)**다. 그래서 결과에 기준 리뷰 수를 항상 표시한다.
 - 사이트 구조가 바뀌면 어댑터를 수정해야 한다.
+- 세탁 API를 클라우드에 배포하지 않았다. 실제 동작판은 로컬 API 서버와 본인의 Amazon Bedrock 권한이 있어야 쓸 수 있다.
 
 ## 8. 기술 스택
 
 | 영역 | 선택 |
 |---|---|
 | 확장 | Chrome Extension MV3, TypeScript, Side Panel API |
-| API | AWS Lambda (Node.js/TypeScript), API Gateway |
+| API | Node.js (TypeScript) 로컬 서버. 핸들러는 AWS Lambda 형식 |
 | LLM | Amazon Bedrock. 판정은 경량 모델, 요약은 상위 모델을 쓰고 환경 변수로 교체할 수 있다 |
-| 인프라 | AWS CDK |
 | 테스트 | Vitest + fast-check (코어 로직 속성 기반 테스트, 어댑터 파싱) |
 
-> ⚠️ AWS 자격 증명과 모델 설정은 Lambda 환경에만 둔다. 확장 프로그램 코드에는 비밀 정보를 넣지 않는다.
+> ⚠️ AWS 자격 증명과 모델 설정은 서버의 `.env`에만 둔다(git 제외). 확장 프로그램 코드에는 비밀 정보를 넣지 않는다.
 
 ## 9. 레포 구조
 
@@ -277,10 +277,9 @@ POST /ask
 │  └─ skills/     tune-wash-prompt
 ├─ apps/
 │  ├─ extension/  크롬 확장 (쿠팡 입고, 사이드 패널)
-│  └─ api/        Lambda 세탁 API
+│  └─ api/        세탁 API (로컬 서버, Lambda 형식 핸들러)
 ├─ packages/core/ 타입 · 세탁 후 평점 · 규칙 얼룩 탐지 (+ 테스트, __fixtures__)
-├─ infra/         AWS CDK
-├─ scripts/eval/  세탁 품질 검사
+├─ infra/         (사용하지 않음. 배포 계획용 자리)
 ├─ scripts/hooks/ hook이 실행하는 검사 스크립트
 ├─ docs/          Kiro 활용 기록(KIRO.md), 품질 검사 기록
 └─ README.md
@@ -295,11 +294,11 @@ POST /ask
 | **Specs** | [wash-rules](.kiro/specs/wash-rules)(재현) · [wash-llm](.kiro/specs/wash-llm)(주영) · [review-intake](.kiro/specs/review-intake)(규리) · [side-panel-receipt](.kiro/specs/side-panel-receipt)(정민). 각각 requirements → design → tasks를 검토·승인하고 tasks로 구현했다. 커밋에 task 번호를 남겼다 |
 | **속성 기반 테스트** | design의 correctness property 17개(예: "요약 근거는 항상 얼룩 아닌 리뷰", "evidence는 항상 원문에 있다")를 fast-check 테스트로 검증 ([testing.md](.kiro/steering/testing.md)) |
 | **Steering** | [10개](.kiro/steering). 공통 규칙 5개는 always, 입고·API 계약·얼룩 규칙·테스트 규칙은 fileMatch, 기록 규칙은 manual로 나눠 컨텍스트를 아꼈다. 루트에 [AGENTS.md](AGENTS.md) |
-| **Hooks** | [7개](.kiro/hooks). 비밀 정보 쓰기 차단, 커밋 전 비밀 정보·리뷰 원문 검사, 배포 전 사람 확인, 규칙·프롬프트 저장 시 품질 검사, API 계약 변경 시 README 동기화, task 시작·완료 시 spec 확인과 테스트·커밋, 세션 시작 시 최근 작업 공유 |
+| **Hooks** | [7개](.kiro/hooks). 비밀 정보 쓰기 차단, 커밋 전 비밀 정보·리뷰 원문 검사, 배포 전 사람 확인, API 계약 변경 시 README 동기화, task 시작·완료 시 spec 확인과 테스트·커밋, 세션 시작 시 최근 작업 공유 |
 | **Custom agents** | [fairness-reviewer](.kiro/agents/fairness-reviewer.md)(문구·프롬프트 공정성 검토, 읽기 전용), [kiro-evidence-writer](.kiro/agents/kiro-evidence-writer.md)(이 기록 갱신) |
 | **Skills** | [tune-wash-prompt](.kiro/skills/tune-wash-prompt)(프롬프트 수정 → 품질 검사 전후 비교) |
-| **MCP** | GitHub(tasks → 이슈·PR), AWS 문서(Bedrock·CDK 구현 참고), Notion(구성안 → spec) |
-| **Autopilot / Supervised** | spec 승인 후 구현은 Autopilot, CDK 배포와 권한 작업은 Supervised + hook 확인 |
+| **MCP** | GitHub(spec task → 이슈 생성, PR 생성·병합, `Closes #번호`로 이슈 연결) |
+| **Autopilot / Supervised** | spec 승인 후 구현은 Autopilot. `guard-shell` hook이 강제 push와 배포 명령은 사람 확인을 요청한다 |
 
 ## 11. 로드맵
 
@@ -310,7 +309,33 @@ POST /ask
 ---
 
 ## 개발자용 실행 방법
-> 구현 후 작성 (확장 빌드, Lambda 로컬 실행, CDK 배포, 환경 변수)
+
+필요한 것: Node.js 22.6 이상, Chrome 116 이상, Amazon Bedrock 모델 사용 권한
+
+```bash
+git clone https://github.com/beblack127/GyuTam.git && cd GyuTam
+npm install
+
+# 1) 세탁 API 환경 변수 (레포 루트 .env, git 제외)
+cp .env.example .env
+#   AWS_REGION=...
+#   BEDROCK_JUDGE_MODEL_ID=...      판정·질문 해석용 경량 모델
+#   BEDROCK_SUMMARY_MODEL_ID=...    요약용 상위 모델
+#   AWS_BEARER_TOKEN_BEDROCK=...    Bedrock API 키 (없으면 기본 AWS 자격 증명 사용)
+
+npm run ping --workspace apps/api   # Bedrock 연결 확인
+npm run dev  --workspace apps/api   # http://localhost:8787 (POST /wash, POST /ask). 켜 둔다
+
+# 2) 확장 빌드 (새 터미널)
+cp apps/extension/.env.example apps/extension/.env
+#   VITE_API_BASE_URL=http://localhost:8787   비워 두면 예시 데이터판
+npm run build --workspace apps/extension     # → apps/extension/dist
+```
+
+3. 크롬 `chrome://extensions` → 개발자 모드 → **압축해제된 확장 프로그램 로드** → `apps/extension/dist` 선택
+4. 예시 상품 페이지에서 🧺 아이콘
+
+테스트: `npm test --workspaces --if-present` · 타입 검사: `npm run typecheck --workspaces --if-present`
 
 ## 라이선스
 [MIT](LICENSE)
