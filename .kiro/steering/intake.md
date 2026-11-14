@@ -50,26 +50,27 @@ content script ↔ 사이드 패널 (`chrome.runtime` 메시지). 모든 메시�
 > 담당자가 예시 상품 페이지의 개발자 도구(Network, Elements)에서 확인해 채운다. 어댑터 코드와 재현의 체험단 규칙은 이 내용과 맞아야 한다. 확인한 응답은 `scripts/eval/data/`(git 제외)에만 저장한다.
 
 예시 상품: https://www.coupang.com/vp/products/8476098818?itemId=25071030734&vendorItemId=92075130632
+확인에 쓴 상품: P1 김치 `productId=9050755607`, P2 커피 `productId=9194350970` (추천순 상위 10개 중 9개가 쿠팡체험단). 예시 상품(8476098818)에서는 아직 다시 확인하지 않았다.
 
 **리뷰 목록 요청**
-- [ ] 리뷰 목록을 불러오는 요청 주소: __
-- [ ] 상품 식별 파라미터 (productId 등)와 페이지 URL에서 얻는 방법: __
-- [ ] 페이지 번호 파라미터, 한 번에 오는 리뷰 수: __
-- [ ] 정렬 파라미터 값 (베스트순, 최신순): __
-- [ ] 응답 형식 (HTML 조각 / JSON): __
-- [ ] content script에서 `fetch`로 같은 요청을 보냈을 때 정상 응답이 오는지: __
-- [ ] 차단될 때의 응답 모습 (상태 코드, 확인 페이지): __
+- [x] 리뷰 목록을 불러오는 요청 주소: `GET https://www.coupang.com/next-api/review`
+- [x] 상품 식별 파라미터 (productId 등)와 페이지 URL에서 얻는 방법: `productId`. 페이지 URL에서 `location.pathname.match(/products\/(\d+)/)[1]`
+- [x] 페이지 번호 파라미터, 한 번에 오는 리뷰 수: `page`(1부터), `size=10`(한 번에 10개). 그 밖의 파라미터: `ratingSummary=true`, `ratings=`(빈 값), `market=`(빈 값)
+- [x] 정렬 파라미터 값 (베스트순, 최신순): 베스트순(추천순) `sortBy=ORDER_SCORE_ASC`, 최신순 `sortBy=DATE_DESC`. 둘 다 `rCode: "RET0000"`, 리뷰 10개 확인
+- [x] 응답 형식 (HTML 조각 / JSON): JSON. 성공 시 `rCode === "RET0000"`. 리뷰 배열은 `rData.paging.contents`. 쿠팡 표시 평점은 `rData.ratingSummaryTotal.ratingAverage`, 리뷰 수는 `rData.ratingSummaryTotal.ratingCount`
+- [ ] content script에서 `fetch`로 같은 요청을 보냈을 때 정상 응답이 오는지: 페이지 Console에서 `fetch(url, { credentials: 'include' })`로 200, 1.5초 간격 10회까지 차단 없음. 콘솔에서는 정상. 미확인: content script에서 같은 요청은 확장 로드 후 확인 필요
+- [ ] 차단될 때의 응답 모습 (상태 코드, 확인 페이지): 미확인. 10회까지는 차단을 보지 못했다. 어댑터는 200이 아니거나, JSON이 아니거나, `rCode`가 `RET0000`이 아니면 차단으로 보고 멈춘다
 
 **리뷰 한 개에서 뽑을 것** (응답 안의 위치나 선택자)
-- [ ] 리뷰 고유 ID: __
-- [ ] 별점 (1~5): __
-- [ ] 작성일과 형식 (예: 2026.10.02): __
-- [ ] 본문. 긴 리뷰가 잘려서 오는지, 잘리면 전체 본문을 얻는 방법: __
-- [ ] 사진 주소 (썸네일 / 원본): __
-- [ ] 구매 옵션 (예: "블랙 / 10000mAh"): __
-- [ ] 체험단 표시 문구와 위치 (예: "쿠팡체험단 이벤트로 상품을 무료로 제공받아 작성된 후기입니다"): __
-- [ ] 그 밖의 배지 (재구매, 한 달 사용 등): __
-- [ ] 작성자 이름 위치 (추출하지 않도록 제외할 위치): __
+- [x] 리뷰 고유 ID: `rData.paging.contents[i].reviewId`(숫자) → `cp-{reviewId}`. 화면 DOM에는 리뷰 ID가 없다 (두 상품에서 속성 전체 검색 결과 없음)
+- [x] 별점 (1~5): `rating`(숫자 1~5)
+- [ ] 작성일과 형식 (예: 2026.10.02): `reviewAt`, `createdAt` 둘 다 epoch 밀리초. 화면 표시는 `YYYY.MM.DD`(예: 2026.01.05). P1에서 일부 리뷰는 `reviewAt`이 `createdAt`보다 몇 달 늦어 `reviewAt`이 수정일일 수 있다. 미확인: 화면 날짜가 어느 필드와 같은지 리뷰 몇 개를 화면과 대조해 정한다. 변환은 한국 시간(KST) 기준 YYYY-MM-DD
+- [ ] 본문. 긴 리뷰가 잘려서 오는지, 잘리면 전체 본문을 얻는 방법: 제목 `title`, 본문 `content`. 화면에서는 접힌 상태로 잘려 보일 수 있다. 미확인: 긴 리뷰 하나를 펼친 화면 본문과 API `content` 길이를 비교한다
+- [ ] 사진 주소 (썸네일 / 원본): 리뷰마다 `attachments`(배열), 동영상은 `videoAttachments`. 미확인: 사진 있는 리뷰에서 배열 원소를 열어 썸네일·원본 주소 필드 이름을 적는다
+- [ ] 구매 옵션 (예: "블랙 / 10000mAh"): 미확인. 후보 필드 `itemName`(문자열). 옵션이 여러 개인 상품에서 화면 옵션 표시와 값이 같은지 확인한다
+- [x] 체험단 표시 문구와 위치 (예: "쿠팡체험단 이벤트로 상품을 무료로 제공받아 작성된 후기입니다"): 신호 세 가지. ① 필드 `vine: true`, `isAdventurerReview: true` ② `reviewerBadges` 안 `badgeTitle: "쿠팡체험단"` ③ 본문 고정 문구 "쿠팡체험단 이벤트로 상품을 무료 제공받아 작성한 리뷰입니다." P2에서 체험단 9개는 세 신호가 모두 있었고, 일반 리뷰 1개는 모두 없었다. 화면에서는 작성자 이름 옆 파란 [쿠팡체험단] 딱지. `incentive` 필드는 확인한 60개 모두 false라 의미 미확인, 판정에 쓰지 않는다
+- [x] 그 밖의 배지 (재구매, 한 달 사용 등): `reviewerBadges`의 `reviewerBadgeType`: `"TOP_REVIEWER"`(TOP100/500/1000), `"REAL_NAME_REVIEWER"`(실명리뷰어). 재구매·한 달 사용 같은 리뷰 배지는 아직 못 봤다
+- [x] 작성자 이름 위치 (추출하지 않도록 제외할 위치): `member`, `displayWriter`, `displayName`, `displayWriterIconUrls`, `reviewerDisplayImage`, `reviewerRank`. 이 필드는 읽지 않는다
 
 **사이드 패널 표시**
-- [ ] 사이드 패널(`<img>`)에서 쿠팡 리뷰 사진 주소가 그대로 열리는지: __ (안 열리면 "사진 N장"으로만 표시)
+- [ ] 사이드 패널(`<img>`)에서 쿠팡 리뷰 사진 주소가 그대로 열리는지: 미확인. 사진 주소 필드를 확인한 뒤 테스트한다 (안 열리면 "사진 N장"으로만 표시)
