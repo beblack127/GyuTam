@@ -10,6 +10,8 @@
 | `.kiro/steering/structure.md` | 폴더 구조, 명명 규칙 |
 | `.kiro/steering/fairness.md` | 표현·근거·데이터 수집 기준 |
 | `.kiro/steering/hackathon.md` | 심사 기준, 우선순위, 역할 분담, 커밋 규칙 |
+| `.kiro/steering/intake.md` 등 | 작업 파일에 따라 자동 포함되는 상세 규칙 (입고, API 계약, 테스트, 카카오맵) |
+| `docs/KIRO.md` | Kiro 활용 기록 |
 
 ## 핵심 규칙
 - 평점과 개수는 `packages/core`의 코드로 계산한다. LLM은 판정만 한다.
@@ -18,6 +20,7 @@
 - AWS 자격 증명과 모델 설정은 Lambda 환경에만 둔다. 확장 프로그램에 비밀 정보를 넣지 않는다.
 - 실제 리뷰 원문은 `scripts/eval/data/`(git 제외)에만 둔다.
 - 새 라이브러리를 추가하기 전에 먼저 묻는다.
+- 기능 코드는 spec의 task로 만든다. 커밋 메시지에 task 번호를 쓴다.
 
 ## 작업 위치
 - 세탁 API (Lambda): `apps/api`

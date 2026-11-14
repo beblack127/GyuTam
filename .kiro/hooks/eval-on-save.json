@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "hooks": [{
+    "name": "판별 로직 저장 시 세탁 품질 검사",
+    "trigger": "PostFileSave",
+    "matcher": "packages/core/src/rules/|apps/api/src/prompts/|apps/api/src/services/wash/",
+    "action": { "type": "command", "command": "npm run eval --if-present" }
+  }]
+}

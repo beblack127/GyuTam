@@ -1,0 +1,12 @@
+{
+  "version": "v1",
+  "hooks": [{
+    "name": "API 계약 변경 시 README 동기화",
+    "trigger": "PostFileSave",
+    "matcher": "\\.kiro/steering/api-contract\\.md$|packages/core/src/types/",
+    "action": {
+      "type": "agent",
+      "prompt": "API 계약이나 공통 타입이 바뀌었다. README.md 5장의 API 예시(POST /wash, POST /ask)와 .kiro/steering/api-contract.md, packages/core/src/types가 서로 맞는지 확인하고, 다르면 README와 api-contract.md를 타입에 맞춰 고쳐라. 바꾼 필드를 한 줄로 알려라."
+    }
+  }]
+}

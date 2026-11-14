@@ -1,0 +1,8 @@
+{
+  "version": "v1",
+  "hooks": [{
+    "name": "세션 시작 시 최근 작업 공유",
+    "trigger": "SessionStart",
+    "action": { "type": "command", "command": "git log --oneline -8 && git status --short" }
+  }]
+}

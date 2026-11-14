@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "hooks": [{
+    "name": "커밋 전 검사 · 배포 확인",
+    "trigger": "PreToolUse",
+    "matcher": "shell|bash|command",
+    "action": { "type": "command", "command": "sh scripts/hooks/guard-shell.sh" }
+  }]
+}

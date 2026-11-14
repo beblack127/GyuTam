@@ -15,11 +15,11 @@ inclusion: always
 ├── LICENSE
 ├── .kiro/
 │   ├── specs/                        # review-intake · wash-pipeline · side-panel-receipt · infra
-│   ├── steering/                     # product · tech · structure · fairness · hackathon
-│   ├── hooks/                        # eval-on-save · secret-scan · readme-sync
-│   ├── agents/                       # Custom Agent
-│   ├── skills/                       # 반복 Skill
-│   └── settings/                     # MCP 등 설정 (mcp.json은 커밋하지 않음)
+│   ├── steering/                     # always: product·tech·structure·fairness·hackathon / fileMatch: intake·api-contract·testing / auto: kakaomap / manual: kiro-evidence
+│   ├── hooks/                        # secret-scan · guard-shell · eval-on-save · readme-sync · task-start · task-done · session-context
+│   ├── agents/                       # fairness-reviewer · kiro-evidence-writer
+│   ├── skills/                       # add-site-adapter · tune-wash-prompt
+│   └── settings/                     # mcp.example.json (mcp.json은 커밋하지 않음)
 ├── apps/
 │   ├── extension/                    # 크롬 확장 (Manifest V3)
 │   │   ├── public/                   # manifest.json, icons/
@@ -55,9 +55,10 @@ inclusion: always
 ├── infra/                            # AWS CDK (API Gateway, Lambda, 요청 제한, Budgets)
 │   ├── bin/
 │   └── lib/
+├── scripts/hooks/                    # hook이 실행하는 검사 스크립트
 ├── scripts/eval/                     # 세탁 품질 검사
 │   └── data/                         # 실제 리뷰 원문, HTML 스냅샷 (git 제외, 로컬 전용)
-└── docs/                             # 아키텍처 그림, 결선 자료
+└── docs/                             # KIRO.md(Kiro 활용 기록), eval-history.md, 아키텍처 그림
 ```
 
 ## 배치 규칙

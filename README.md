@@ -227,7 +227,7 @@ POST /ask
 | API | AWS Lambda (Node.js/TypeScript), API Gateway |
 | LLM | Amazon Bedrock. 판정은 경량 모델, 요약은 상위 모델을 쓰고 환경 변수로 교체할 수 있다 |
 | 인프라 | AWS CDK |
-| 테스트 | Vitest (코어 로직, 어댑터 파싱) |
+| 테스트 | Vitest + fast-check (코어 로직 속성 기반 테스트, 어댑터 파싱) |
 
 > ⚠️ AWS 자격 증명과 모델 설정은 Lambda 환경에만 둔다. 확장 프로그램 코드에는 비밀 정보를 넣지 않는다.
 
@@ -237,30 +237,36 @@ POST /ask
 .
 ├─ AGENTS.md      에이전트 안내
 ├─ .kiro/
-│  ├─ steering/   product · tech · structure · fairness · hackathon
+│  ├─ steering/   always 5 · fileMatch 3 · auto 1 · manual 1
 │  ├─ specs/      review-intake · wash-pipeline · side-panel-receipt · infra
-│  └─ hooks/      eval-on-save · secret-scan · readme-sync
+│  ├─ hooks/      7개 (보안, 품질 검사, task, 동기화)
+│  ├─ agents/     fairness-reviewer · kiro-evidence-writer
+│  └─ skills/     add-site-adapter · tune-wash-prompt
 ├─ apps/
 │  ├─ extension/  크롬 확장 (입고 어댑터: coupang · kakaomap, 사이드 패널)
 │  └─ api/        Lambda 세탁 API
 ├─ packages/core/ 타입 · 세탁 후 평점 · 규칙 얼룩 탐지 (+ 테스트, __fixtures__)
 ├─ infra/         AWS CDK
 ├─ scripts/eval/  세탁 품질 검사
-├─ docs/          아키텍처 그림
+├─ scripts/hooks/ hook이 실행하는 검사 스크립트
+├─ docs/          Kiro 활용 기록(KIRO.md), 품질 검사 기록
 └─ README.md
 ```
 
 ## 10. Kiro 활용
 
+> 전체 기록과 숫자: **[docs/KIRO.md](docs/KIRO.md)**
+
 | 기능 | 별점세탁소에서의 활용 |
 |---|---|
-| **Steering** | `product.md`(문제·세탁소 용어), `tech.md`, `structure.md`, `fairness.md`("가짜" 단정 금지, 근거 필수, 리뷰 저장 금지), `hackathon.md`(MVP 우선, 비밀키 규칙) |
-| **Specs** | `review-intake`(쿠팡 어댑터, 이후 카카오맵) · `wash-pipeline`(`/wash` 세탁·세탁 후 요약, `/ask` 부분 세탁) · `side-panel-receipt`(세탁하기 버튼·질문·영수증) · `infra`(Lambda·API Gateway). 각각 requirements → design → tasks 순서로 진행 |
-| **Hooks** | ① 얼룩 판별 로직 저장 시 세탁 품질 검사 자동 실행 ② 저장 시 비밀 정보 유출 검사 ③ 수동: README 품질 수치 갱신 |
-| **MCP** | Notion(설계안 → spec 입력), GitHub(tasks → 이슈·PR), AWS 문서(Bedrock·CDK 구현 참고) |
-| **Autopilot / Supervised** | spec 승인 후 구현은 Autopilot, AWS 배포와 권한 관련 작업은 Supervised |
-
-> 각 항목의 실제 결과물: [steering](.kiro/steering) · [specs](.kiro/specs) · [hooks](.kiro/hooks) · [AGENTS.md](AGENTS.md)
+| **Specs** | [wash-pipeline](.kiro/specs/wash-pipeline) · [review-intake](.kiro/specs/review-intake) · [side-panel-receipt](.kiro/specs/side-panel-receipt) · [infra](.kiro/specs/infra). 각각 requirements → design → tasks를 검토·승인하고 tasks로 구현했다. 커밋에 task 번호를 남겼다 |
+| **속성 기반 테스트** | design의 correctness property 10개(예: "요약 근거는 항상 얼룩 아닌 리뷰", "evidence는 항상 원문에 있다")를 fast-check 테스트로 검증 ([testing.md](.kiro/steering/testing.md)) |
+| **Steering** | [10개](.kiro/steering). 공통 규칙 5개는 always, 입고·API 계약·테스트 규칙은 fileMatch, 카카오맵은 auto, 기록 규칙은 manual로 나눠 컨텍스트를 아꼈다. 루트에 [AGENTS.md](AGENTS.md) |
+| **Hooks** | [7개](.kiro/hooks). 비밀 정보 쓰기 차단, 커밋 전 비밀 정보·리뷰 원문 검사, 배포 전 사람 확인, 규칙·프롬프트 저장 시 품질 검사, API 계약 변경 시 README 동기화, task 시작·완료 시 spec 확인과 테스트·커밋, 세션 시작 시 최근 작업 공유 |
+| **Custom agents** | [fairness-reviewer](.kiro/agents/fairness-reviewer.md)(문구·프롬프트 공정성 검토, 읽기 전용), [kiro-evidence-writer](.kiro/agents/kiro-evidence-writer.md)(이 기록 갱신) |
+| **Skills** | [add-site-adapter](.kiro/skills/add-site-adapter)(새 사이트 어댑터 추가 절차), [tune-wash-prompt](.kiro/skills/tune-wash-prompt)(프롬프트 수정 → 품질 검사 전후 비교) |
+| **MCP** | GitHub(tasks → 이슈·PR), AWS 문서(Bedrock·CDK 구현 참고), Notion(구성안 → spec) |
+| **Autopilot / Supervised** | spec 승인 후 구현은 Autopilot, CDK 배포와 권한 작업은 Supervised + hook 확인 |
 
 ## 11. 로드맵
 
