@@ -5,7 +5,15 @@
  * 확인됨 (steering/intake.md "쿠팡 페이지 확인 결과"):
  *   reviewId(숫자), rating(1~5), title, content, vine, isAdventurerReview,
  *   reviewerBadges[].badgeTitle, attachments(배열)
- * 미확인: 아래 DATE_FIELDS, TEXT_FIELDS, PHOTO_URL_KEYS, OPTION_FIELD.
+ * 확인됨 (실제 쿠팡 응답 Console 확인, 베스트순 1페이지 리뷰 10개):
+ *   - 본문: `content`는 잘리지 않은 전체 본문이다 (615~1,458자, 나중에 덧붙인 내용 포함). `title`은 빈 문자열일 수 있다.
+ *   - 사진: `attachments[]` 원소의 `imgSrcOrigin`·`imgSrcThumbnail`이 https URL이다.
+ *     `uploadedFilePath`는 URL이 아닌 경로라 쓰지 않는다. 원소는 `ordering` 순서로 온다.
+ *   - 옵션: `itemName`은 "상품명, 옵션, 수량"처럼 상품명과 옵션이 합쳐진 문자열이다. trim만 하고 그대로 쓴다.
+ *   - 날짜: `createdAt`·`reviewAt` 모두 epoch 밀리초. 10개 중 3개는 `reviewAt`이 3~8일 늦었고,
+ *     덧붙인 내용이 있는 리뷰도 `reviewAt`이 늦었다 → `reviewAt`은 수정일로 보고 `createdAt` 우선.
+ *   - `incentive`는 `false` 또는 `null`로 온다 (읽지 않는다).
+ * 미확인 (남은 한 가지): 화면에 보이는 작성일이 `createdAt`과 같은지 아직 비교하지 않았다.
  *   확인 결과가 나오면 이 상수와 fixture, 테스트 기대값만 바꾼다 (Requirement 10.9).
  *
  * 작성자 정보(AUTHOR_FIELDS)는 읽지 않는다. 결과는 9개 필드만 담은 새 객체다.
@@ -16,37 +24,30 @@ import { ADVENTURER_BADGE, MAX_PHOTOS, MAX_TEXT_LENGTH } from './intakeConstants
 import type { Review, Source } from './intakeTypes';
 
 /**
- * 미확인: 화면 날짜가 `createdAt`인지 `reviewAt`인지.
- * 후보: createdAt, reviewAt (둘 다 epoch 밀리초). `reviewAt`은 수정일일 수 있어 `createdAt` 우선.
- * 대체 규칙: 앞에서부터 숫자인 첫 필드를 쓴다. 둘 다 숫자가 아니면 그 리뷰를 건너뛴다.
+ * 확인됨: 둘 다 epoch 밀리초이고 `reviewAt`은 수정일로 보여 `createdAt` 우선.
+ * 미확인: 화면에 보이는 작성일과 `createdAt`이 같은지 (아직 비교하지 않음).
+ * 규칙: 앞에서부터 숫자인 첫 필드를 쓴다. 둘 다 숫자가 아니면 그 리뷰를 건너뛴다.
  */
 export const DATE_FIELDS = ['createdAt', 'reviewAt'] as const;
 
 /**
- * 미확인: `content`가 잘리지 않은 전체 본문인지.
- * 대체 규칙: 지금은 `title`, `content` 중 비어 있지 않은 문자열을 `\n`으로 잇는다. 둘 다 없으면 `""`.
+ * 확인됨: `content`는 전체 본문이다 (API에서 잘리지 않음). `title`은 비어 있을 수 있다.
+ * 규칙: `title`, `content` 중 비어 있지 않은 문자열을 `\n`으로 잇는다. 둘 다 없으면 `""`.
  */
 export const TEXT_FIELDS = ['title', 'content'] as const;
 
 /**
- * 미확인: `attachments` 원소의 사진 URL 키 (원본·썸네일).
- * 대체 규칙: 원소마다 이 순서로 확인해 처음 찾은 https URL 하나를 쓴다.
+ * 확인됨: `attachments` 원소의 원본 `imgSrcOrigin`, 썸네일 `imgSrcThumbnail` (https URL).
+ * `uploadedFilePath`는 URL이 아닌 경로라 넣지 않는다.
+ * 규칙: 원소마다 이 순서로 확인해 처음 찾은 https URL 하나를 쓴다.
  * `//`로 시작하면 `https:`를 붙이고, `https://`가 아니면 버린다. 찾지 못하면 그 원소는 건너뛴다.
  */
-export const PHOTO_URL_KEYS = [
-  'imgSrcOrigin',
-  'imgSrcThumbnail',
-  'originalUrl',
-  'imageUrl',
-  'thumbnailUrl',
-  'url',
-  'src',
-  'path',
-] as const;
+export const PHOTO_URL_KEYS = ['imgSrcOrigin', 'imgSrcThumbnail'] as const;
 
 /**
- * 미확인: 구매 옵션 필드. 후보 `itemName`.
- * 대체 규칙: 비어 있지 않은 문자열이면 trim해서 쓰고, 아니면 `null`.
+ * 확인됨: 구매 옵션은 `itemName` ("상품명, 옵션, 수량"이 합쳐진 문자열).
+ * 미확인: 옵션이 여러 개인 상품에서 리뷰마다 값이 달라지는지는 아직 보지 못했다.
+ * 규칙: 비어 있지 않은 문자열이면 trim해서 그대로 쓰고, 아니면 `null`.
  */
 export const OPTION_FIELD = 'itemName';
 

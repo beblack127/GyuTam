@@ -70,34 +70,88 @@
           "incentive": false,
           "attachments": [
             {
-              "attachmentId": 900021,
+              "id": 900021,
+              "uploadedFilePath": "/fake/review/3002/900021.jpg",
+              "ordering": 0,
               "imgSrcOrigin": "https://example.invalid/review/photo-21.jpg",
-              "imgSrcThumbnail": "https://example.invalid/review/thumb-21.jpg"
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-21.jpg",
+              "reviewId": 3002,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             },
             {
-              "attachmentId": 900022,
-              "imgSrcOrigin": "//example.invalid/review/photo-22.jpg"
+              "id": 900022,
+              "uploadedFilePath": "/fake/review/3002/900022.jpg",
+              "ordering": 1,
+              "imgSrcOrigin": "//example.invalid/review/photo-22.jpg",
+              "imgSrcThumbnail": "//example.invalid/review/photo-22.jpg",
+              "reviewId": 3002,
+              "index": 1,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             },
             {
-              "attachmentId": 900023,
-              "imgSrcOrigin": "http://example.invalid/review/photo-23.jpg"
+              "id": 900023,
+              "uploadedFilePath": "/fake/review/3002/900023.jpg",
+              "ordering": 2,
+              "imgSrcOrigin": "http://example.invalid/review/photo-23.jpg",
+              "imgSrcThumbnail": "http://example.invalid/review/photo-23.jpg",
+              "reviewId": 3002,
+              "index": 2,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             },
             {
-              "attachmentId": 900021,
+              "id": 900021,
+              "uploadedFilePath": "/fake/review/3002/900021.jpg",
+              "ordering": 3,
               "imgSrcOrigin": "https://example.invalid/review/photo-21.jpg",
-              "imgSrcThumbnail": "https://example.invalid/review/thumb-21.jpg"
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-21.jpg",
+              "reviewId": 3002,
+              "index": 3,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             },
             {
-              "attachmentId": 900024,
-              "originalUrl": "https://example.invalid/review/photo-24.jpg"
+              "id": 900024,
+              "uploadedFilePath": "/fake/review/3002/900024.jpg",
+              "ordering": 4,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-24.jpg",
+              "reviewId": 3002,
+              "index": 4,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             },
             {
-              "attachmentId": 900025,
-              "src": "https://example.invalid/review/photo-25.jpg"
+              "id": 900025,
+              "uploadedFilePath": "/fake/review/3002/900025.jpg",
+              "ordering": 5,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-25.jpg",
+              "reviewId": 3002,
+              "index": 5,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             },
             {
-              "attachmentId": 900026,
-              "path": "https://example.invalid/review/photo-26.jpg"
+              "id": 900026,
+              "uploadedFilePath": "/fake/review/3002/900026.jpg",
+              "ordering": 6,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-26.jpg",
+              "reviewId": 3002,
+              "index": 6,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             }
           ],
           "videoAttachments": [],

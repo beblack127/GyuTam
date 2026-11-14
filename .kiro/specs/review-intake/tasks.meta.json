@@ -346,6 +346,16 @@
         "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
         "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
         "timestamp": 1794640954888
+      },
+      {
+        "executionId": "a1dae441-4ce7-419c-84c8-1f083df9b45e",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794642830754
+      },
+      {
+        "executionId": "a1dae441-4ce7-419c-84c8-1f083df9b45e",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794643074209
       }
     ],
     "9.2 `.kiro/steering/intake.md`의 \"쿠팡 페이지 확인 결과 (규리)\" 체크리스트 갱신": [
@@ -353,6 +363,16 @@
         "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
         "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
         "timestamp": 1794640954921
+      },
+      {
+        "executionId": "a1dae441-4ce7-419c-84c8-1f083df9b45e",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794643074967
+      },
+      {
+        "executionId": "a1dae441-4ce7-419c-84c8-1f083df9b45e",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794643204349
       }
     ],
     "10.1 `intakeTypes.ts`·`dedupeReviews.ts`의 사용처를 `@star-laundry/core`의 `Review`, 메시지 타입, `dedupeReviews`로 바꾼다": [
@@ -409,6 +429,13 @@
         "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
         "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
         "timestamp": 1794642043992
+      }
+    ],
+    "9. 미확인 필드 확인과 매핑 갱신": [
+      {
+        "executionId": "a1dae441-4ce7-419c-84c8-1f083df9b45e",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794643204388
       }
     ]
   }

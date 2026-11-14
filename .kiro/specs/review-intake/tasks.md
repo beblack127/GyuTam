@@ -115,12 +115,12 @@ DOM에 의존하지 않는 어댑터(타입·상수 → 필드 매핑 → 중복
 - [~] 8. Checkpoint - 전체 테스트와 타입 확인
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. 미확인 필드 확인과 매핑 갱신
-  - [~] 9.1 사용자와 미확인 필드를 확인하고 `coupangFields.ts`만 고친다
+- [x] 9. 미확인 필드 확인과 매핑 갱신
+  - [x] 9.1 사용자와 미확인 필드를 확인하고 `coupangFields.ts`만 고친다
     - design "미확인 필드 확인 방법"의 Console 코드를 사용자에게 주고(필드 이름·타입과 개인정보가 아닌 값만 출력), 결과를 받는다. 출력은 레포에 올리지 않는다
     - 결과에 따라 `DATE_FIELDS`, `TEXT_FIELDS`, `PHOTO_URL_KEYS`, `OPTION_FIELD`를 바꾸고, `__fixtures__`의 가상 응답과 `coupangFields.test.ts` 기대값을 맞춘다. 다른 파일은 바꾸지 않는다
     - _Requirements: 10.1, 10.2, 10.4, 10.5, 10.9_
-  - [~] 9.2 `.kiro/steering/intake.md`의 "쿠팡 페이지 확인 결과 (규리)" 체크리스트 갱신
+  - [x] 9.2 `.kiro/steering/intake.md`의 "쿠팡 페이지 확인 결과 (규리)" 체크리스트 갱신
     - 확인된 항목(작성일 필드, 본문 전체 여부, 사진 URL 키, 구매 옵션 필드)의 `[ ]`를 `[x]`로 바꾸고 결과를 적는다. 그 섹션 밖은 바꾸지 않는다
     - _Requirements: 10.9_
 

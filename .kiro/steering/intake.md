@@ -64,13 +64,13 @@ content script ↔ 사이드 패널 (`chrome.runtime` 메시지). 모든 메시�
 **리뷰 한 개에서 뽑을 것** (응답 안의 위치나 선택자)
 - [x] 리뷰 고유 ID: `rData.paging.contents[i].reviewId`(숫자) → `cp-{reviewId}`. 화면 DOM에는 리뷰 ID가 없다 (두 상품에서 속성 전체 검색 결과 없음)
 - [x] 별점 (1~5): `rating`(숫자 1~5)
-- [ ] 작성일과 형식 (예: 2026.10.02): `reviewAt`, `createdAt` 둘 다 epoch 밀리초. 화면 표시는 `YYYY.MM.DD`(예: 2026.01.05). P1에서 일부 리뷰는 `reviewAt`이 `createdAt`보다 몇 달 늦어 `reviewAt`이 수정일일 수 있다. 미확인: 화면 날짜가 어느 필드와 같은지 리뷰 몇 개를 화면과 대조해 정한다. 변환은 한국 시간(KST) 기준 YYYY-MM-DD
-- [ ] 본문. 긴 리뷰가 잘려서 오는지, 잘리면 전체 본문을 얻는 방법: 제목 `title`, 본문 `content`. 화면에서는 접힌 상태로 잘려 보일 수 있다. 미확인: 긴 리뷰 하나를 펼친 화면 본문과 API `content` 길이를 비교한다
-- [ ] 사진 주소 (썸네일 / 원본): 리뷰마다 `attachments`(배열), 동영상은 `videoAttachments`. 미확인: 사진 있는 리뷰에서 배열 원소를 열어 썸네일·원본 주소 필드 이름을 적는다
-- [ ] 구매 옵션 (예: "블랙 / 10000mAh"): 미확인. 후보 필드 `itemName`(문자열). 옵션이 여러 개인 상품에서 화면 옵션 표시와 값이 같은지 확인한다
-- [x] 체험단 표시 문구와 위치 (예: "쿠팡체험단 이벤트로 상품을 무료로 제공받아 작성된 후기입니다"): 신호 세 가지. ① 필드 `vine: true`, `isAdventurerReview: true` ② `reviewerBadges` 안 `badgeTitle: "쿠팡체험단"` ③ 본문 고정 문구 "쿠팡체험단 이벤트로 상품을 무료 제공받아 작성한 리뷰입니다." P2에서 체험단 9개는 세 신호가 모두 있었고, 일반 리뷰 1개는 모두 없었다. 화면에서는 작성자 이름 옆 파란 [쿠팡체험단] 딱지. `incentive` 필드는 확인한 60개 모두 false라 의미 미확인, 판정에 쓰지 않는다
+- [ ] 작성일과 형식 (예: 2026.10.02): `createdAt`을 쓴다(`reviewAt`은 수정일로 보인다). 10개 중 7개는 두 값이 같고 3개는 `reviewAt`이 3~8일 늦다. 나중에 내용을 덧붙인 리뷰가 `reviewAt`이 더 늦었다. 화면 표시는 `YYYY.MM.DD`. 남은 확인: 화면 표시 날짜가 `createdAt`과 같은지. 변환은 한국 시간(KST) 기준 YYYY-MM-DD
+- [x] 본문. 긴 리뷰가 잘려서 오는지, 잘리면 전체 본문을 얻는 방법: 제목 `title`(빈 문자열일 수 있음) + 본문 `content`. API `content`는 잘리지 않은 전체 본문이다 (615~1,458자, 나중에 덧붙인 내용까지 포함). 화면의 "더보기" 접힘과 무관하다
+- [x] 사진 주소 (썸네일 / 원본): `attachments[].imgSrcOrigin`(원본), `imgSrcThumbnail`(썸네일, 확인한 리뷰에서는 같은 주소). 주소는 `https://thumbnail.coupangcdn.com/...jpg`. 리뷰당 5~10장, `ordering` 순. `uploadedFilePath`는 주소가 아니라 쓰지 않는다. 동영상은 `videoAttachments`
+- [x] 구매 옵션 (예: "블랙 / 10000mAh"): `itemName`(문자열). 상품명과 옵션이 붙어 온다 (예: "티오피 배럴 에이지드향 커피 마일드, 24개, 380ml"). 그대로 표시한다. 옵션이 여러 개인 상품에서 리뷰마다 달라지는지는 아직 못 봤다
+- [x] 체험단 표시 문구와 위치 (예: "쿠팡체험단 이벤트로 상품을 무료로 제공받아 작성된 후기입니다"): 신호 세 가지. ① 필드 `vine: true`, `isAdventurerReview: true` ② `reviewerBadges` 안 `badgeTitle: "쿠팡체험단"` ③ 본문 고정 문구 "쿠팡체험단 이벤트로 상품을 무료 제공받아 작성한 리뷰입니다." P2에서 체험단 9개는 세 신호가 모두 있었고, 일반 리뷰 1개는 모두 없었다. 화면에서는 작성자 이름 옆 파란 [쿠팡체험단] 딱지. `incentive` 필드는 처음 확인 때 60개 모두 `false`였고, 다시 확인하니 P2에서 `null`이었다. 의미 미확인, 판정에 쓰지 않는다
 - [x] 그 밖의 배지 (재구매, 한 달 사용 등): `reviewerBadges`의 `reviewerBadgeType`: `"TOP_REVIEWER"`(TOP100/500/1000), `"REAL_NAME_REVIEWER"`(실명리뷰어). 재구매·한 달 사용 같은 리뷰 배지는 아직 못 봤다
 - [x] 작성자 이름 위치 (추출하지 않도록 제외할 위치): `member`, `displayWriter`, `displayName`, `displayWriterIconUrls`, `reviewerDisplayImage`, `reviewerRank`. 이 필드는 읽지 않는다
 
 **사이드 패널 표시**
-- [ ] 사이드 패널(`<img>`)에서 쿠팡 리뷰 사진 주소가 그대로 열리는지: 미확인. 사진 주소 필드를 확인한 뒤 테스트한다 (안 열리면 "사진 N장"으로만 표시)
+- [ ] 사이드 패널(`<img>`)에서 쿠팡 리뷰 사진 주소가 그대로 열리는지: 미확인. 주소 필드는 `imgSrcOrigin`으로 확정. 확장 로드 후 패널에서 열리는지 확인한다 (안 열리면 "사진 N장"으로만 표시)

@@ -46,18 +46,32 @@
           "incentive": false,
           "attachments": [
             {
-              "attachmentId": 900001,
+              "id": 900001,
+              "uploadedFilePath": "/fake/review/1001/900001.jpg",
+              "ordering": 0,
               "imgSrcOrigin": "https://example.invalid/review/photo-1.jpg",
-              "imgSrcThumbnail": "https://example.invalid/review/thumb-1.jpg"
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-1.jpg",
+              "reviewId": 1001,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             },
             {
-              "attachmentId": 900002,
+              "id": 900002,
+              "uploadedFilePath": "/fake/review/1001/900002.jpg",
+              "ordering": 1,
               "imgSrcOrigin": "https://example.invalid/review/photo-2.jpg",
-              "imgSrcThumbnail": "https://example.invalid/review/thumb-2.jpg"
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-2.jpg",
+              "reviewId": 1001,
+              "index": 1,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             }
           ],
           "videoAttachments": [],
-          "itemName": "블랙 / 10000mAh",
+          "itemName": "가상 보조배터리 10000mAh, 블랙, 1개",
           "member": {
             "memberId": 0,
             "name": "가상작성자",
@@ -81,10 +95,10 @@
           "vine": false,
           "isAdventurerReview": false,
           "reviewerBadges": [],
-          "incentive": false,
+          "incentive": null,
           "attachments": [],
           "videoAttachments": [],
-          "itemName": "화이트 / 10000mAh",
+          "itemName": "가상 보조배터리 10000mAh, 화이트, 1개",
           "member": {
             "memberId": 0,
             "name": "가상작성자",
@@ -110,7 +124,7 @@
           "incentive": false,
           "attachments": [],
           "videoAttachments": [],
-          "itemName": "  블랙 / 20000mAh  ",
+          "itemName": "  가상 보조배터리 20000mAh, 블랙, 1개  ",
           "member": {
             "memberId": 0,
             "name": "가상작성자",
@@ -136,9 +150,16 @@
           "incentive": false,
           "attachments": [
             {
-              "attachmentId": 900003,
+              "id": 900003,
+              "uploadedFilePath": "/fake/review/1004/900003.jpg",
+              "ordering": 0,
               "imgSrcOrigin": "https://example.invalid/review/photo-3.jpg",
-              "imgSrcThumbnail": "https://example.invalid/review/thumb-3.jpg"
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-3.jpg",
+              "reviewId": 1004,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             }
           ],
           "videoAttachments": [],
@@ -193,7 +214,7 @@
           "incentive": false,
           "attachments": [],
           "videoAttachments": [],
-          "itemName": "블랙 / 10000mAh",
+          "itemName": "가상 보조배터리 10000mAh, 블랙, 1개",
           "member": {
             "memberId": 0,
             "name": "가상작성자",
@@ -219,8 +240,16 @@
           "incentive": false,
           "attachments": [
             {
-              "attachmentId": 900004,
-              "thumbnailUrl": "https://example.invalid/review/photo-4.jpg"
+              "id": 900004,
+              "uploadedFilePath": "/fake/review/1007/900004.jpg",
+              "ordering": 0,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-4.jpg",
+              "reviewId": 1007,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             }
           ],
           "videoAttachments": [],
@@ -249,7 +278,7 @@
           "incentive": false,
           "attachments": [],
           "videoAttachments": [],
-          "itemName": "그레이 / 10000mAh",
+          "itemName": "가상 보조배터리 10000mAh, 그레이, 1개",
           "member": {
             "memberId": 0,
             "name": "가상작성자",
@@ -301,21 +330,44 @@
           "incentive": false,
           "attachments": [
             {
-              "attachmentId": 900005,
+              "id": 900005,
+              "uploadedFilePath": "/fake/review/1010/900005.jpg",
+              "ordering": 0,
               "imgSrcOrigin": "https://example.invalid/review/photo-5.jpg",
-              "imgSrcThumbnail": "https://example.invalid/review/thumb-5.jpg"
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-5.jpg",
+              "reviewId": 1010,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             },
             {
-              "attachmentId": 900006,
-              "imageUrl": "https://example.invalid/review/photo-6.jpg"
+              "id": 900006,
+              "uploadedFilePath": "/fake/review/1010/900006.jpg",
+              "ordering": 1,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-6.jpg",
+              "reviewId": 1010,
+              "index": 1,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             },
             {
-              "attachmentId": 900007,
-              "url": "https://example.invalid/review/photo-7.jpg"
+              "id": 900007,
+              "uploadedFilePath": "/fake/review/1010/900007.jpg",
+              "ordering": 2,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-7.jpg",
+              "reviewId": 1010,
+              "index": 2,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             }
           ],
           "videoAttachments": [],
-          "itemName": "블랙 / 20000mAh",
+          "itemName": "가상 보조배터리 20000mAh, 블랙, 1개",
           "member": {
             "memberId": 0,
             "name": "가상작성자",

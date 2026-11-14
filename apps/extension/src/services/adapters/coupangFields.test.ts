@@ -40,7 +40,7 @@ describe('mapCoupangReview: 필드 매핑', () => {
         'https://example.invalid/review/photo-2.jpg',
       ],
       hasPhoto: true,
-      option: '블랙 / 10000mAh',
+      option: '가상 보조배터리 10000mAh, 블랙, 1개',
       source: 'latest',
     });
   });
@@ -115,7 +115,7 @@ describe('mapCoupangReview: 체험단 배지', () => {
 });
 
 describe('mapCoupangReview: 사진', () => {
-  it('// 보정, http:// 버림, 중복 제거, 후보 키 순서 (fixture 3002)', () => {
+  it('// 보정, http:// 버림, 중복 제거, imgSrcOrigin 없으면 imgSrcThumbnail (fixture 3002)', () => {
     const review = mapOk(byId(edge, 3002));
     expect(review.photos).toEqual([
       'https://example.invalid/review/photo-21.jpg',
@@ -129,8 +129,13 @@ describe('mapCoupangReview: 사진', () => {
 
   it('유효한 사진이 7장이면 앞의 5장만 남긴다', () => {
     const attachments = Array.from({ length: 7 }, (_, i) => ({
-      attachmentId: 990000 + i,
+      id: 990000 + i,
+      uploadedFilePath: `/fake/review/limit/${i + 1}.jpg`,
+      ordering: i,
       imgSrcOrigin: `https://example.invalid/review/limit-${i + 1}.jpg`,
+      imgSrcThumbnail: `https://example.invalid/review/limit-thumb-${i + 1}.jpg`,
+      attachmentType: 'IMAGE',
+      caption: null,
     }));
     const review = mapOk({ ...byId(edge, 3002), attachments });
     expect(review.photos).toHaveLength(MAX_PHOTOS);
@@ -138,13 +143,22 @@ describe('mapCoupangReview: 사진', () => {
     expect(review.hasPhoto).toBe(true);
   });
 
-  it('후보 키(thumbnailUrl, imageUrl, url)에서도 URL을 찾는다', () => {
+  it('imgSrcOrigin이 null이면 imgSrcThumbnail을 쓴다', () => {
     expect(mapOk(byId(normal, 1007)).photos).toEqual(['https://example.invalid/review/photo-4.jpg']);
     expect(mapOk(byId(normal, 1010)).photos).toEqual([
       'https://example.invalid/review/photo-5.jpg',
       'https://example.invalid/review/photo-6.jpg',
       'https://example.invalid/review/photo-7.jpg',
     ]);
+  });
+
+  it('uploadedFilePath는 URL로 쓰지 않는다', () => {
+    const attachments = [
+      { id: 1, uploadedFilePath: '/fake/review/only-path.jpg', imgSrcOrigin: null, imgSrcThumbnail: null },
+    ];
+    const review = mapOk({ ...byId(normal, 1001), attachments });
+    expect(review.photos).toEqual([]);
+    expect(review.hasPhoto).toBe(true);
   });
 
   it('attachments가 빈 배열이거나 없으면 hasPhoto는 false', () => {
@@ -158,7 +172,7 @@ describe('mapCoupangReview: 사진', () => {
 
 describe('mapCoupangReview: 옵션', () => {
   it('앞뒤 공백을 지운다', () => {
-    expect(mapOk(byId(normal, 1003)).option).toBe('블랙 / 20000mAh');
+    expect(mapOk(byId(normal, 1003)).option).toBe('가상 보조배터리 20000mAh, 블랙, 1개');
   });
 
   it('itemName이 숫자·빈 문자열·없음이면 null', () => {

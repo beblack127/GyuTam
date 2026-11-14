@@ -50,13 +50,20 @@
           "incentive": false,
           "attachments": [
             {
-              "attachmentId": 900011,
+              "id": 900011,
+              "uploadedFilePath": "/fake/review/2001/900011.jpg",
+              "ordering": 0,
               "imgSrcOrigin": "https://example.invalid/review/photo-11.jpg",
-              "imgSrcThumbnail": "https://example.invalid/review/thumb-11.jpg"
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-11.jpg",
+              "reviewId": 2001,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
             }
           ],
           "videoAttachments": [],
-          "itemName": "블랙 / 10000mAh",
+          "itemName": "가상 보조배터리 10000mAh, 블랙, 1개",
           "member": {
             "memberId": 0,
             "name": "가상작성자",
@@ -200,7 +207,7 @@
           "incentive": false,
           "attachments": [],
           "videoAttachments": [],
-          "itemName": "화이트 / 10000mAh",
+          "itemName": "가상 보조배터리 10000mAh, 화이트, 1개",
           "member": {
             "memberId": 0,
             "name": "가상작성자",
