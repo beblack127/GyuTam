@@ -38,7 +38,7 @@
     - 코드 펜스, 앞뒤 설명 텍스트, 중첩 중괄호, 문자열 안의 `}`, JSON 없음
     - _Requirements: 2.4, 2.5_
 
-- [ ] 3. 프롬프트 4개
+- [x] 3. 프롬프트 4개
   - [x] 3.1 `prompts/judgePrompt.ts`
     - design 프롬프트 표 + stain-rules.md 🟡 네 기준. 금지 단어를 쓰지 않는다
     - _Requirements: 8.1, 8.2, 8.3, 8.5_
@@ -49,7 +49,7 @@
     - _Requirements: 5.1, 5.3, 5.4, 5.5, 8.1, 8.5_
   - [x] 3.4 `prompts/selectPrompt.ts`
     - _Requirements: 6.3, 8.1, 8.3, 8.5_
-  - [ ] 3.5 `fairness-reviewer` 에이전트로 프롬프트 4개 검토
+  - [x] 3.5 `fairness-reviewer` 에이전트로 프롬프트 4개 검토
     - 지적 사항을 고친 뒤 커밋. 바뀐 점이 있으면 `docs/KIRO.md` 7장에 적는다
     - _Requirements: 8.6_
 
