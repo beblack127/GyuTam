@@ -5,11 +5,11 @@
 ## 먼저 읽을 것
 | 파일 | 내용 |
 |---|---|
-| `.kiro/steering/product.md` | 문제, 세탁소 용어, 데모 시나리오 |
+| `.kiro/steering/product.md` | 문제, 세탁소 용어, 평가자 체험 시나리오 |
 | `.kiro/steering/tech.md` | 스택, 세탁 과정 ①~⑤, `/api/wash` 계약 |
 | `.kiro/steering/structure.md` | 폴더 구조, 명명 규칙 |
 | `.kiro/steering/fairness.md` | 표현·근거·데이터 수집 기준 |
-| `.kiro/steering/hackathon.md` | MVP 우선순위, 커밋 규칙 |
+| `.kiro/steering/hackathon.md` | 심사 기준, 우선순위, 역할 분담, 커밋 규칙 |
 
 ## 핵심 규칙
 - 평점과 개수는 `packages/core`의 코드로 계산한다. LLM은 판정만 한다.
@@ -22,6 +22,6 @@
 ## 작업 위치
 - 세탁 API (Lambda): `apps/api`
 - AWS 인프라 (CDK): `infra`
-- 크롬 확장 (쿠팡·카카오맵 입고, 사이드 패널, 세탁 태그): `apps/extension`
+- 크롬 확장 (쿠팡 입고, 사이드 패널, 세탁 태그. 카카오맵은 다음 단계): `apps/extension`
 - 타입, 평점 계산, 규칙 판별: `packages/core`
 - 기능 명세: `.kiro/specs/`

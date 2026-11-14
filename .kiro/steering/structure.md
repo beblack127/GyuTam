@@ -34,7 +34,7 @@ inclusion: always
 │   │       │       ├── receipt/      # 세탁 영수증, 평점 애니메이션
 │   │       │       └── wash-tag/     # 리뷰 옆 판정 배지
 │   │       ├── services/
-│   │       │   ├── adapters/         # 입고 어댑터 (coupangAdapter.ts, kakaomapAdapter.ts)
+│   │       │   ├── adapters/         # 입고 어댑터 (coupangAdapter.ts, 다음 단계 kakaomapAdapter.ts)
 │   │       │   └── api/              # POST /wash 클라이언트
 │   │       ├── hooks/ types/ utils/ constants/ styles/
 │   └── api/                          # 세탁 API (AWS Lambda)
@@ -58,7 +58,7 @@ inclusion: always
 │   └── lib/
 ├── scripts/eval/                     # 세탁 품질 검사
 │   └── data/                         # 실제 리뷰 원문, HTML 스냅샷 (git 제외, 로컬 전용)
-└── docs/                             # 발표 자료, 아키텍처 그림
+└── docs/                             # 아키텍처 그림, 결선 자료
 ```
 
 ## 배치 규칙
