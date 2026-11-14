@@ -7,7 +7,7 @@ fileMatchPattern: ["apps/api/**", "packages/core/**", "apps/extension/src/servic
 
 공통 타입은 `packages/core/src/types`에만 정의한다. 담당: 재현(코어 타입, 필터, 검증), 주영(API). 아래 계약이 바뀌면 이 파일과 타입을 같은 커밋에서 고친다.
 
-## 세탁하기 `POST /wash`
+## 기본·섬세 세탁 `POST /wash`
 1. 애벌빨래: `packages/core/rules`가 확실한 얼룩을 찾는다 (플랫폼 배지, 대가성 명시 문구).
 2. 본세탁: 경량 모델이 리뷰별로 `stain`, `signal`, `evidence`를 판정한다. 25개씩 나눠 병렬 호출한다.
 3. 검수: 코드로 `evidence` 원문 포함 여부를 확인하고, 세탁 전·후 평점과 얼룩 수를 계산한다.

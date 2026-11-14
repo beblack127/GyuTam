@@ -30,6 +30,7 @@ inclusion: always
 │   │       ├── components/
 │   │       │   ├── common/
 │   │       │   └── features/
+│   │       │       ├── start/        # 시작 화면 (기본·섬세·부분 세 버튼과 안내)
 │   │       │       ├── wash-request/ # 세탁 요청 입력
 │   │       │       ├── receipt/      # 세탁 영수증, 평점 애니메이션
 │   │       │       ├── review-list/  # 리뷰 카드 목록 (별점, 작성일, 옵션, 사진, 본문, quote 강조, 세탁 태그)
@@ -43,7 +44,7 @@ inclusion: always
 │       └── src/
 │           ├── handlers/             # Lambda 진입점 (washHandler.ts, askHandler.ts)
 │           ├── services/
-│           │   ├── wash/             # 세탁하기·부분 세탁 과정 조립 (washPipeline.ts, askPipeline.ts)
+│           │   ├── wash/             # 기본·섬세 세탁·부분 세탁 과정 조립 (washPipeline.ts, askPipeline.ts)
 │           │   └── llm/              # Bedrock 클라이언트, 응답 스키마 검증
 │           ├── prompts/              # LLM 프롬프트 (본세탁, 세탁 후 요약, 질문 해석, 의미 조건 고르기)
 │           ├── dev/                  # 통합용 로컬 API 서버 (배포 전 확장 연결)
