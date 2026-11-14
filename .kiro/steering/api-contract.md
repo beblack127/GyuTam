@@ -103,6 +103,68 @@ fileMatchPattern: ["apps/api/**", "packages/core/**", "apps/extension/src/servic
 - 중간 칩 삭제는 MVP에서 지원하지 않는다.
 - 단계는 최대 5개. 넘으면 "처음부터"를 안내한다.
 
+## 코어 함수 (재현 → 주영·정민이 import)
+`packages/core/src/index.ts`에서 내보낸다. 모두 순수 함수이고 입력을 바꾸지 않는다. 15:25까지 시그니처와 임시 구현(빈 결과)을 먼저 push하고, 내용은 그 뒤에 채운다.
+
+```ts
+// types/review.ts
+type Site = 'coupang';
+type Source = 'best' | 'latest';
+interface Review {
+  id: string;              // "cp-..."
+  rating: 1 | 2 | 3 | 4 | 5;
+  date: string;            // YYYY-MM-DD
+  text: string;            // 전체 본문, 최대 2,000자
+  badges: string[];        // 쿠팡이 붙인 표시 문구 그대로 (예: "쿠팡체험단")
+  hasPhoto: boolean;
+  photos?: string[];       // 확장 전용. API로 보내지 않는다
+  option: string | null;   // 구매 옵션
+  source: Source;
+}
+
+// types/wash.ts
+type Stain = 'none' | 'certain' | 'suspected';
+type Signal = 'platform_badge' | 'disclosure' | 'review_event' | 'suspected';
+interface WashTag { id: string; stain: Stain; signal: Signal | null; evidence: string | null; include: boolean; }
+interface Cited { text: string; reviewIds: string[]; }
+interface Receipt {
+  basedOn: number; sources: { best: number; latest: number; duplicates: number };
+  before: number | null; after: number | null;
+  stains: Record<Signal, number>; removed: number; partial: boolean;
+  summary: Cited[]; pros: Cited[]; cons: Cited[];
+}
+
+// types/ask.ts
+interface Conditions {
+  rating?: { min?: number; max?: number };
+  date?: { from?: string; to?: string };
+  hasPhoto?: boolean; source?: Source; option?: string[];
+  includes?: string[]; excludes?: string[];
+  semantic?: string | null;
+}
+interface Match { id: string; quote: string | null; }
+interface Step {
+  request: string; label: string; conditions: Conditions; ids: string[];
+  rating: { average: number | null; count: number }; summary: Cited[]; pros: Cited[]; cons: Cited[];
+}
+```
+
+| 함수 | 입력 → 출력 | 하는 일 | 쓰는 사람 | 속성 |
+|---|---|---|---|---|
+| `dedupeReviews(best, latest)` | `Review[], Review[]` → `{ reviews, sources }` | ID로 중복 제거, 겹치면 `source: "best"` | 규리 | P1, P2 |
+| `detectCertainStains(reviews)` | `Review[]` → `WashTag[]` | 규칙으로 확실한 얼룩 판정. 얼룩이 아니면 `stain: "none"` (LLM 판정 대기) | 주영 | stain-rules.md |
+| `verifyJudgments(reviews, ruleTags, llmTags)` | → `WashTag[]` | 규칙 판정이 우선. LLM의 `evidence`가 원문에 없으면 한 단계 낮춘다. 빠진 리뷰는 규칙 결과로 채운다 | 주영 | P6, P7 |
+| `applyStrict(tags, strict)` | `WashTag[], boolean` → `WashTag[]` | `include`를 정한다. `certain`은 항상 제외, `suspected`는 strict일 때 제외 | 주영, 정민 | P3 |
+| `averageRating(reviews)` | `Review[]` → `number \| null` | 평균을 소수 첫째 자리로 반올림. 비면 `null` | 주영, 정민 | P4, P5, P15 |
+| `buildReceipt(reviews, tags, sources, partial)` | → `Omit<Receipt, 'summary' \| 'pros' \| 'cons'>` | 세탁 전·후 평점, 얼룩 수, 제거 수 | 주영 | P2, P4, P10 |
+| `verifyCitations(cited, allowedIds)` | `Cited[], string[]` → `Cited[]` | 허용되지 않은 ID를 지우고, 근거가 빈 문장은 버린다 | 주영 | P8 |
+| `applyConditions(reviews, conditions)` | `Review[], Conditions` → `Review[]` | 정해진 조건 필터 (`semantic`은 무시) | 주영 | P11, P12 |
+| `verifyMatches(reviews, matches)` | `Review[], Match[]` → `Match[]` | 입력에 없는 ID, 원문에 없는 `quote`를 버린다 | 주영 | P9, P13 |
+| `containsQuote(text, quote)` | `string, string` → `boolean` | 공백·줄바꿈·문장부호 차이를 무시하고 원문 포함 여부 확인 | 내부 | P6, P9 |
+| `pushStep(steps, step)` / `popStep(steps)` / `resetSteps()` | `Step[]` → `Step[]` | 단계 스택. 결과 0개 단계는 쌓지 않음, 최대 5단계 | 정민 | P14 |
+
+- `/wash`에서 `strict`만 바꿔 다시 세탁할 때 정민은 저장된 `tags`에 `applyStrict`를 적용하고 `/wash`를 `tags`와 함께 다시 부른다 (요약만 다시 만든다).
+
 ## 공통 규칙
 - LLM 출력은 JSON으로 받고 스키마 검증 후 사용한다. 검증에 실패한 판정 묶음은 애벌빨래 결과로 대신한다.
 - 입력에 없는 ID, `include: false`인 리뷰 ID는 요약 근거에서 지운다. 남은 근거가 없는 문장은 버린다.

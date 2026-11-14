@@ -10,7 +10,7 @@
 | `.kiro/steering/structure.md` | 폴더 구조, 명명 규칙 |
 | `.kiro/steering/fairness.md` | 표현·근거·데이터 수집 기준 |
 | `.kiro/steering/hackathon.md` | 심사 기준, 우선순위, 역할 분담, 커밋 규칙 |
-| `.kiro/steering/intake.md` 등 | 작업 파일에 따라 자동 포함되는 상세 규칙 (입고, API 계약, 테스트, 카카오맵) |
+| `.kiro/steering/intake.md` 등 | 작업 파일에 따라 자동 포함되는 상세 규칙 (입고, API 계약, 얼룩 규칙, 테스트) |
 | `docs/KIRO.md` | Kiro 활용 기록 |
 
 ## 핵심 규칙
@@ -25,6 +25,6 @@
 ## 작업 위치
 - 세탁 API (Lambda): `apps/api`
 - AWS 인프라 (CDK): `infra`
-- 크롬 확장 (쿠팡 입고, 사이드 패널 영수증·리뷰 카드. 카카오맵은 다음 단계): `apps/extension`
+- 크롬 확장 (쿠팡 입고, 사이드 패널 영수증·리뷰 카드): `apps/extension`
 - 타입, 평점 계산, 규칙 판별, 조건 필터: `packages/core`
 - 기능 명세: `.kiro/specs/`

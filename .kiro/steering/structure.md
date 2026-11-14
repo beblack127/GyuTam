@@ -15,10 +15,10 @@ inclusion: always
 ├── LICENSE
 ├── .kiro/
 │   ├── specs/                        # wash-rules · wash-llm · review-intake · side-panel-receipt
-│   ├── steering/                     # always: product·tech·structure·fairness·hackathon / fileMatch: intake·api-contract·testing / auto: kakaomap / manual: kiro-evidence
+│   ├── steering/                     # always: product·tech·structure·fairness·hackathon / fileMatch: intake·api-contract·stain-rules·testing / manual: kiro-evidence
 │   ├── hooks/                        # secret-scan · guard-shell · eval-on-save · readme-sync · task-start · task-done · session-context
 │   ├── agents/                       # fairness-reviewer · kiro-evidence-writer
-│   ├── skills/                       # add-site-adapter · tune-wash-prompt
+│   ├── skills/                       # tune-wash-prompt
 │   └── settings/                     # mcp.example.json (mcp.json은 커밋하지 않음)
 ├── apps/
 │   ├── extension/                    # 크롬 확장 (Manifest V3)
@@ -36,7 +36,7 @@ inclusion: always
 │   │       │       ├── refine/       # 조건 칩, 뒤로, 처음부터
 │   │       │       └── wash-tag/     # 리뷰 카드의 판정 배지와 근거
 │   │       ├── services/
-│   │       │   ├── adapters/         # 입고 어댑터 (coupangAdapter.ts, 다음 단계 kakaomapAdapter.ts)
+│   │       │   ├── adapters/         # 쿠팡 입고 어댑터 (coupangAdapter.ts)
 │   │       │   └── api/              # POST /wash, POST /ask 클라이언트
 │   │       ├── hooks/ types/ utils/ constants/ styles/
 │   └── api/                          # 세탁 API (AWS Lambda)

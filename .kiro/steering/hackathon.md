@@ -20,9 +20,9 @@ inclusion: always
 ## 목표와 우선순위
 - 목표: 마감까지 평가자 체험 시나리오가 끊김 없이 동작하는 시스템. 완벽함보다 동작이 우선이다.
 - 17:15 기능 동결. 이후에는 배포, 버그 수정, README 정리만 한다. 18:00 최종 제출.
-- 시간이 모자라면 이 순서로 자른다: 카카오맵 → 사진 크게 보기 → 섬세 세탁 토글 → 품질 검사 스크립트 → 단계 쌓기(1단계 질문만 남김).
-- 우선순위: 쿠팡 자동 입고 + 세탁하기(세탁 후 평점, 세탁 후 요약, 세탁된 리뷰 목록) → 부분 세탁 1단계(문장형 질문 → 조건에 맞는 리뷰 원문 + 요약) → 연속 구체화(조건 칩, 뒤로) → 리뷰 카드 사진·근거 강조 → 섬세 세탁 토글 → 카카오맵.
-- 카카오맵은 쿠팡 시나리오 1~6이 모두 동작한 뒤에만 시작한다.
+- 시간이 모자라면 이 순서로 자른다: 사진 크게 보기 → 섬세 세탁 토글 → 품질 검사 스크립트 → 단계 쌓기(1단계 질문만 남김).
+- 우선순위: 쿠팡 자동 입고 + 세탁하기(세탁 후 평점, 세탁 후 요약, 세탁된 리뷰 목록) → 부분 세탁 1단계(문장형 질문 → 조건에 맞는 리뷰 원문 + 요약) → 연속 구체화(조건 칩, 뒤로) → 리뷰 카드 사진·근거 강조 → 섬세 세탁 토글.
+- 대상은 쿠팡 상품 페이지 하나다. 다른 사이트는 만들지 않는다.
 
 ## Kiro 활용 규칙 (1차 35점)
 - 모든 기능 코드는 spec의 task에서 나온다. spec 없이 큰 기능을 Vibe로 짜지 않는다. Vibe는 버그 수정과 탐색에만 쓴다.
@@ -30,7 +30,7 @@ inclusion: always
 - design에 testing.md의 correctness property 중 그 spec에 해당하는 것을 넣고, fast-check 테스트로 구현한다.
 - 구현은 tasks의 Start task로 한다. 커밋 메시지에 task 번호를 쓴다: `feat(wash-rules): 2.3 평점 계산`.
 - 설계가 바뀌면 코드보다 spec(design.md, tasks.md)을 먼저 고친다. 마감 때 tasks 체크박스가 실제 상태와 같아야 한다.
-- 반복 작업은 skill로: 프롬프트 수정은 `tune-wash-prompt`, 카카오맵은 `add-site-adapter`로 추가한다.
+- 반복 작업은 skill로: 프롬프트 수정은 `tune-wash-prompt`로 한다.
 - UI 문구나 프롬프트를 바꾸면 `fairness-reviewer` 에이전트로 검토한다.
 - GitHub MCP로 각 spec의 큰 task를 이슈로 만들고, PR에 이슈를 연결한다.
 - Kiro가 계획이나 코드를 바꾼 사례(hook이 막은 것, 품질 검사가 잡은 하락, spec 검토에서 바뀐 설계)는 바로 `docs/KIRO.md` 7장에 적는다.
@@ -48,7 +48,7 @@ inclusion: always
 |---|---|---|---|---|
 | 1a. 세탁 규칙 | 재현 | 공통 타입, 체험단·리뷰이벤트 규칙 탐지, 평점 계산, 정해진 조건 필터, 단계 스택 함수, 근거 검증(evidence, quote, reviewIds), 속성 기반 테스트. 끝나면 `scripts/eval` | `packages/core`, `scripts/eval` | wash-rules |
 | 1b. 세탁 LLM | 주영 | 의심 얼룩 판정, 질의 해석(조건 추출), 의미 조건 고르기, 요약 프롬프트, Bedrock 호출, `/wash`·`/ask` 핸들러, LLM 응답 스키마 검증, 통합용 로컬 API 서버 | `apps/api` | wash-llm |
-| 2. 입고 | 규리 | 패널 열면 자동 입고, 쿠팡 어댑터(베스트 50 + 최신 50, 차단 시 멈춤), 리뷰 카드에 필요한 필드 추출(전체 본문, 작성일, 별점, 구매 옵션, 사진 주소, 체험단 표시. 작성자 제외), 어댑터 파싱 테스트. 쿠팡이 끝나면 카카오맵 | `apps/extension/src/content`, `apps/extension/src/services/adapters`, `apps/extension/src/background` | review-intake |
+| 2. 입고 | 규리 | 패널 열면 자동 입고, 쿠팡 어댑터(베스트 50 + 최신 50, 차단 시 멈춤), 리뷰 카드에 필요한 필드 추출(전체 본문, 작성일, 별점, 구매 옵션, 사진 주소, 체험단 표시. 작성자 제외), 어댑터 파싱 테스트 | `apps/extension/src/content`, `apps/extension/src/services/adapters`, `apps/extension/src/background` | review-intake |
 | 3. 사이드 패널 | 정민 | 입고 진행률, 세탁하기·섬세 세탁 토글, 영수증, 질문 창, 조건 칩과 단계 이동, 리뷰 카드 목록(사진 썸네일, 더보기, 근거 강조, 세탁 태그), 요약 근거 클릭 시 카드 이동, 로딩·오류 화면, 확장 빌드, Releases zip | `apps/extension/src/sidepanel`, `apps/extension/src/components`, `apps/extension/src/services/api` | side-panel-receipt |
 
 - 짝: 재현 ↔ 주영 (코어 함수를 API가 쓴다), 규리 ↔ 정민 (같은 확장 프로그램, 메시지 형식 공유). 막히면 짝이 먼저 돕는다.
@@ -74,7 +74,23 @@ inclusion: always
 - 16:35 통합에서 끝까지 이어지지 않으면 2차 계획을 멈추고 연결부터 고친다.
 - 배포가 17:40까지 안 되면 Lambda Function URL로 바로 배포한다 (요청 제한은 Lambda 동시 실행 수 제한으로 대신).
 - spec은 Quick Spec으로 만든다. requirements, design, tasks가 모두 생기므로 Kiro 활용 증거는 그대로 남는다.
-- 30분마다 `git pull --rebase` 후 작은 단위로 push한다.
+- 30분마다 `git pull --rebase origin main` 후 자기 브랜치에 push하고 PR을 연다.
+
+## 브랜치와 PR
+| 브랜치 | 담당 | spec |
+|---|---|---|
+| `feat/wash-rules` | 재현 | wash-rules |
+| `feat/wash-llm` | 주영 | wash-llm |
+| `feat/review-intake` | 규리 | review-intake |
+| `feat/side-panel-receipt` | 정민 | side-panel-receipt |
+
+- `main`에 직접 push하지 않는다. 각자 브랜치에서 작업하고 PR로 `main`에 합친다.
+- 15:25 재현의 공통 타입 PR을 가장 먼저 합친다. 나머지 세 명은 합쳐진 뒤 `git pull --rebase origin main`으로 받는다.
+- PR은 작게, 자주: 30분마다 또는 task 2~3개마다 한 번. 16:35 통합 전에 모두 한 번씩 합친다.
+- 각자 spec을 만든 직후 GitHub MCP로 spec의 큰 task를 이슈로 만든다. PR 본문에 `Closes #이슈번호`를 쓴다.
+- PR 리뷰는 짝이 본다 (재현 ↔ 주영, 규리 ↔ 정민). 5분 안에 보고 합친다. 막히면 작성자가 직접 합친다.
+- 공통 파일(`package.json`, `package-lock.json`, `packages/core/src/types`, steering)은 재현만 바꾼다. 필요하면 재현에게 말한다.
+- 충돌이 나면 브랜치 주인이 rebase로 푼다. 남의 폴더 변경은 받아들이는 쪽(theirs)을 기본으로 한다.
 
 ## 협업 규칙
 - 11:20까지 공통 타입(`packages/core/src/types`)과 `POST /wash`, `POST /ask` 계약을 먼저 확정한다. 재현이 타입을, 주영이 계약을 올리고 전원이 검토한다. 이때 재현과 주영이 코어 함수 이름과 시그니처도 정한다.

@@ -9,11 +9,11 @@
 | 완료한 task | __ / __ | 각 spec의 `tasks.md` |
 | task 번호가 붙은 커밋 | __개 | `git log --grep "feat("` |
 | Correctness property (속성 기반 테스트) | __ / 15개 통과 | [testing.md](../.kiro/steering/testing.md) |
-| Steering | 10개 (always 5 · fileMatch 3 · auto 1 · manual 1) + AGENTS.md | [.kiro/steering](../.kiro/steering) |
+| Steering | 10개 (always 5 · fileMatch 4 · manual 1) + AGENTS.md | [.kiro/steering](../.kiro/steering) |
 | Hooks | 7개 | [.kiro/hooks](../.kiro/hooks) |
 | 품질 검사 자동 실행 | __회 | [eval-history.md](eval-history.md) |
 | Custom agents | 2개 | [.kiro/agents](../.kiro/agents) |
-| Skills | 2개 | [.kiro/skills](../.kiro/skills) |
+| Skills | 1개 | [.kiro/skills](../.kiro/skills) |
 
 ## 1. Spec 기반 개발
 | Spec | 담당 | 범위 | 상태 |
@@ -34,7 +34,7 @@
 | intake | fileMatch: content script, 어댑터 | 쿠팡 입고·차단 방지 규칙은 입고 코드에만 필요 |
 | api-contract | fileMatch: API, 코어, 사이드 패널 | 계약 세부는 계약을 쓰는 코드에만 필요 |
 | testing | fileMatch: `*.test.ts`, fixtures, eval | correctness property 목록은 테스트 작성 때만 필요 |
-| kakaomap | auto (카카오맵 요청 시) | 다음 단계 범위라 평소 컨텍스트에서 뺌 |
+| stain-rules | fileMatch: 규칙, 프롬프트 | 얼룩 문구 목록과 의심 기준은 판정 코드와 프롬프트에만 필요 |
 | kiro-evidence | manual (`#kiro-evidence`) | 이 문서를 갱신할 때만 |
 
 always 파일을 줄이고 나머지를 조건부로 돌려서 매 대화의 컨텍스트와 크레딧을 아꼈다.
@@ -55,7 +55,6 @@ always 파일을 줄이고 나머지를 조건부로 돌려서 매 대화의 컨
 |---|---|---|---|
 | fairness-reviewer | agent (읽기 전용) | 문구·프롬프트의 단정 표현, 근거 누락, 리뷰 저장 코드 검토 | __ |
 | kiro-evidence-writer | agent | 레포 기록을 세어 이 문서 갱신 | __ |
-| add-site-adapter | skill | 새 사이트 어댑터 추가 절차와 템플릿 | __ (카카오맵 추가에 사용 예정) |
 | tune-wash-prompt | skill | 프롬프트 수정 → 품질 검사 전후 비교 → 기록 | __ |
 
 ## 5. MCP
