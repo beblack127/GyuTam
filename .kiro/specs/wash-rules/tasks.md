@@ -48,7 +48,7 @@
   - [x] 3.1 `dedupeReviews` 구현
     - best 우선, 첫 등장 순서, `source` 덮어쓰기, `sources.duplicates = best.length + latest.length - reviews.length`
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
-  - [ ] 3.2 P1 속성 테스트 (`dedupeReviews.test.ts`)
+  - [-] 3.2 P1 속성 테스트 (`dedupeReviews.test.ts`)
     - **Property 1: (P1) 입고 중복 제거는 멱등이다**
     - 예시: `best`·`latest` 겹침 1건
     - **Validates: Requirements 5.1, 5.6**
@@ -65,7 +65,7 @@
     - `stainKeywords.ts`의 `NEGATIONS`에 "아닙" 추가
     - 같은 task에서 `.kiro/steering/stain-rules.md` 부정 표현 목록(18행)과 `.kiro/specs/wash-rules/requirements.md` 6.7의 목록에 "아닙" 추가
     - _Requirements: 6.7, 6.12_
-  - [ ] 4.3 `detectCertainStains` 구현
+  - [x] 4.3 `detectCertainStains` 구현
     - 내부 `findPhrase`(공백 제거 + `indexMap`), 부정 창(원문 기준 앞뒤 15자), `sentenceAround`(경계 `.`, `!`, `?`, `。`, `…`, 줄바꿈)
     - 우선순위 배지 → 고지 문장 → `disclosure` → `review_event`. `certain`이면 `include: false`, 없으면 `none / null / null / true`
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11_
@@ -78,7 +78,7 @@
     - **Validates: Requirements 6.2, 6.4, 6.5, 6.6, 6.7, 6.8, 17.2**
 
 - [ ] 5. 판정 검수와 섬세 세탁
-  - [ ] 5.1 `verifyJudgments` 구현
+  - [x] 5.1 `verifyJudgments` 구현
     - design 의사코드 그대로: 규칙 `certain` 우선, LLM `certain`은 `disclosure`·`review_event` + 원문 확인일 때만 유지, 실패 시 한 단계 낮추고 `evidence: null`, `normalized()`로 형태 정리
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 8.10, 8.11, 8.12_
   - [ ] 5.2 P6 속성 테스트 (`verifyJudgments.test.ts`)
@@ -95,7 +95,7 @@
   - [x] 5.5 `applyStrict` 구현
     - `include = stain === 'none' || (stain === 'suspected' && !strict)`, 다른 필드 유지
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
-  - [ ] 5.6 P3 속성 테스트 (`applyStrict.test.ts`)
+  - [x] 5.6 P3 속성 테스트 (`applyStrict.test.ts`)
     - **Property 3: (P3) strict는 포함 집합을 줄이기만 한다**
     - **Validates: Requirements 9.6**
   - [ ]* 5.7 S3 속성 테스트
@@ -107,7 +107,7 @@
   - [x] 6.1 `averageRating` 구현
     - 빈 배열 `null`, `Math.round((sum * 10) / n) / 10`
     - _Requirements: 10.1, 10.2, 10.3, 10.4_
-  - [ ] 6.2 `buildReceipt` 구현
+  - [x] 6.2 `buildReceipt` 구현
     - 첫 등장 기준 `tagById`, 태그 없음 = `none / include true`, `stain ≠ none`인데 `signal: null`이면 `suspected`로 집계, `stains` 네 키 항상 존재
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7, 11.8, 11.9_
   - [ ] 6.3 P2 속성 테스트 (`buildReceipt.test.ts`)
