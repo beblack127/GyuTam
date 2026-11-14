@@ -28,4 +28,13 @@ describe('averageRating', () => {
       }),
     );
   });
+  // **Validates: Requirements 10.3, 10.4, 11.4**
+  it('P5: averageRating이 null인 것은 리뷰가 0개인 것과 같다 (예시: [] → null)', () => {
+    expect(averageRating([])).toBeNull();
+    fc.assert(
+      fc.property(fc.array(arbReview, { maxLength: 30 }), (reviews) => {
+        expect(averageRating(deepFreeze(reviews)) === null).toBe(reviews.length === 0);
+      }),
+    );
+  });
 });

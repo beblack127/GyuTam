@@ -77,4 +77,28 @@ describe('buildReceipt', () => {
       }),
     );
   });
+  // **Validates: Requirements 10.3, 10.4, 11.4**
+  it('P5: after가 null인 것은 포함 리뷰가 0개인 것과 같다', () => {
+    // 입력 리뷰 자신의 태그와 임의 태그를 섞어, 전부 제외되는 경우도 자주 나오게 한다.
+    const arbCase = fc
+      .array(arbReview, { maxLength: 20 })
+      .chain((reviews) =>
+        fc.tuple(fc.constant(reviews), fc.tuple(...reviews.map(arbWashTagFor)), arbTags),
+      );
+    fc.assert(
+      fc.property(arbCase, ([reviews, ownTags, extraTags]) => {
+        const tags = [...ownTags, ...extraTags];
+        const firstTag = new Map<string, WashTag>();
+        for (const t of tags) if (!firstTag.has(t.id)) firstTag.set(t.id, t);
+        const includedCount = reviews.filter((r) => firstTag.get(r.id)?.include ?? true).length;
+        const receipt = buildReceipt(
+          deepFreeze(reviews),
+          deepFreeze(tags),
+          { best: reviews.length, latest: 0, duplicates: 0 },
+          false,
+        );
+        expect(receipt.after === null).toBe(includedCount === 0);
+      }),
+    );
+  });
 });

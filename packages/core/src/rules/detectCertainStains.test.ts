@@ -26,7 +26,7 @@ describe('detectCertainStains (powerbank fixture)', () => {
     const tag = tagOf('cp-1002');
     expect(tag.stain).toBe('certain');
     expect(tag.signal).toBe('platform_badge');
-    expect(tag.evidence).toBe('쿠팡체험단 이벤트로 상품을 무료로 제공받아 작성된 후기입니다.');
+    expect(tag.evidence).toBe('쿠팡체험단 이벤트로 상품을 무료 제공받아 작성한 리뷰입니다.');
     expect(tag.include).toBe(false);
   });
 

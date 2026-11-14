@@ -1,7 +1,7 @@
 // 규칙 문구 상수. 이 파일이 유일한 정의 위치다 (Requirement 6.12).
-// PLATFORM_BADGE_TERM, PLATFORM_NOTICE는 임시 값이다. intake.md "쿠팡 페이지 확인 결과"가 채워지면 task 11.1에서 교체한다.
-export const PLATFORM_BADGE_TERM = '체험단';
-export const PLATFORM_NOTICE = '쿠팡체험단 이벤트로 상품을 무료로 제공받아 작성된 후기입니다';
+// PLATFORM_BADGE_TERM, PLATFORM_NOTICE는 intake.md "쿠팡 페이지 확인 결과" 값이다 (task 11.1).
+export const PLATFORM_BADGE_TERM = '쿠팡체험단';
+export const PLATFORM_NOTICE = '쿠팡체험단 이벤트로 상품을 무료 제공받아 작성한 리뷰입니다'; // 끝 마침표는 뺀다: 매치에 포함되면 sentenceAround가 다음 문장까지 잡는다
 export const DISCLOSURE_PHRASES = [
   '체험단',
   '제공받아',

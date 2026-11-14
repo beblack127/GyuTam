@@ -118,11 +118,11 @@
     - **Property 4: (P4) after는 포함 리뷰 평균의 반올림이고 1.0~5.0 사이다**
     - 오라클 `Math.floor((20 * sum + n) / (2 * n)) / 10`. 예시: `[4, 5]` → 4.5, `[4, 4, 5]` → 4.3
     - **Validates: Requirements 10.1, 10.2, 11.4**
-  - [-] 6.5 P5 속성 테스트 (`averageRating.test.ts`, `buildReceipt.test.ts`)
+  - [x] 6.5 P5 속성 테스트 (`averageRating.test.ts`, `buildReceipt.test.ts`)
     - **Property 5: (P5) 포함 리뷰가 없을 때만 after가 null이다**
     - 예시: `[]` → `null`
     - **Validates: Requirements 10.3, 10.4, 11.4**
-  - [ ] 6.6 P10 속성 테스트 (`buildReceipt.test.ts`)
+  - [-] 6.6 P10 속성 테스트 (`buildReceipt.test.ts`)
     - **Property 10: (P10) stains 합은 얼룩 리뷰 수, removed는 제외 리뷰 수다**
     - **Validates: Requirements 11.6, 11.7**
   - [ ]* 6.7 S8 속성 테스트
@@ -138,7 +138,7 @@
     - `/wash` 조합(`applyStrict`의 `include: true` ID)과 `/ask` 조합(`verifyMatches` 결과 ID) 포함
     - **Validates: Requirements 12.1, 12.3, 12.6**
 
-- [ ] 8. 부분 세탁: 조건 필터, 결과 검수, 단계 스택 (16:35 통합 전에 합침)
+- [x] 8. 부분 세탁: 조건 필터, 결과 검수, 단계 스택 (16:35 통합 전에 합침)
   - [x] 8.1 `applyConditions` 구현
     - 필드별 술어 (design 표), `option`·`includes`·`excludes`는 `normalizeLoose`, 정규화 후 빈 항목 무시, `semantic` 무시
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7, 13.8, 13.9, 13.10, 13.11_
@@ -158,7 +158,7 @@
   - [x] 8.6 P13 속성 테스트
     - **Property 13: (P13) /ask 결과는 입력의 부분집합이고 단계를 쌓을수록 줄거나 같다**
     - **Validates: Requirements 14.7, 14.8**
-  - [-] 8.7 P15 속성 테스트
+  - [x] 8.7 P15 속성 테스트
     - **Property 15: (P15) /ask의 rating은 matches 평균이고 count는 matched와 같다**
     - `verifyMatches` + `averageRating` 조합 그대로 검증 (별도 함수 없음)
     - **Validates: Requirements 10.5**
@@ -180,10 +180,10 @@
 - [ ] 10. 부분 세탁 바탕 전환: 단계 평균, 바탕 좁히기·넓히기 (16:45 전에 합침, 정민의 방식 전환이 사용)
   - `averageRating`(6.1)과 `verifyCitations`(7.1)에 기대므로 Task 6, 7 뒤에 한다
   - 시간이 모자라면 이 task를 통째로 미루고 Task 1.3의 빈 구현(`narrowSteps` → `steps.slice()`, `mergeIntoStep` → `{ ...step }`)을 그대로 남긴다. 화면은 "바탕을 바꿔도 단계는 그대로"로 동작한다. 이때도 10.4, 10.5(P16, P17)는 제출 체크리스트 항목이므로 체크하지 않고 미완료로 남겨 실제 상태와 맞춘다
-  - [-] 10.1 `filter/stepRating.ts` 구현 (내부, `index.ts`에서 내보내지 않음)
+  - [x] 10.1 `filter/stepRating.ts` 구현 (내부, `index.ts`에서 내보내지 않음)
     - `reviews`의 첫 등장 기준 `byId`, `ids` 중 `reviews`에 있는 리뷰만 `averageRating`, `count = ids.length`, 빈 `ids` → `{ average: null, count: 0 }`
     - _Requirements: 19.2, 19.10, 20.3_
-  - [ ] 10.2 `filter/narrowSteps.ts` 구현
+  - [-] 10.2 `filter/narrowSteps.ts` 구현
     - 단계마다 `ids`를 `allowedIds`로 입력 순서대로 거르고, 비면 그 단계와 뒤 단계를 잘라낸다
     - `rating: stepRating(ids, reviews)`, `summary`·`pros`·`cons`는 `verifyCitations(필드, ids)`, `request`·`label`·`conditions`는 그대로(같은 참조)
     - _Requirements: 19.1, 19.2, 19.3, 19.4, 19.5, 19.6, 19.7_
@@ -202,8 +202,8 @@
     - 예시: 이미 있는 ID를 더하면 중복 없음, 빈 `addedIds`면 `ids` 그대로·`rating` 재계산
     - **Validates: Requirements 20.1, 20.2, 20.3, 20.4, 20.5**
 
-- [ ] 11. 체험단 문구 교체 (intake.md "쿠팡 페이지 확인 결과"가 채워진 뒤)
-  - [-] 11.1 `stainKeywords.ts` 상수와 관련 예시 테스트만 교체
+- [x] 11. 체험단 문구 교체 (intake.md "쿠팡 페이지 확인 결과"가 채워진 뒤)
+  - [x] 11.1 `stainKeywords.ts` 상수와 관련 예시 테스트만 교체
     - intake.md에 기록된 실제 배지 문구·고지 문장으로 `PLATFORM_BADGE_TERM`, `PLATFORM_NOTICE`를 바꾸고, `detectCertainStains.test.ts`와 `__fixtures__/powerbank.json`의 해당 예시만 맞춘다. `detectCertainStains.ts` 로직은 건드리지 않는다
     - 확인 결과가 초기값과 같으면 바꾸지 않고 체크만 한다
     - _Requirements: 17.1, 17.2_

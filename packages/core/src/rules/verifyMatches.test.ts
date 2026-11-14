@@ -2,6 +2,7 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import type { Match } from '../types/ask.ts';
 import type { Review } from '../types/review.ts';
+import { averageRating } from '../rating/averageRating.ts';
 import { arbId, arbReview, arbSubstringOf, arbUniqueReviews } from '../utils/testArbitraries.ts';
 import { containsQuote } from './containsQuote.ts';
 import { verifyMatches } from './verifyMatches.ts';
@@ -77,6 +78,30 @@ describe('verifyMatches', () => {
             prevLength = out.length;
             const keep = new Set(outIds);
             current = current.filter((r) => keep.has(r.id));
+          }
+        },
+      ),
+      { numRuns: 300 },
+    );
+  });
+
+  it('P15: /ask의 rating은 matches 평균이고 count는 matched와 같다', () => {
+    // **Validates: Requirements 10.5**
+    fc.assert(
+      fc.property(
+        arbReviews.chain((reviews) => fc.tuple(fc.constant(reviews), arbMatchesFor(reviews))),
+        ([reviews, matches]) => {
+          const byId = new Map<string, Review>();
+          for (const r of reviews) if (!byId.has(r.id)) byId.set(r.id, r);
+          const m = verifyMatches(reviews, matches);
+          const selected = m.map((x) => byId.get(x.id)!);
+          const rating = { average: averageRating(selected), count: m.length };
+
+          expect(rating.count).toBe(m.length);
+          expect(rating.average === null).toBe(rating.count === 0);
+          if (rating.count > 0) {
+            const sum = selected.reduce((s, r) => s + r.rating, 0);
+            expect(rating.average).toBe(Math.round((sum * 10) / selected.length) / 10);
           }
         },
       ),
