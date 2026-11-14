@@ -55,7 +55,7 @@ function readBody(event: HttpEvent): unknown {
   return JSON.parse(text);
 }
 
-type Run<T> = (body: T, clock: Deadlines) => Promise<{ response: unknown; stats: Record<string, unknown> }>;
+type Run<T> = (body: T, clock: Deadlines) => Promise<{ response: unknown; stats: object }>;
 
 /** 공통 처리: 메서드 → JSON → zod → 파이프라인 → 상태 코드. */
 export async function handleJson<S extends z.ZodType>(
@@ -67,7 +67,7 @@ export async function handleJson<S extends z.ZodType>(
   const start = Date.now();
   const origin = getHeader(event, 'origin');
   const method = getMethod(event);
-  const log = (status: number, extra: Record<string, unknown> = {}) =>
+  const log = (status: number, extra: object = {}) =>
     console.log(JSON.stringify({ route, status, ms: Date.now() - start, ...extra }));
 
   if (method === 'OPTIONS') return { statusCode: 204, headers: corsHeaders(origin), body: '' };
