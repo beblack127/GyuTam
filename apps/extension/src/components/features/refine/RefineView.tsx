@@ -25,7 +25,7 @@ interface Props {
   onCite: (ids: string[]) => void;
 }
 
-const EXAMPLES = ['사진 있는 리뷰만', '3점 이하 중에 발열 얘기', '무게 관련 리뷰'];
+const EXAMPLES = ['사진 있는 리뷰만', '4점 이상 리뷰만'];
 
 function RefineView(p: Props) {
   const current = p.steps[p.steps.length - 1];
@@ -56,7 +56,7 @@ function RefineView(p: Props) {
         examples={current ? [] : EXAMPLES}
         busy={p.busy}
         disabled={full}
-        placeholder={current ? '예: 그중에 최근 한 달만' : '예: 사진 있는 3점 이하 리뷰 중 발열 얘기'}
+        placeholder={current ? '예: 그중에 최근 한 달만' : '예: 4점 이상 리뷰만'}
         onAsk={p.onAsk}
       />
       {full && <Notice>조건은 5단계까지 쌓을 수 있어요. 더 찾으려면 "처음부터"를 눌러 주세요.</Notice>}
