@@ -25,16 +25,16 @@ inclusion: always
 │   │   ├── public/                   # manifest.json, icons/
 │   │   └── src/
 │   │       ├── background/           # service worker (사이드 패널 열기, 메시지 중계)
-│   │       ├── content/              # content script (입고, 세탁 태그, 근거 하이라이트)
+│   │       ├── content/              # content script (입고만. 쿠팡 페이지 DOM은 바꾸지 않음)
 │   │       ├── sidepanel/            # 사이드 패널 진입점
 │   │       ├── components/
 │   │       │   ├── common/
 │   │       │   └── features/
 │   │       │       ├── wash-request/ # 세탁 요청 입력
 │   │       │       ├── receipt/      # 세탁 영수증, 평점 애니메이션
-│   │       │       ├── review-list/  # 리뷰 원문 목록, quote 강조, 페이지에서 보기
+│   │       │       ├── review-list/  # 리뷰 카드 목록 (별점, 작성일, 옵션, 사진, 본문, quote 강조, 세탁 태그)
 │   │       │       ├── refine/       # 조건 칩, 뒤로, 처음부터
-│   │       │       └── wash-tag/     # 리뷰 옆 판정 배지
+│   │       │       └── wash-tag/     # 리뷰 카드의 판정 배지와 근거
 │   │       ├── services/
 │   │       │   ├── adapters/         # 입고 어댑터 (coupangAdapter.ts, 다음 단계 kakaomapAdapter.ts)
 │   │       │   └── api/              # POST /wash, POST /ask 클라이언트

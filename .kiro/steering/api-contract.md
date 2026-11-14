@@ -73,6 +73,7 @@ fileMatchPattern: ["apps/api/**", "packages/core/**", "apps/extension/src/servic
 }
 ```
 - `reviews`: 현재 목록(직전 단계의 결과)만 보낸다. 첫 질문이면 세탁된 리뷰(`include: true`) 전체.
+- `photos`(사진 URL)는 확장에만 두고 `/wash`, `/ask` 어디에도 보내지 않는다. API는 `hasPhoto`만 받는다.
 - `history`: 앞 단계의 질문들. "그중에", "아니 4점 이상으로" 같은 말을 해석하는 데만 쓴다. 필터는 `reviews`에만 적용한다.
 
 ### 응답

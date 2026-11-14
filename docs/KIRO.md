@@ -20,8 +20,8 @@
 |---|---|---|---|
 | [wash-rules](../.kiro/specs/wash-rules) | 재현 | 공통 타입, 규칙 탐지, 평점 계산, 정해진 조건 필터, 단계 스택, 근거 검증 | __ |
 | [wash-llm](../.kiro/specs/wash-llm) | 주영 | 의심 얼룩 판정, 질문 해석, 의미 조건 고르기, 요약, `/wash`·`/ask` | __ |
-| [review-intake](../.kiro/specs/review-intake) | 규리 | 쿠팡 자동 입고, 세탁 태그, 근거 하이라이트 | __ |
-| [side-panel-receipt](../.kiro/specs/side-panel-receipt) | 정민 | 세탁하기, 영수증, 질문 창, 조건 칩, 리뷰 원문 목록 | __ |
+| [review-intake](../.kiro/specs/review-intake) | 규리 | 쿠팡 자동 입고, 리뷰 카드 필드 추출(사진, 옵션, 전체 본문) | __ |
+| [side-panel-receipt](../.kiro/specs/side-panel-receipt) | 정민 | 세탁하기, 영수증, 질문 창, 조건 칩, 리뷰 카드 목록 | __ |
 
 - 각 spec은 Kiro Spec 세션에서 requirements → design → tasks 순서로 만들고, 단계마다 사람이 검토하고 승인했다.
 - design에 correctness property를 적고, 그대로 fast-check 테스트로 옮겼다 (P1~P14).
