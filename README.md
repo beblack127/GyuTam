@@ -1,5 +1,6 @@
 # 🧺 별점세탁소
 
+[시연영상]
 https://youtu.be/pqPKkVvwT8U
 
 
