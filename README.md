@@ -3,6 +3,10 @@
 [시연영상]
 https://youtu.be/pqPKkVvwT8U
 
+[익스텐션zip파일]
+[byeoljeom-laundry-demo.zip](https://github.com/user-attachments/files/34846159/byeoljeom-laundry-demo.zip)
+[byeoljeom-laundry-extension.zip](https://github.com/user-attachments/files/34846158/byeoljeom-laundry-extension.zip)
+
 
 > **"리뷰한테 물어보세요. 얼룩은 빼고 답해드릴게요."**
 > 쿠팡 상품 페이지에서 패널을 열면 리뷰를 읽어 오고, **기본 · 섬세 · 부분 세탁** 중 하나를 고르면 체험단, 제품 제공 같은 대가성 리뷰(**얼룩**)를 걷어낸 **세탁 후 평점**과 **세탁 후 요약**을 보여주는 크롬 확장 프로그램이에요.
