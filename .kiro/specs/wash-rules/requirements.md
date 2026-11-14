@@ -8,13 +8,13 @@ wash-rules는 별점세탁소의 공통 코어 패키지 `@star-laundry/core`(`p
 
 - 워크스페이스 설치와 패키지 설정 (빌드 없이 TS 소스를 바로 사용)
 - 공통 타입 (`review.ts`, `wash.ts`, `ask.ts`, `messages.ts`)
-- 코어 함수 11개: 입고 중복 제거, 애벌빨래(규칙 기반 확실한 얼룩 탐지), 판정 검수, 섬세 세탁 적용, 평점 계산, 영수증 계산, 요약 근거 검증, 정해진 조건 필터, 부분 세탁 결과 검수, 원문 포함 확인, 단계 스택
-- correctness property P1~P15 중 코어에 해당하는 속성의 fast-check 테스트
+- 공개 코어 함수 15개: 입고 중복 제거(`dedupeReviews`), 애벌빨래(`detectCertainStains`, 규칙 기반 확실한 얼룩 탐지), 판정 검수(`verifyJudgments`), 섬세 세탁 적용(`applyStrict`), 평점 계산(`averageRating`), 영수증 계산(`buildReceipt`), 요약 근거 검증(`verifyCitations`), 정해진 조건 필터(`applyConditions`), 부분 세탁 결과 검수(`verifyMatches`), 원문 포함 확인(`containsQuote`), 단계 스택 3개(`pushStep`, `popStep`, `resetSteps`), 바탕 전환 2개(`narrowSteps`, `mergeIntoStep`)
+- correctness property P1~P17 중 코어에 해당하는 속성의 fast-check 테스트
 - (선택) `scripts/eval` 최소 버전
 
-일정 제약: 공통 타입과 코어 함수 시그니처(빈 구현)는 15:25 PR로 가장 먼저 `main`에 합친다. 16:35 통합, 17:15 기능 동결. 과한 추상화는 하지 않는다.
+일정 제약: 공통 타입과 공개 코어 함수 15개의 시그니처(빈 구현)는 15:25 PR로 가장 먼저 `main`에 합친다. 16:35 통합, 17:15 기능 동결. 과한 추상화는 하지 않는다.
 
-기준 문서: `.kiro/steering/api-contract.md`(코어 함수 표, 타입), `.kiro/steering/stain-rules.md`(규칙), `.kiro/steering/testing.md`(P1~P15), `.kiro/steering/fairness.md`(판정·요약 근거), `.kiro/steering/intake.md`(메시지 형식).
+기준 문서: `.kiro/steering/api-contract.md`(코어 함수 표, 타입, "세탁 순서 자유롭게 섞기"), `.kiro/steering/stain-rules.md`(규칙), `.kiro/steering/testing.md`(P1~P17), `.kiro/steering/fairness.md`(판정·요약 근거), `.kiro/steering/intake.md`(메시지 형식).
 
 ## Glossary
 
@@ -43,6 +43,10 @@ wash-rules는 별점세탁소의 공통 코어 패키지 `@star-laundry/core`(`p
 - **Match_Verifier**: `verifyMatches(reviews, matches)`.
 - **Quote_Checker**: `containsQuote(text, quote)`.
 - **Step_Stack**: `pushStep(steps, step)`, `popStep(steps)`, `resetSteps()`.
+- **Base_Wash**: 부분 세탁 단계가 쌓이는 바탕 세탁. 기본 세탁(`strict: false`) 또는 섬세 세탁(`strict: true`).
+- **Step_Narrower**: `narrowSteps(steps, reviews, allowedIds)`. Base_Wash가 좁아질 때(기본 → 섬세) 단계 스택을 허용 ID로 줄인다.
+- **Step_Merger**: `mergeIntoStep(step, reviews, addedIds)`. Base_Wash가 넓어질 때(섬세 → 기본) 다시 확인해 통과한 리뷰 ID를 단계 하나에 더한다.
+- **Step_Rating**: 단계의 `rating` 값 `{ average, count }`. `average`는 그 단계 `ids`에 해당하는 Review(ID마다 `reviews`의 첫 등장 하나)의 Rating_Calculator 결과이고, `count`는 `ids`의 길이다.
 - **Property_Test_Suite**: `packages/core`의 `*.test.ts` 파일들에 있는 fast-check 속성 테스트 묶음.
 - **Fixture_Set**: `packages/core/__fixtures__`의 AI로 만든 가상 리뷰 JSON 파일들.
 - **Eval_Script**: `scripts/eval`의 세탁 품질 검사 스크립트.
@@ -78,12 +82,12 @@ wash-rules는 별점세탁소의 공통 코어 패키지 `@star-laundry/core`(`p
 
 ### Requirement 3: 시그니처 선공개 (15:25 PR)
 
-**User Story:** As 주영과 정민, I want 코어 함수 11개의 시그니처가 먼저 공개되기를, so that 구현이 끝나기 전에도 같은 이름으로 import해 코드를 짤 수 있다.
+**User Story:** As 주영과 정민, I want 공개 코어 함수 15개의 시그니처가 먼저 공개되기를, so that 구현이 끝나기 전에도 같은 이름으로 import해 코드를 짤 수 있다.
 
 #### Acceptance Criteria
 
-1. THE Core_Package SHALL export `dedupeReviews`, `detectCertainStains`, `verifyJudgments`, `applyStrict`, `averageRating`, `buildReceipt`, `verifyCitations`, `applyConditions`, `verifyMatches`, `containsQuote`, `pushStep`, `popStep`, and `resetSteps` from `src/index.ts` with the input and output types given in the api-contract.md 코어 함수 표.
-2. WHILE a core function has only a placeholder implementation, THE Core_Package SHALL return a type-correct empty result from that function (empty array, `null`, `false`, or a zero-count Receipt fields object).
+1. THE Core_Package SHALL export the 15 functions `dedupeReviews`, `detectCertainStains`, `verifyJudgments`, `applyStrict`, `averageRating`, `buildReceipt`, `verifyCitations`, `applyConditions`, `verifyMatches`, `containsQuote`, `pushStep`, `popStep`, `resetSteps`, `narrowSteps`, and `mergeIntoStep` from `src/index.ts` with the input and output types given in the api-contract.md 코어 함수 표.
+2. WHILE a core function has only a placeholder implementation, THE Core_Package SHALL return a type-correct empty result from that function (empty array, `null`, `false`, a zero-count Receipt fields object, for `mergeIntoStep` a shallow copy of the input Step, or for `narrowSteps` a copy of the input `steps` array made with `steps.slice()`).
 3. WHEN the placeholder version of the Core_Package is type-checked with `tsc --noEmit`, THE Workspace_Setup SHALL report zero type errors.
 
 ### Requirement 4: 순수 함수와 입력 불변
@@ -269,7 +273,7 @@ wash-rules는 별점세탁소의 공통 코어 패키지 `@star-laundry/core`(`p
 
 #### Acceptance Criteria
 
-1. THE Property_Test_Suite SHALL contain one fast-check test for each core property P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, and P15, placed next to the target file as `*.test.ts`.
+1. THE Property_Test_Suite SHALL contain one fast-check test for each core property P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, and P17, placed next to the target file as `*.test.ts`.
 2. THE Property_Test_Suite SHALL start each property test name with its property number (for example, `P3: strict는 포함 집합을 줄이기만 한다`).
 3. THE Property_Test_Suite SHALL contain example tests for the Rule_Detector covering each signal, whitespace-insensitive matching, and negation inside the Negation_Window ("제공받은 거 아니고 내돈내산입니다", "체험단 아닙니다").
 4. THE Property_Test_Suite SHALL use only Fixture_Set reviews and fast-check generated data as review input.
@@ -295,3 +299,32 @@ wash-rules는 별점세탁소의 공통 코어 패키지 `@star-laundry/core`(`p
 2. WHERE the Eval_Script is implemented, THE Eval_Script SHALL run the Rule_Detector on the labeled reviews and print precision and recall of `stain: "certain"` against the labels.
 3. WHERE the Eval_Script is implemented, THE Eval_Script SHALL print counts and rates only, with no review text in its output.
 4. IF `scripts/eval/data/` contains no labeled reviews, THEN THE Eval_Script SHALL print a message naming the expected data file path and exit with a non-zero code.
+
+### Requirement 19: 바탕 좁히기 (기본 → 섬세, P16)
+
+**User Story:** As 사이드 패널 담당자(정민), I want 부분 세탁 중에 바탕을 기본에서 섬세로 바꾸면 쌓인 단계를 코드만으로 줄이기를, so that 단계를 지우거나 판정을 다시 하지 않고 의심 얼룩을 뺀 목록과 평균 별점을 바로 보여줄 수 있다.
+
+#### Acceptance Criteria
+
+1. WHEN `steps` is given, THE Step_Narrower SHALL set each output Step `ids` to the entries of the input Step `ids` that are in `allowedIds`, keeping input order.
+2. THE Step_Narrower SHALL set each output Step `rating` to the Step_Rating of the narrowed `ids` computed with `reviews`.
+3. THE Step_Narrower SHALL set each output Step `summary`, `pros`, and `cons` to the Citation_Verifier result of the input Step `summary`, `pros`, and `cons` with the narrowed `ids` as `allowedIds`.
+4. THE Step_Narrower SHALL keep each output Step `request`, `label`, and `conditions` equal to the input Step values.
+5. IF the narrowed `ids` of a Step is empty, THEN THE Step_Narrower SHALL drop that Step and every following Step from the output.
+6. THE Step_Narrower SHALL return output Steps in input order, with a length equal to the number of input Steps before the first Step whose narrowed `ids` is empty.
+7. IF `steps` is empty, THEN THE Step_Narrower SHALL return an empty array.
+8. THE Step_Narrower SHALL return Steps whose `ids` are subsets of `allowedIds` and subsets of the corresponding input Step `ids` (P16).
+9. WHEN each input Step `ids` is a subset of the preceding input Step `ids`, THE Step_Narrower SHALL return Steps whose `ids` are each a subset of the preceding output Step `ids` (P16).
+10. THE Step_Narrower SHALL return Steps whose `rating.average` equals the Rating_Calculator result over the Reviews of that Step `ids` and whose `rating.count` equals the length of that Step `ids` (P16).
+
+### Requirement 20: 바탕 넓히기 (섬세 → 기본, P17)
+
+**User Story:** As 사이드 패널 담당자(정민), I want 부분 세탁 중에 바탕을 섬세에서 기본으로 바꾸면 다시 들어온 리뷰 중 통과한 것을 단계에 더하기를, so that 단계를 유지한 채 목록과 평균 별점을 맞출 수 있다.
+
+#### Acceptance Criteria
+
+1. THE Step_Merger SHALL set the output Step `ids` to the input Step `ids` followed by the `addedIds` entries, keeping only the first occurrence of each ID.
+2. THE Step_Merger SHALL return a Step whose `ids` contain no duplicate ID and equal, as a set, the union of the input Step `ids` and `addedIds` (P17).
+3. THE Step_Merger SHALL set the output Step `rating` to the Step_Rating of the merged `ids` computed with `reviews`, where `rating.average` equals the Rating_Calculator result over the Reviews of the merged `ids` (P17).
+4. THE Step_Merger SHALL keep the output Step `request`, `label`, `conditions`, `summary`, `pros`, and `cons` equal to the input Step values.
+5. IF `addedIds` is empty, THEN THE Step_Merger SHALL return a Step whose `ids` equal the input Step `ids` with duplicate IDs removed by first occurrence.

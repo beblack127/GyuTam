@@ -2,7 +2,7 @@
 
 ## Overview
 
-`@star-laundry/core`를 TypeScript로 만든다. Task 1(15:25 PR)에서 최종 경로·시그니처·`index.ts`를 빈 구현으로 먼저 `main`에 합치고, Task 2~8에서 함수 본문과 속성 테스트를 채운다. 시그니처는 Task 1 이후 바꾸지 않는다. Task 2~8은 16:35 통합 전에 끝내고, Task 10~12는 16:45~17:15 구현 2차에 한다. 17:15 기능 동결.
+`@star-laundry/core`를 TypeScript로 만든다. Task 1(15:25 PR)에서 최종 경로·시그니처·`index.ts`를 빈 구현으로 먼저 `main`에 합치고, Task 2~8에서 함수 본문과 속성 테스트를 채운다. 시그니처는 Task 1 이후 바꾸지 않는다. Task 2~8은 16:35 통합 전에 끝내고, Task 10(바탕 전환)은 정민의 방식 전환 작업이 시작되는 16:45 전에 합친다. Task 11~13은 16:45~17:15 구현 2차에 한다. 17:15 기능 동결.
 
 커밋 메시지에 task 번호를 쓴다: `feat(wash-rules): 6.2 영수증 계산`, `test(wash-rules): 6.6 P10`.
 
@@ -20,11 +20,13 @@
     - `src/types/review.ts` (`Site`, `Source`, `Review`), `wash.ts` (`Stain`, `Signal`, `WashTag`, `Cited`, `Receipt`, `ReceiptCounts`), `ask.ts` (`Conditions`, `Match`, `Step`), `messages.ts` (Intake 메시지 4종, `IntakeMessage` 유니온, `IntakeDoneReason`, `IntakeErrorReason`)
     - api-contract.md 정의를 글자 그대로 옮긴다. `enum` 없이 리터럴 유니온만 쓴다
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
-  - [ ] 1.3 `stainKeywords.ts`, 함수 13개 빈 구현, `index.ts`
+  - [ ] 1.3 `stainKeywords.ts`, 함수 15개 빈 구현, `index.ts`
     - `rules/stainKeywords.ts`에 Requirement 6의 초기값 (`PLATFORM_BADGE_TERM`, `PLATFORM_NOTICE`, `DISCLOSURE_PHRASES`, `REVIEW_EVENT_PHRASES`, `NEGATIONS`, `NEGATION_WINDOW = 15`)
-    - design 파일 구조대로 함수 파일 13개 생성. design 표의 "PR 1 임시 구현" 값을 반환하고 첫 줄에 `// TODO(wash-rules task N)`. 안 쓰는 매개변수는 `_` 접두사
+    - design 파일 구조대로 함수 파일 생성(공개 함수 15개). design 표의 "PR 1 임시 구현" 값을 반환하고 첫 줄에 `// TODO(wash-rules task N)`. 안 쓰는 매개변수는 `_` 접두사
+    - 바탕 전환 두 함수의 빈 구현: `filter/narrowSteps.ts`는 `steps.slice()`, `filter/mergeIntoStep.ts`는 `{ ...step }` (바탕을 바꿔도 단계가 그대로 남는 상태)
+    - 내부 파일 `filter/stepRating.ts`도 만든다 (빈 구현 `{ average: null, count: 0 }`). `index.ts`에서 내보내지 않는다
     - `filter/steps.ts`에 `MAX_STEPS = 5` 포함
-    - `src/index.ts`에서 타입 전부와 함수 13개, `MAX_STEPS` export (`export type` / `.ts` 확장자 import)
+    - `src/index.ts`에서 타입 전부와 함수 15개(`narrowSteps`, `mergeIntoStep` 포함), `MAX_STEPS` export (`export type` / `.ts` 확장자 import)
     - 확인: `npm run typecheck --workspace packages/core` 0 에러, `npm test --workspace packages/core` 통과(테스트 없음)
     - _Requirements: 2.6, 3.1, 3.2, 3.3, 4.4, 6.12_
 
@@ -175,34 +177,60 @@
   - Ensure all tests pass, ask the user if questions arise.
   - `npm run typecheck --workspace packages/core`와 `npm test --workspace packages/core`가 한 번에 통과해야 한다 (Requirement 16.6)
 
-- [ ] 10. 체험단 문구 교체 (intake.md "쿠팡 페이지 확인 결과"가 채워진 뒤)
-  - [ ] 10.1 `stainKeywords.ts` 상수와 관련 예시 테스트만 교체
+- [ ] 10. 부분 세탁 바탕 전환: 단계 평균, 바탕 좁히기·넓히기 (16:45 전에 합침, 정민의 방식 전환이 사용)
+  - `averageRating`(6.1)과 `verifyCitations`(7.1)에 기대므로 Task 6, 7 뒤에 한다
+  - 시간이 모자라면 이 task를 통째로 미루고 Task 1.3의 빈 구현(`narrowSteps` → `steps.slice()`, `mergeIntoStep` → `{ ...step }`)을 그대로 남긴다. 화면은 "바탕을 바꿔도 단계는 그대로"로 동작한다. 이때도 10.4, 10.5(P16, P17)는 제출 체크리스트 항목이므로 체크하지 않고 미완료로 남겨 실제 상태와 맞춘다
+  - [ ] 10.1 `filter/stepRating.ts` 구현 (내부, `index.ts`에서 내보내지 않음)
+    - `reviews`의 첫 등장 기준 `byId`, `ids` 중 `reviews`에 있는 리뷰만 `averageRating`, `count = ids.length`, 빈 `ids` → `{ average: null, count: 0 }`
+    - _Requirements: 19.2, 19.10, 20.3_
+  - [ ] 10.2 `filter/narrowSteps.ts` 구현
+    - 단계마다 `ids`를 `allowedIds`로 입력 순서대로 거르고, 비면 그 단계와 뒤 단계를 잘라낸다
+    - `rating: stepRating(ids, reviews)`, `summary`·`pros`·`cons`는 `verifyCitations(필드, ids)`, `request`·`label`·`conditions`는 그대로(같은 참조)
+    - _Requirements: 19.1, 19.2, 19.3, 19.4, 19.5, 19.6, 19.7_
+  - [ ] 10.3 `filter/mergeIntoStep.ts` 구현
+    - `[...step.ids, ...addedIds]`에서 첫 등장만 남기고 `rating: stepRating(ids, reviews)`, 나머지 필드는 입력과 같다
+    - _Requirements: 20.1, 20.4, 20.5_
+  - [ ] 10.4 P16 속성 테스트 (`narrowSteps.test.ts`)
+    - **Property 24: (P16) 바탕 좁히기는 허용 ID로 단계를 줄이고 평균을 다시 계산한다**
+    - `testArbitraries.ts`에 `arbNestedSteps`(직전 단계 `ids`의 `fc.subarray`), `arbIdSubset`(빈 배열·풀 전체 포함) 추가. `reviews`에 같은 ID 중복이 나오게 `arbReview`의 작은 ID 풀을 쓴다
+    - 오라클은 `stepRating.ts`를 import하지 않고 테스트 안의 첫 등장 `byId` + `averageRating`, `verifyCitations`로 만든다
+    - 예시: 2단계 중 둘째 단계가 비면 첫 단계만 남음, 근거 ID가 모두 빠진 요약 문장 삭제, 빈 `steps` → `[]`
+    - **Validates: Requirements 19.1, 19.2, 19.3, 19.4, 19.5, 19.6, 19.7, 19.8, 19.9, 19.10**
+  - [ ] 10.5 P17 속성 테스트 (`mergeIntoStep.test.ts`)
+    - **Property 25: (P17) 바탕 넓히기는 합집합을 만들고 평균을 다시 계산한다**
+    - 오라클은 10.4와 같은 방식 (`stepRating.ts` import 안 함)
+    - 예시: 이미 있는 ID를 더하면 중복 없음, 빈 `addedIds`면 `ids` 그대로·`rating` 재계산
+    - **Validates: Requirements 20.1, 20.2, 20.3, 20.4, 20.5**
+
+- [ ] 11. 체험단 문구 교체 (intake.md "쿠팡 페이지 확인 결과"가 채워진 뒤)
+  - [ ] 11.1 `stainKeywords.ts` 상수와 관련 예시 테스트만 교체
     - intake.md에 기록된 실제 배지 문구·고지 문장으로 `PLATFORM_BADGE_TERM`, `PLATFORM_NOTICE`를 바꾸고, `detectCertainStains.test.ts`와 `__fixtures__/powerbank.json`의 해당 예시만 맞춘다. `detectCertainStains.ts` 로직은 건드리지 않는다
     - 확인 결과가 초기값과 같으면 바꾸지 않고 체크만 한다
     - _Requirements: 17.1, 17.2_
 
-- [ ] 11. 공개 경계 보조 검사 (16:45 이후)
-  - [ ]* 11.1 `index.test.ts`: export 확인과 S1 속성 테스트
-    - 예시: `index.ts`가 함수 13개와 `MAX_STEPS`를 내보내는지
+- [ ] 12. 공개 경계 보조 검사 (16:45 이후)
+  - [ ]* 12.1 `index.test.ts`: export 확인과 S1 속성 테스트
+    - 예시: `index.ts`가 함수 15개와 `MAX_STEPS`를 내보내는지
     - **Property 16: (S1) 모든 공개 함수는 입력을 바꾸지 않고 결정적이다** (`deepFreeze` 입력, `structuredClone` 두 번 호출 비교, `numRuns: 50` 허용)
     - **Validates: Requirements 4.2, 4.3**
 
-- [ ] 12. 세탁 품질 검사 최소 버전 (선택, 16:45 이후)
-  - [ ]* 12.1 `scripts/eval/evalRules.ts` 작성
+- [ ] 13. 세탁 품질 검사 최소 버전 (선택, 16:45 이후)
+  - [ ]* 13.1 `scripts/eval/evalRules.ts` 작성
     - `scripts/eval/data/labeled-reviews.json`만 읽고, 없거나 비면 경로를 출력하고 `process.exit(1)`
     - `detectCertainStains`로 `certain` TP/FP/FN, 정밀도, 재현율 출력 (분모 0이면 `N/A`). 리뷰 본문과 ID는 출력하지 않는다
     - 실행: `node --experimental-strip-types scripts/eval/evalRules.ts`
     - _Requirements: 18.1, 18.2, 18.3, 18.4_
 
-- [ ] 13. Final checkpoint (17:15 기능 동결 전)
+- [ ] 14. Final checkpoint (17:15 기능 동결 전)
   - Ensure all tests pass, ask the user if questions arise.
   - tasks 체크박스가 실제 상태와 같은지 확인한다
 
 ## Notes
 
-- `*`가 붙은 sub-task는 선택이다. 시간이 모자라면 S1~S8과 `scripts/eval`부터 미룬다. P1~P15 속성 테스트와 규칙 탐지 예시 테스트(4.4)는 제출 체크리스트 항목이라 `*`를 붙이지 않았다.
+- `*`가 붙은 sub-task는 선택이다. 시간이 모자라면 S1~S8과 `scripts/eval`부터 미룬다. P1~P17 속성 테스트와 규칙 탐지 예시 테스트(4.4)는 제출 체크리스트 항목이라 `*`를 붙이지 않았다.
 - 예시 테스트는 같은 테스트 파일의 속성 sub-task에 함께 넣었다 (따로 task를 만들지 않음).
-- 2~8은 30분 규칙에 따라 끝나는 대로 작은 PR로 합친다. 순서 권장: 2 → 3 → 4 → 5 → 6 → 7 → 8. 3(규리)과 4·5·6(주영)이 소비자가 먼저 기다리는 함수다.
+- 2~8은 30분 규칙에 따라 끝나는 대로 작은 PR로 합친다. 순서 권장: 2 → 3 → 4 → 5 → 6 → 7 → 8 → 10. 3(규리)과 4·5·6(주영)이 소비자가 먼저 기다리는 함수다. 10(정민의 방식 전환)은 16:45 전에 합친다.
+- hackathon.md의 자르는 순서에서 "기본 바탕 전환"은 앞쪽에 있다. 시간이 모자라면 Task 10을 미루고 Task 1.3의 빈 구현을 남긴다. 10.4, 10.5는 체크하지 않은 채로 둔다 (design "구현 순서").
 - `packages/core`의 zod는 이 spec에서 쓰지 않는다. 마감까지 wash-llm이 코어에 스키마를 두지 않으면 core 의존성에서 뺀다 (design "열린 결정").
 - 시그니처를 바꿔야 하면 api-contract.md와 타입을 같은 커밋에서 고치고 design.md를 먼저 갱신한다.
 
@@ -218,9 +246,10 @@
     { "id": 4, "tasks": ["2.3", "3.2", "4.3", "5.1", "5.6", "6.2", "8.1", "8.4", "8.10"] },
     { "id": 5, "tasks": ["3.3", "4.4", "5.2", "5.7", "6.3", "7.2", "8.2", "8.5"] },
     { "id": 6, "tasks": ["4.5", "5.3", "6.4", "8.3", "8.6"] },
-    { "id": 7, "tasks": ["5.4", "6.5", "8.7", "10.1"] },
-    { "id": 8, "tasks": ["6.6", "8.8", "11.1", "12.1"] },
-    { "id": 9, "tasks": ["6.7"] }
+    { "id": 7, "tasks": ["5.4", "6.5", "8.7", "10.1", "11.1"] },
+    { "id": 8, "tasks": ["6.6", "8.8", "10.2", "10.3", "13.1"] },
+    { "id": 9, "tasks": ["6.7", "10.4"] },
+    { "id": 10, "tasks": ["10.5", "12.1"] }
   ]
 }
 ```

@@ -2,7 +2,7 @@
 
 ## Overview
 
-wash-rules는 `@star-laundry/core`(`packages/core`)를 만든다. 확장과 세탁 API가 같이 쓰는 공통 타입과 순수 함수 13개(`pushStep`, `popStep`, `resetSteps` 포함)를 TypeScript 소스 그대로 내보낸다. 빌드 단계는 없다.
+wash-rules는 `@star-laundry/core`(`packages/core`)를 만든다. 확장과 세탁 API가 같이 쓰는 공통 타입과 순수 함수 15개(단계 스택 `pushStep`, `popStep`, `resetSteps`와 바탕 전환 `narrowSteps`, `mergeIntoStep` 포함)를 TypeScript 소스 그대로 내보낸다. 빌드 단계는 없다.
 
 설계 원칙:
 
@@ -15,7 +15,7 @@ wash-rules는 `@star-laundry/core`(`packages/core`)를 만든다. 확장과 세�
 
 | 순서 | 시점 | 내용 | 소비자에게 보장되는 것 |
 |---|---|---|---|
-| task 1 (PR 1) | 15:25, 가장 먼저 `main`에 합침 | 라이브러리 일괄 설치, `tsconfig.base.json`, `packages/core/package.json`, 공통 타입 4개 파일, 함수 13개의 임시 구현, `index.ts` | 모든 타입과 함수를 최종 이름·경로로 import할 수 있고 `tsc --noEmit`이 통과한다 |
+| task 1 (PR 1) | 15:25, 가장 먼저 `main`에 합침 | 라이브러리 일괄 설치, `tsconfig.base.json`, `packages/core/package.json`, 공통 타입 4개 파일, 함수 15개의 임시 구현, `index.ts` | 모든 타입과 함수를 최종 이름·경로로 import할 수 있고 `tsc --noEmit`이 통과한다 |
 | task 2~ | 15:35~16:35 | 본문 구현 + 속성 테스트 | 시그니처 변경 없음. 본문만 바뀐다 |
 | 16:35 | 통합 1 | 주영의 `/wash`, `/ask`가 실제 코어 함수로 동작 | |
 
@@ -34,7 +34,7 @@ packages/core/
 ├── __fixtures__/
 │   └── powerbank.json                 # AI로 만든 가상 리뷰
 └── src/
-    ├── index.ts                       # 공개 경계 (barrel). 타입 + 함수 13개
+    ├── index.ts                       # 공개 경계 (barrel). 타입 + 함수 15개
     ├── types/
     │   ├── review.ts                  # Site, Source, Review
     │   ├── wash.ts                    # Stain, Signal, WashTag, Cited, Receipt, ReceiptCounts
@@ -57,12 +57,15 @@ packages/core/
     │   └── buildReceipt.ts
     └── filter/
         ├── applyConditions.ts
-        └── steps.ts                   # pushStep, popStep, resetSteps, MAX_STEPS
+        ├── steps.ts                   # pushStep, popStep, resetSteps, MAX_STEPS
+        ├── stepRating.ts              # Step_Rating 계산 (내부, index에서 내보내지 않음)
+        ├── narrowSteps.ts             # 바탕 좁히기 (기본 → 섬세)
+        └── mergeIntoStep.ts           # 바탕 넓히기 (섬세 → 기본)
 ```
 
 각 함수 파일 옆에 `*.test.ts`를 둔다 (structure.md). 별도 `tests/` 폴더는 만들지 않는다.
 
-배치 근거: structure.md는 `rules/`를 "규칙 기반 확실한 얼룩 탐지, evidence·quote 원문 확인"으로 정한다. 그래서 원문·근거를 확인하는 함수(`containsQuote`, `verifyJudgments`, `verifyCitations`, `verifyMatches`)와 `applyStrict`는 `rules/`에 둔다. `dedupeReviews`는 어느 폴더 설명에도 없는 입고 보조 함수라서 `utils/`에 둔다.
+배치 근거: structure.md는 `rules/`를 "규칙 기반 확실한 얼룩 탐지, evidence·quote 원문 확인"으로 정한다. 그래서 원문·근거를 확인하는 함수(`containsQuote`, `verifyJudgments`, `verifyCitations`, `verifyMatches`)와 `applyStrict`는 `rules/`에 둔다. `dedupeReviews`는 어느 폴더 설명에도 없는 입고 보조 함수라서 `utils/`에 둔다. `narrowSteps`, `mergeIntoStep`은 단계 스택을 다루므로 `steps.ts`와 같은 `filter/`에 둔다. `steps.ts`에 합치지 않고 함수마다 파일을 나누는 이유는 두 함수가 `averageRating`, `verifyCitations`를 import하기 때문이다. `steps.ts`는 다른 모듈에 기대지 않는 작은 파일로 남긴다.
 
 ### 소비자와 데이터 흐름
 
@@ -83,6 +86,8 @@ flowchart LR
   A --> L3[LLM 질문 해석] --> F1[applyConditions] --> L4[LLM 의미 조건] --> M1[verifyMatches] --> AR[averageRating] --> L5[LLM 요약] --> C2[verifyCitations<br/>allowedIds = matches ids]
   SP -->|strict 토글| S1b[applyStrict]
   SP -->|칩 ✕ / 처음부터| STK[pushStep / popStep / resetSteps]
+  SP -->|바탕 기본 → 섬세| NS[narrowSteps<br/>allowedIds = strict include true]
+  SP -->|바탕 섬세 → 기본<br/>다시 들어온 리뷰 재확인 후| MS[mergeIntoStep<br/>단계마다]
 ```
 
 ### 빌드 없는 소스 공유
@@ -205,6 +210,8 @@ export { averageRating } from './rating/averageRating.ts';
 export { buildReceipt } from './rating/buildReceipt.ts';
 export { applyConditions } from './filter/applyConditions.ts';
 export { pushStep, popStep, resetSteps, MAX_STEPS } from './filter/steps.ts';
+export { narrowSteps } from './filter/narrowSteps.ts';
+export { mergeIntoStep } from './filter/mergeIntoStep.ts';
 ```
 
 | 함수 | 시그니처 | PR 1 임시 구현 |
@@ -222,8 +229,10 @@ export { pushStep, popStep, resetSteps, MAX_STEPS } from './filter/steps.ts';
 | `pushStep` | `(steps: Step[], step: Step) => Step[]` | `[]` |
 | `popStep` | `(steps: Step[]) => Step[]` | `[]` |
 | `resetSteps` | `() => Step[]` | `[]` |
+| `narrowSteps` | `(steps: Step[], reviews: Review[], allowedIds: string[]) => Step[]` | `steps.slice()` (입력 단계 배열의 얕은 복사본) |
+| `mergeIntoStep` | `(step: Step, reviews: Review[], addedIds: string[]) => Step` | `{ ...step }` (입력 Step의 얕은 복사) |
 
-임시 구현은 Requirement 3.2대로 빈 결과를 돌려준다. 사용하지 않는 매개변수는 `_` 접두사를 붙여 strict 경고를 피하고, 본문 첫 줄에 `// TODO(wash-rules task N)`을 단다. PR 1의 `stainKeywords.ts`는 Requirement 6의 초기값을 그대로 담아 함께 올린다 (규리가 어댑터에서 배지 문구를 맞춰 볼 수 있도록).
+임시 구현은 Requirement 3.2대로 빈 결과를 돌려준다. 예외는 두 바탕 전환 함수다. `Step`을 돌려주는 `mergeIntoStep`에는 "빈 Step"이 없으므로 입력의 얕은 복사를 돌려준다. `narrowSteps`도 `[]`를 돌려주면 정민의 화면에서 바탕을 바꾸는 순간 쌓은 단계가 모두 사라지므로, 아무것도 줄이지 않은 복사본을 돌려준다. 두 경우 모두 화면은 "바탕을 바꿔도 단계는 그대로"인 상태로 동작한다. 사용하지 않는 매개변수는 `_` 접두사를 붙여 strict 경고를 피하고, 본문 첫 줄에 `// TODO(wash-rules task N)`을 단다. PR 1의 `stainKeywords.ts`는 Requirement 6의 초기값을 그대로 담아 함께 올린다 (규리가 어댑터에서 배지 문구를 맞춰 볼 수 있도록).
 
 ### 텍스트 정규화 (`utils/normalizeText.ts`, 내부)
 
@@ -437,6 +446,73 @@ export const resetSteps = (): Step[] => [];
 - "빈 스택 = 세탁된 리뷰 전체"는 화면의 해석이다. 현재 목록은 `steps.at(-1)?.ids ?? 세탁된 리뷰 ID 전체`로 구한다.
 - `pushStep`이 거절했는지는 `result.length === steps.length`로 알 수 있다. 정민은 이때 "결과 없음" 또는 "처음부터" 안내를 보여준다.
 
+### 단계 평균 별점 (`filter/stepRating.ts`, 내부)
+
+`narrowSteps`와 `mergeIntoStep`이 같이 쓰는 Step_Rating 계산이다.
+
+```ts
+export function stepRating(ids: string[], reviews: Review[]): Step['rating'] {
+  const byId = new Map<string, Review>();
+  for (const r of reviews) if (!byId.has(r.id)) byId.set(r.id, r);   // 첫 등장 기준
+  const selected = ids.flatMap(id => { const r = byId.get(id); return r ? [r] : []; });
+  return { average: averageRating(selected), count: ids.length };
+}
+```
+
+- `reviews`에 같은 ID가 여러 번 있으면 첫 번째 리뷰의 별점을 쓴다 (`verifyMatches`의 `byId`와 같은 규칙).
+- `count`는 Requirement 정의대로 `ids.length`다. 정상 흐름에서 `ids`는 중복이 없고 모두 `reviews`에 있으므로 `selected.length`와 같다. `reviews`에 없는 ID가 섞이면 그 ID는 평균에서만 빠지고 `count`에는 남는다. 이 어긋남은 호출하는 쪽이 세탁된 리뷰 전체를 `reviews`로 넘기면 생기지 않는다.
+- `ids`가 비면 `{ average: null, count: 0 }`.
+
+### `narrowSteps(steps, reviews, allowedIds)`
+
+바탕을 기본 → 섬세로 바꿀 때 정민이 부른다. `allowedIds`는 `applyStrict(tags, true)`에서 `include: true`인 ID, `reviews`는 입고한 리뷰 전체다.
+
+```ts
+export function narrowSteps(steps: Step[], reviews: Review[], allowedIds: string[]): Step[] {
+  const allowed = new Set(allowedIds);
+  const out: Step[] = [];
+  for (const step of steps) {
+    const ids = step.ids.filter(id => allowed.has(id));
+    if (ids.length === 0) break;                        // 비게 된 단계부터 뒤는 잘라낸다
+    out.push({
+      request: step.request, label: step.label, conditions: step.conditions,
+      ids,
+      rating: stepRating(ids, reviews),
+      summary: verifyCitations(step.summary, ids),
+      pros: verifyCitations(step.pros, ids),
+      cons: verifyCitations(step.cons, ids),
+    });
+  }
+  return out;
+}
+```
+
+- 단계 ID 거르기는 입력 순서를 지키는 `filter`다. 입력 `ids`에 중복이 있으면 그대로 남는다 (Requirement 19.1. 정상 흐름의 단계 `ids`는 `verifyMatches` 결과라 중복이 없다).
+- 요약 근거는 `verifyCitations`를 그대로 다시 쓴다. 근거 ID가 모두 빠진 문장은 사라진다. 새 문장을 만들지 않으므로 지금 보는 단계의 요약을 `/ask`로 다시 만드는 일은 정민의 몫이다 (api-contract.md "세탁 순서 자유롭게 섞기").
+- 비게 된 단계에서 멈추는 이유: 뒤 단계는 앞 단계의 목록을 다시 거른 결과다. 앞 단계가 비면 뒤 단계는 근거가 될 목록이 없다. 단계를 건너뛰고 뒤 단계를 살리면 칩 줄의 "›" 관계가 깨진다.
+- 단계마다 같은 `allowed`로 거르므로, 입력 단계들이 중첩(`ids[k] ⊆ ids[k-1]`)이면 출력도 중첩이다 (P16).
+- `conditions` 객체는 복사하지 않고 같은 참조를 넘긴다. 코어는 이 객체를 바꾸지 않는다.
+- 결과 길이는 입력보다 길어지지 않으므로 `MAX_STEPS`를 다시 검사하지 않는다.
+
+### `mergeIntoStep(step, reviews, addedIds)`
+
+바탕을 섬세 → 기본으로 바꿀 때 정민이 단계마다 부른다. `addedIds`는 다시 들어온 리뷰(의심 얼룩) 중 그 단계의 정해진 조건(`applyConditions`)과 의미 조건(`/ask` 재확인)을 통과한 ID다. 통과 여부를 정하는 일은 호출하는 쪽 몫이고, 코어는 받은 ID를 합치고 평균을 다시 낸다.
+
+```ts
+export function mergeIntoStep(step: Step, reviews: Review[], addedIds: string[]): Step {
+  const seen = new Set<string>();
+  const ids: string[] = [];
+  for (const id of [...step.ids, ...addedIds]) {
+    if (!seen.has(id)) { seen.add(id); ids.push(id); }
+  }
+  return { ...step, ids, rating: stepRating(ids, reviews) };
+}
+```
+
+- 기존 `ids`가 먼저, 더한 ID가 뒤에 온다. 같은 ID는 첫 등장만 남는다. `addedIds`가 비어도 입력 `ids`의 중복은 제거되고 `rating`은 다시 계산된다 (Requirement 20.5, 20.3).
+- `request`, `label`, `conditions`, `summary`, `pros`, `cons`는 입력과 같다. 요약은 더한 리뷰를 반영하지 않으므로, 지금 단계의 요약을 다시 만드는 일은 정민이 `/ask`로 한다.
+- 단계 하나만 다룬다. 단계 사이 중첩 관계(뒤 단계에 더한 ID가 앞 단계에도 있는지)는 호출 순서로 지킨다: 정민은 앞 단계부터 차례로 다시 확인하고, 뒤 단계에는 앞 단계 결과 안에서 통과한 ID만 넘긴다.
+
 ### 세탁 품질 검사 (`scripts/eval`, 선택)
 
 - 파일: `scripts/eval/evalRules.ts`. 실행: `node --experimental-strip-types scripts/eval/evalRules.ts` (Node 22.6 이상). 코어는 `../../packages/core/src/index.ts`로 import한다.
@@ -455,7 +531,8 @@ api-contract.md의 타입이 데이터 모델이다. 코어가 지키는 불변�
 | `ReceiptCounts` | `basedOn === reviews.length`. `removed === include:false 수`. `sum(stains) === stain≠none 수`. `before`, `after` ∈ `{null} ∪ [1.0, 5.0]`이고 소수 첫째 자리 |
 | `Cited` | `text.trim() !== ''`. `reviewIds`는 비어 있지 않고 중복 없음 |
 | `Match` | `id`는 입력 리뷰에 있음. ID 중복 없음. `quote !== null` ⇒ 원문에 포함 |
-| `Step[]` | 길이 ≤ 5. 모든 `step.ids`가 비어 있지 않음 |
+| `Step[]` | 길이 ≤ 5. 모든 `step.ids`가 비어 있지 않음. `narrowSteps` 뒤에도 유지된다 (빈 단계에서 자르고 길이가 늘지 않음) |
+| `Step.rating` | `narrowSteps`, `mergeIntoStep` 결과에서 `rating === stepRating(ids, reviews)` |
 
 ### 테스트 데이터
 
@@ -465,7 +542,9 @@ api-contract.md의 타입이 데이터 모델이다. 코어가 지키는 불변�
   - `arbUniqueReviews`: ID가 유일한 리뷰 배열 (`fc.uniqueArray`, selector `r => r.id`).
   - `arbWashTagFor(review)`: 리뷰에 대한 임의 LLM 태그. `evidence`는 `null`, 원문의 코드 포인트 부분 문자열, 원문에 없는 문자열 중 하나.
   - `arbConditions`: 각 필드를 `fc.option`으로 넣거나 뺀다. `includes`/`excludes`/`option` 항목은 리뷰 생성에 쓴 조각 풀에서 뽑아 실제로 걸리게 한다.
-  - `arbStep`, `arbSteps`(길이 0~5).
+  - `arbStep`, `arbSteps`(길이 0~5). `ids`와 `summary`/`pros`/`cons`의 `reviewIds`는 리뷰와 같은 `cp-0`~`cp-19` 풀에서 뽑는다.
+  - `arbNestedSteps`: 각 단계 `ids`를 직전 단계 `ids`의 부분 시퀀스(`fc.subarray`)로 만든 단계 배열 (P16의 중첩 체인).
+  - `arbIdSubset`: 같은 ID 풀의 부분집합. `allowedIds`, `addedIds`에 쓴다. 빈 배열과 풀 전체를 포함한다.
   - `codePointSlice(s, a, b)`: `Array.from(s).slice(a, b).join('')`. 부분 문자열 생성은 항상 코드 포인트 단위로 한다 (서로게이트 쌍을 자르지 않음).
   - `deepFreeze(x)`: 입력 불변 검사용.
 
@@ -473,7 +552,7 @@ api-contract.md의 타입이 데이터 모델이다. 코어가 지키는 불변�
 
 *A property is a characteristic or behavior that should hold true across all valid executions of a system-essentially, a formal statement about what the system should do. Properties serve as the bridge between human-readable specifications and machine-verifiable correctness guarantees.*
 
-속성 1~15는 testing.md의 P1~P15와 번호가 같다 (괄호 안 표기). P15는 testing.md 표에서 P14 앞에 있지만 번호 순으로 적는다. 속성 16~23은 testing.md 표에 없는 요구사항을 덮는 보조 속성 S1~S8이다. 테스트 이름에는 괄호 안 표기(`P3:`, `S4:`)를 쓴다. 그래야 testing.md에 나중에 P16이 생겨도 겹치지 않는다.
+속성 1~15는 testing.md의 P1~P15와 번호가 같다 (괄호 안 표기). P15는 testing.md 표에서 P14 앞에 있지만 번호 순으로 적는다. 속성 16~23은 testing.md 표에 없는 요구사항을 덮는 보조 속성 S1~S8이다. 속성 24, 25는 나중에 testing.md에 추가된 P16, P17이다. 기존 속성 번호를 바꾸지 않으려고 뒤에 붙였다. 테스트 이름에는 괄호 안 표기(`P3:`, `S4:`, `P16:`)를 쓴다. 속성 번호와 testing.md 번호가 달라도 테스트 이름으로 testing.md 표를 바로 찾을 수 있다.
 
 ### Property 1: (P1) 입고 중복 제거는 멱등이다
 
@@ -567,7 +646,7 @@ api-contract.md의 타입이 데이터 모델이다. 코어가 지키는 불변�
 
 ### Property 16: (S1) 모든 공개 함수는 입력을 바꾸지 않고 결정적이다
 
-*For any* 생성된 입력에 대해 공개 함수 13개 각각은 깊게 얼린(`deepFreeze`) 입력으로 호출해도 예외를 던지지 않고, 같은 입력을 `structuredClone`해 두 번 호출한 결과가 서로 같다.
+*For any* 생성된 입력에 대해 공개 함수 15개 각각은 깊게 얼린(`deepFreeze`) 입력으로 호출해도 예외를 던지지 않고, 같은 입력을 `structuredClone`해 두 번 호출한 결과가 서로 같다.
 
 **Validates: Requirements 4.2, 4.3**
 
@@ -613,6 +692,18 @@ api-contract.md의 타입이 데이터 모델이다. 코어가 지키는 불변�
 
 **Validates: Requirements 11.2, 11.3, 11.5, 11.8, 11.9**
 
+### Property 24: (P16) 바탕 좁히기는 허용 ID로 단계를 줄이고 평균을 다시 계산한다
+
+*For any* Step 배열 `steps`, 리뷰 배열 `reviews`, `allowedIds`에 대해, `k`를 `steps[i].ids.filter(id ∈ allowedIds)`가 처음으로 비는 인덱스(없으면 `steps.length`)라 할 때 `out = narrowSteps(steps, reviews, allowedIds)`는 길이가 `k`이고, 모든 `i < k`에서 `out[i].ids`는 `steps[i].ids.filter(id ∈ allowedIds)`와 같으며(따라서 `allowedIds`와 `steps[i].ids`의 부분집합), `out[i].rating`은 `{ average: averageRating(out[i].ids의 리뷰, ID마다 reviews의 첫 등장), count: out[i].ids.length }`이고, `out[i].summary`, `pros`, `cons`는 `verifyCitations(steps[i].필드, out[i].ids)`이며, `request`, `label`, `conditions`는 `steps[i]`와 같다. *For any* 중첩 단계 배열(각 `ids`가 직전 단계 `ids`의 부분집합)에 대해 출력의 각 단계 `ids`도 직전 출력 단계 `ids`의 부분집합이다.
+
+**Validates: Requirements 19.1, 19.2, 19.3, 19.4, 19.5, 19.6, 19.7, 19.8, 19.9, 19.10**
+
+### Property 25: (P17) 바탕 넓히기는 합집합을 만들고 평균을 다시 계산한다
+
+*For any* Step `step`, 리뷰 배열 `reviews`, `addedIds`에 대해 `m = mergeIntoStep(step, reviews, addedIds)`의 `ids`는 `[...step.ids, ...addedIds]`에서 첫 등장만 남긴 배열과 같아 중복이 없고 집합으로 `step.ids ∪ addedIds`와 같으며, `m.rating`은 `{ average: averageRating(m.ids의 리뷰, ID마다 reviews의 첫 등장), count: m.ids.length }`이고, `request`, `label`, `conditions`, `summary`, `pros`, `cons`는 `step`과 같다.
+
+**Validates: Requirements 20.1, 20.2, 20.3, 20.4, 20.5**
+
 ### 테스트로 덮지 않는 요구사항
 
 | 요구사항 | 확인 방법 |
@@ -644,13 +735,17 @@ api-contract.md의 타입이 데이터 모델이다. 코어가 지키는 불변�
 | 평균 낼 리뷰 없음 | `null` (UI는 "계산할 리뷰 없음") | `averageRating` |
 | 결과 0개 단계, 6번째 단계 | 쌓지 않고 같은 배열의 복사본 반환 | `pushStep` |
 | 빈 스택에서 뒤로 | `[]` | `popStep` |
+| 바탕을 좁히니 단계가 빔 | 그 단계와 뒤 단계를 잘라낸다. 정민은 남은 마지막 단계(없으면 바탕 세탁 목록)를 보여준다 | `narrowSteps` |
+| 바탕을 좁히니 요약 근거 ID가 모두 빠짐 | 그 문장을 지운다 | `narrowSteps` (`verifyCitations`) |
+| 단계 `ids`나 `addedIds`에 `reviews`에 없는 ID | 평균에서만 빠지고 `count`에는 남는다 | `stepRating` |
+| `addedIds`가 이미 단계에 있는 ID | 첫 등장만 남긴다 | `mergeIntoStep` |
 | eval 데이터 없음 | 경로 안내 후 종료 코드 1 | `scripts/eval/evalRules.ts` |
 
 ## Testing Strategy
 
 - 도구: Vitest + fast-check. 실행은 `npm test --workspace packages/core` (= `vitest --run --passWithNoTests`).
 - 속성 테스트는 속성마다 `it` 하나다. 테스트 이름은 속성 번호로 시작한다: `it('P3: strict는 포함 집합을 줄이기만 한다', ...)`. 바로 위에 `// Feature: wash-rules, Property 3 (P3): strict의 include 집합은 기본 세탁 include 집합에 포함된다` 주석을 단다. 보조 속성은 `S4:`처럼 S 번호로 시작한다.
-- 반복 횟수: `fc.assert(fc.property(...), { numRuns: 100 })` 이상. S1은 함수 13개를 한 번에 돌리므로 `numRuns: 50`으로 낮춰도 된다.
+- 반복 횟수: `fc.assert(fc.property(...), { numRuns: 100 })` 이상. S1은 함수 15개를 한 번에 돌리므로 `numRuns: 50`으로 낮춰도 된다.
 - 테스트 파일 배치:
 
 | 테스트 파일 | 속성 | 예시 테스트 |
@@ -666,15 +761,19 @@ api-contract.md의 타입이 데이터 모델이다. 코어가 지키는 불변�
 | `rating/buildReceipt.test.ts` | P2, P4(after), P10, S8 | api-contract.md 응답 예시 형태 1건 |
 | `filter/applyConditions.test.ts` | P11, P12 | "사진 있음", "3점 이하" fixture 예시 |
 | `filter/steps.test.ts` | P14 | 6번째 push 거절 |
-| `index.test.ts` | S1, S3(조합) | `index.ts`가 13개 함수를 내보내는지 |
+| `filter/narrowSteps.test.ts` | P16 (Property 24) | 2단계 중 둘째 단계가 비면 첫 단계만 남음, 근거 ID가 모두 빠진 요약 문장 삭제, 빈 `steps` → `[]` |
+| `filter/mergeIntoStep.test.ts` | P17 (Property 25) | 이미 있는 ID를 더하면 중복 없음, 빈 `addedIds`면 `ids` 그대로·`rating` 재계산 |
+| `index.test.ts` | S1, S3(조합) | `index.ts`가 15개 함수를 내보내는지 |
 
 - P11의 오라클은 `applyConditions.ts`를 import하지 않고 테스트 파일 안에 필드별 술어로 따로 쓴다. 같은 코드를 두 번 돌리는 테스트가 되지 않게 하기 위해서다. 정규화 함수(`normalizeLoose`)만 공유한다.
+- P16, P17의 오라클도 `stepRating.ts`를 import하지 않는다. 테스트 안에서 첫 등장 `byId`를 따로 만들고 공개 함수 `averageRating`, `verifyCitations`만 쓴다. 이 두 함수는 P4, S7이 따로 검증한다.
+- P16 생성기의 `reviews`에는 같은 ID가 두 번 나오는 경우를 넣는다 (`arbReview`의 작은 ID 풀). "ID마다 첫 등장 리뷰" 규칙이 실제로 시험된다.
 - 예시 테스트는 fixture(`__fixtures__/powerbank.json`)만 쓰고, 속성 테스트는 fast-check 생성 데이터만 쓴다. 실제 리뷰 원문은 쓰지 않는다 (Requirement 16.4, 16.5).
-- 시간이 모자라면 S1~S8을 먼저 미룬다. P1~P15와 Requirement 16.3의 예시 테스트는 제출 체크리스트 항목이라 미루지 않는다.
+- 시간이 모자라면 S1~S8을 먼저 미룬다. P1~P17과 Requirement 16.3의 예시 테스트는 제출 체크리스트 항목이라 미루지 않는다.
 
 ### 구현 순서 (tasks.md 근거)
 
-1. **task 1, 15:25 PR**: 라이브러리 설치, `tsconfig.base.json`, 앱별 최소 `package.json`·`tsconfig.json`, core `package.json`·`tsconfig.json`, 타입 4개, `stainKeywords.ts`, 함수 13개 임시 구현, `index.ts`. 확인: `npm run typecheck --workspace packages/core`, `npm test --workspace packages/core`(테스트 없음으로 통과).
+1. **task 1, 15:25 PR**: 라이브러리 설치, `tsconfig.base.json`, 앱별 최소 `package.json`·`tsconfig.json`, core `package.json`·`tsconfig.json`, 타입 4개, `stainKeywords.ts`, 함수 15개 임시 구현(`narrowSteps.ts`, `mergeIntoStep.ts` 포함), `index.ts`. 확인: `npm run typecheck --workspace packages/core`, `npm test --workspace packages/core`(테스트 없음으로 통과).
 2. `normalizeText.ts` + `containsQuote` + `testArbitraries.ts` (다른 함수와 테스트가 모두 기대는 기반).
 3. `dedupeReviews` (규리의 입고가 15:35부터 쓴다).
 4. `detectCertainStains` + fixture (주영의 애벌빨래).
@@ -682,9 +781,12 @@ api-contract.md의 타입이 데이터 모델이다. 코어가 지키는 불변�
 6. `averageRating`, `buildReceipt`.
 7. `verifyCitations`.
 8. `applyConditions`, `verifyMatches`, 단계 스택 (부분 세탁. 16:35 통합 전에 합친다).
-9. 보조 속성 S1~S8, `scripts/eval` (16:45 이후, 선택).
+9. `stepRating`, `narrowSteps`, `mergeIntoStep` + P16, P17 (바탕 전환. `averageRating`(6)과 `verifyCitations`(7)에 기대므로 그 뒤에 한다. 정민의 방식 전환 작업이 16:45부터라 16:45 전에 합친다).
+10. 보조 속성 S1~S8, `scripts/eval` (16:45 이후, 선택).
 
-2~8은 끝날 때마다 30분 규칙에 따라 작은 PR로 합친다. 시그니처는 1에서 고정했으므로 이 순서가 소비자 코드를 깨지 않는다.
+hackathon.md의 자르는 순서에서 "기본 바탕 전환"은 앞쪽에 있다. 시간이 모자라면 9를 미루고 임시 구현(단계를 그대로 두는 복사본)을 남긴다. 이때도 P16, P17은 체크리스트 항목이므로 tasks.md에 미완료로 남겨 실제 상태와 맞춘다.
+
+2~9는 끝날 때마다 30분 규칙에 따라 작은 PR로 합친다. 시그니처는 1에서 고정했으므로 이 순서가 소비자 코드를 깨지 않는다.
 
 ### 열린 결정
 
