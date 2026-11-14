@@ -81,6 +81,11 @@ TypeScript + React 사이드 패널. 1~9번은 커밋 `3d32b72`(feat(side-panel-
   - [ ] 10.1 `package-lock.json` 되돌리기
     - `git checkout 3d32b72~1 -- package-lock.json`으로 지워진 `"libc": [...]` 30줄을 되살리고 이 파일만 따로 커밋한다 (G-X1)
     - _Requirements: 1.9_
+  - [-] 10.2 background에서 storage.session 접근 수준 열기
+    - `apps/extension/src/background/index.ts`: 서비스 워커 최상위에서 `chrome.storage.session.setAccessLevel({ accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS' })`를 호출한다. `onInstalled` 안에만 두지 않아 브라우저·서비스 워커 재시작 뒤에도 다시 실행된다. 실패한 promise는 무시하고 오류 종류만 로그로 남긴다
+    - 기존 `setPanelBehavior`는 그대로 둔다
+    - 이유를 주석으로 적는다: content script(규리)가 `tab:{tabId}` 레코드를 직접 쓴다 (intake.md) (G-X2)
+    - _Requirements: 2.1, 2.7_
 
 - [ ] 11. 재세탁, 시간 제한, 날짜, 공정 표현
   - [ ] 11.1 재세탁 판정 재사용 조건 고치기
@@ -264,10 +269,10 @@ TypeScript + React 사이드 패널. 1~9번은 커밋 `3d32b72`(feat(side-panel-
 - 자르는 순서(hackathon.md): 사진 크게 보기 → "?" 상세 설명 → 부분 세탁 중 섬세 → 기본 바탕 전환 → 섬세 세탁 → 품질 검사 스크립트 → 단계 쌓기(1단계 질문만 남김). 이 spec에서는 20(④) → 19(③) → 18.1(단계 쌓기) 순으로 자른다. 끝까지 남길 것: 자동 입고, 시작 화면, 기본 세탁(평점·요약·리뷰 카드), 부분 세탁 1단계. ③을 자르면 섬세 세탁은 `strict: true` 전체 세탁만 하고 "의심 얼룩도 빼고 다시 세탁" 버튼은 숨긴다.
 - 커밋 메시지: `feat(side-panel-receipt): <번호> <요약>` (예: `feat(side-panel-receipt): 11.2 요청별 시간 제한`). 10.1은 lock 파일만 담아 따로 커밋한다.
 - `npm install`을 하지 않는다. `package.json`, `package-lock.json`은 재현만 바꾼다.
-- 규리 폴더(`apps/extension/src/content`, `src/services/adapters`, `src/background`)와 재현 폴더(`packages/core`, `scripts/eval`, 공통 `package.json`·`package-lock.json`, steering)는 고치지 않는다.
+- 규리 폴더(`apps/extension/src/content`, `src/services/adapters`)와 재현 폴더(`packages/core`, `scripts/eval`, 공통 `package.json`·`package-lock.json`, steering)는 고치지 않는다. `src/background`는 규리 요청(2026-11-14 16:50)으로 정민 담당이 됐다.
 - 코드가 아닌 일 (지금 바로):
   - 재현에게 `@types/react`, `@types/react-dom` 설치를 요청한다 (G-B1). `apps/extension`에 `vitest`·`fast-check` 의존성과 `test` 스크립트(`vitest --run`) 추가도 같이 요청한다 (G-B3). 그 전까지는 루트 `node_modules`의 것으로 `npx vitest --run`을 쓴다.
-  - 규리와 `src/background/index.ts`(`setPanelBehavior`)를 규리 파일로 넘길지 합의한다 (G-X2).
+  - `src/background/index.ts`는 규리 요청(2026-11-14 16:50)으로 정민(side-panel-receipt) 파일이 됐다. `setPanelBehavior`와 `storage.session` 접근 수준 설정(10.2)을 정민이 맡는다 (G-X2). `src/content`, `src/services/adapters`는 계속 규리 폴더다.
   - 주영에게 배포 API 주소를 받는다 (12.2에 필요).
   - 11.4, 17.9의 문구는 커밋 전에 `fairness-reviewer` 검토를 받는다.
 - 화면 01~07은 목 모드와 확장 로드로 수동 확인한다. UI 렌더링 테스트와 E2E는 하지 않는다 (Req 14.7).
@@ -277,7 +282,7 @@ TypeScript + React 사이드 패널. 1~9번은 커밋 `3d32b72`(feat(side-panel-
 ```json
 {
   "waves": [
-    { "id": 0, "tasks": ["10.1", "11.1", "11.2", "11.4", "12.2", "13.2", "13.5", "15.1"] },
+    { "id": 0, "tasks": ["10.1", "10.2", "11.1", "11.2", "11.4", "12.2", "13.2", "13.5", "15.1"] },
     { "id": 1, "tasks": ["11.3", "11.5", "12.3", "14.1", "15.7", "15.8", "15.9"] },
     { "id": 2, "tasks": ["12.1", "13.1"] },
     { "id": 3, "tasks": ["13.3", "15.2", "15.3", "15.4", "15.5", "15.6"] },

@@ -36,7 +36,7 @@
 ```mermaid
 flowchart LR
   subgraph Chrome["크롬 확장 (apps/extension)"]
-    BG["Background<br/>src/background/index.ts<br/>setPanelBehavior만"]
+    BG["Background (정민)<br/>src/background/index.ts<br/>setPanelBehavior, storage.session setAccessLevel"]
     subgraph SP["Side_Panel (sidepanel.html)"]
       APP["App.tsx<br/>view 상태 머신"]
       HOOK["useTabSession"]
@@ -90,7 +90,7 @@ flowchart LR
 | `src/components/features/review-list/` | `ReviewList`, `ReviewCard`, `highlight` | 9 |
 | `src/components/features/wash-request/AskBox.tsx` | 질문 입력 | 10 |
 | `src/components/features/wash-tag/WashTag.tsx` | 세탁 태그 배지, `signalLabel` | 9.8, 12.3 |
-| `src/background/index.ts` | `onInstalled`에서 `chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })` | 규리 폴더 (G-X2) |
+| `src/background/index.ts` | `onInstalled`에서 `chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })`. 결정: 서비스 워커 최상위에서 `chrome.storage.session.setAccessLevel({ accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS' })`를 호출해 content script가 `tab:{tabId}`를 쓸 수 있게 한다 (tasks 10.2) | 2.1, 2.7. 규리 요청(2026-11-14 16:50)으로 정민 파일 (G-X2) |
 | `src/constants/` | 비어 있음 (`.gitkeep`) | 12.1 미충족 (G-C1) |
 
 ### App.tsx: 화면 상태
@@ -390,7 +390,7 @@ Tab_Session 레코드(intake.md): `tab:{tabId}` → `{ productId, reviews, intak
 
 | ID | 내용 | 위치 | 요구사항 |
 |---|---|---|---|
-| G-X2 | 규리 폴더 `src/background/index.ts`를 이 커밋에서 만들었다 (`setPanelBehavior`). 규리와 합의하거나 규리 파일로 넘긴다 | `src/background/index.ts` | 범위 규칙 |
+| G-X2 | **정리됨.** `src/background/index.ts`는 규리 요청(2026-11-14 16:50)으로 정민(side-panel-receipt) 파일이 됐다. `src/content`, `src/services/adapters`는 계속 규리 폴더다. content script는 기본적으로 `chrome.storage.session`에 쓸 수 없으므로, 결정한 방식은 서비스 워커 최상위에서 `chrome.storage.session.setAccessLevel({ accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS' })`를 호출하는 것이다(`onInstalled` 안에만 두지 않음, 실패는 오류 종류만 로그). `setPanelBehavior`는 유지 (tasks 10.2) | `src/background/index.ts` | 2.1, 2.7, 범위 규칙 |
 | G-B2 | content 진입점이 없으면 빈 `content.js`를 쓰고 manifest 항목은 그대로 둔다. background 진입점은 존재 확인이 없어 파일이 없으면 빌드가 깨진다 | `build.mjs` | 1.3, 1.8 |
 | G-B3 | `vitest`, `fast-check`가 `apps/extension` 의존성에 없다(루트에만 있음). `test` 스크립트도 없다 | `package.json` | 14.6 |
 
@@ -460,7 +460,7 @@ Tab_Session 레코드(intake.md): `tab:{tabId}` → `{ productId, reviews, intak
 
 ### 우선 처리 제안 (17:15 동결 전)
 
-1. G-X1(lock 되돌리기), G-B1(설치 요청), G-X2(규리와 background 파일 합의): 코드 수정 없이 바로.
+1. G-X1(lock 되돌리기), G-B1(설치 요청), G-X2(background `setAccessLevel` 추가, tasks 10.2): G-X1·G-B1은 코드 수정 없이 바로, G-X2는 한 파일 수정.
 2. G-W1, G-A3, G-A2, G-C2·G-C3: 정확성과 공정 표현 문제. 수정 범위가 작다.
 3. G-A1·G-M1: 릴리스 zip 전에 반드시. 배포 API 주소가 필요하다.
 4. G-A4~G-A9, G-T1: ① 등급 요구사항(4, 14).
