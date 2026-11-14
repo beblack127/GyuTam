@@ -79,12 +79,12 @@
     - **Validates: Requirements 3.4, 4.3, 4.5**
 
 - [ ] 6. `POST /ask`
-  - [x] 6.1 `utils/requestSchemas.ts`의 `askRequest` (선택 필드 `expanded`)
+  - [x] 6.1 `utils/requestSchemas.ts`의 `askRequest`
     - _Requirements: 1.2, 1.3, 1.4_
   - [x] 6.2 `services/wash/askPipeline.ts`의 `runAsk`와 `LlmUnavailable` 오류
     - design 의사코드 그대로. 1~3개면 `pros`, `cons`는 `[]` 고정
-    - 결과 0개: `noMatch(it, expand)`. `expand`는 첫 질문이고 `expanded`가 아닐 때만 `true`, 아니면 `notice: "관련된 리뷰를 찾을 수 없습니다."`
-    - _Requirements: 5.1, 5.5, 5.6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 12.1, 12.2, 12.3, 12.4_
+    - 결과 0개: `noMatch(it)`, `notice: "관련된 리뷰를 찾을 수 없습니다."`. 리뷰를 더 불러오지 않는다
+    - _Requirements: 5.1, 5.5, 5.6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 12.1, 12.2, 12.3_
   - [ ]* 6.3 W4, W5, W2(`/ask`) 속성 테스트 (`askPipeline.test.ts`)
     - **Property W4: 부분 세탁 결과는 입력 안에 있고 quote는 원문에 있다**
     - **Property W5: 부분 세탁 평균 별점은 코드가 계산한 값이다**
