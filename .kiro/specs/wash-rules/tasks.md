@@ -30,12 +30,12 @@
     - 확인: `npm run typecheck --workspace packages/core` 0 에러, `npm test --workspace packages/core` 통과(테스트 없음)
     - _Requirements: 2.6, 3.1, 3.2, 3.3, 4.4, 6.12_
 
-- [ ] 2. 텍스트 정규화, 원문 포함 확인, 테스트 생성기
-  - [ ] 2.1 `utils/normalizeText.ts`와 `containsQuote` 구현
+- [x] 2. 텍스트 정규화, 원문 포함 확인, 테스트 생성기
+  - [x] 2.1 `utils/normalizeText.ts`와 `containsQuote` 구현
     - `normalizeForQuote`, `normalizeLoose`, `compact` (design "텍스트 정규화" 표). NFC 변환 안 함
     - `containsQuote`: 정규화 후 빈 `quote`면 `false`
     - _Requirements: 7.1, 7.2, 7.3, 7.4_
-  - [ ] 2.2 `utils/testArbitraries.ts` 작성
+  - [x] 2.2 `utils/testArbitraries.ts` 작성
     - `arbReview`(ID 풀 `cp-0`~`cp-19`), `arbUniqueReviews`, `arbWashTagFor`, `arbConditions`, `arbStep`, `arbSteps`(0~5), `codePointSlice`, `deepFreeze`
     - 키워드·부정 문구는 `stainKeywords.ts`에서 읽는다. `index.ts`에서 내보내지 않는다
     - _Requirements: 16.4_
@@ -45,7 +45,7 @@
     - **Validates: Requirements 7.1, 7.2, 7.3, 7.4**
 
 - [ ] 3. 입고 중복 제거 (규리가 15:35부터 사용)
-  - [ ] 3.1 `dedupeReviews` 구현
+  - [x] 3.1 `dedupeReviews` 구현
     - best 우선, 첫 등장 순서, `source` 덮어쓰기, `sources.duplicates = best.length + latest.length - reviews.length`
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
   - [ ] 3.2 P1 속성 테스트 (`dedupeReviews.test.ts`)
@@ -57,11 +57,11 @@
     - **Validates: Requirements 5.1, 5.2, 5.3, 5.4, 5.5**
 
 - [ ] 4. 애벌빨래 규칙 탐지 (주영의 `/wash`가 사용)
-  - [ ] 4.1 `__fixtures__/powerbank.json` 작성
+  - [x] 4.1 `__fixtures__/powerbank.json` 작성
     - AI로 만든 가상 보조배터리 리뷰 약 12개: 배지, 고지 문장, 대가성 문구, 리뷰 이벤트, "제공 받아", "제공받은 거 아니고 내돈내산입니다", "체험단 아닙니다", 의심 기준 예시, 사진·옵션 유무
     - 실존 업체·인물·실제 리뷰 문장 금지
     - _Requirements: 16.4, 16.5_
-  - [ ] 4.2 부정 표현 "아닙" 추가와 문서 갱신
+  - [x] 4.2 부정 표현 "아닙" 추가와 문서 갱신
     - `stainKeywords.ts`의 `NEGATIONS`에 "아닙" 추가
     - 같은 task에서 `.kiro/steering/stain-rules.md` 부정 표현 목록(18행)과 `.kiro/specs/wash-rules/requirements.md` 6.7의 목록에 "아닙" 추가
     - _Requirements: 6.7, 6.12_

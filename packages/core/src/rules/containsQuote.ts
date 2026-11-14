@@ -1,4 +1,7 @@
-export function containsQuote(_text: string, _quote: string): boolean {
-  // TODO(wash-rules task 2.1)
-  return false;
+import { normalizeForQuote } from '../utils/normalizeText.ts';
+
+export function containsQuote(text: string, quote: string): boolean {
+  const q = normalizeForQuote(quote);
+  if (q.length === 0) return false;
+  return normalizeForQuote(text).includes(q);
 }
