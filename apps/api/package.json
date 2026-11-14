@@ -3,6 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "dev": "node --env-file=../../.env src/dev/localServer.ts",
+    "ping": "node --env-file=../../.env src/dev/bedrockPing.ts",
+    "test": "vitest --run --passWithNoTests",
+    "typecheck": "tsc --noEmit -p ."
+  },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1169.0",
     "@star-laundry/core": "*",
