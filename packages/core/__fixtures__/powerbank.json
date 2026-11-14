@@ -1,0 +1,122 @@
+[
+  {
+    "id": "cp-1001",
+    "rating": 5,
+    "date": "2026-03-02",
+    "text": "출퇴근길에 휴대폰 두 번 충전하고도 조금 남아요. 무게는 살짝 있는 편이라 주머니보다는 가방에 넣고 다닙니다.",
+    "badges": ["쿠팡체험단"],
+    "hasPhoto": true,
+    "option": "10000mAh 화이트",
+    "source": "best"
+  },
+  {
+    "id": "cp-1002",
+    "rating": 5,
+    "date": "2026-03-05",
+    "text": "쿠팡체험단 이벤트로 상품을 무료로 제공받아 작성된 후기입니다. 캠핑 가서 랜턴이랑 휴대폰을 같이 충전했는데 하루는 버텼어요.",
+    "badges": [],
+    "hasPhoto": true,
+    "option": "20000mAh 블랙",
+    "source": "best"
+  },
+  {
+    "id": "cp-1003",
+    "rating": 4,
+    "date": "2026-02-18",
+    "text": "판매자분께 제품을 제공받아 사용해 보았습니다. 충전 속도는 빠른데 케이블이 짧아서 아쉬워요.",
+    "badges": [],
+    "hasPhoto": false,
+    "option": "10000mAh 블랙",
+    "source": "latest"
+  },
+  {
+    "id": "cp-1004",
+    "rating": 5,
+    "date": "2026-02-20",
+    "text": "리뷰 이벤트 참여하고 남기는 후기예요. 잔량 표시가 숫자로 나와서 보기 편합니다.",
+    "badges": [],
+    "hasPhoto": true,
+    "option": "10000mAh 화이트",
+    "source": "latest"
+  },
+  {
+    "id": "cp-1005",
+    "rating": 4,
+    "date": "2026-01-27",
+    "text": "업체에서 제공 받아 써 본 솔직 후기입니다. 노트북 충전은 안 되고 태블릿까지는 무난해요.",
+    "badges": [],
+    "hasPhoto": false,
+    "option": null,
+    "source": "best"
+  },
+  {
+    "id": "cp-1006",
+    "rating": 5,
+    "date": "2026-01-10",
+    "text": "제공받은 거 아니고 내돈내산입니다. 겨울에 밖에서 써도 방전이 빨리 되지 않아서 만족해요.",
+    "badges": [],
+    "hasPhoto": false,
+    "option": "20000mAh 블랙",
+    "source": "best"
+  },
+  {
+    "id": "cp-1007",
+    "rating": 3,
+    "date": "2026-03-11",
+    "text": "체험단 아닙니다. 두 달 썼는데 충전할 때 손으로 만지기 좀 뜨거울 정도로 발열이 있어요.",
+    "badges": [],
+    "hasPhoto": true,
+    "option": "10000mAh 블랙",
+    "source": "latest"
+  },
+  {
+    "id": "cp-1008",
+    "rating": 5,
+    "date": "2026-03-12",
+    "text": "최고예요 강추합니다!! 완전 만족!!",
+    "badges": [],
+    "hasPhoto": false,
+    "option": null,
+    "source": "latest"
+  },
+  {
+    "id": "cp-1009",
+    "rating": 5,
+    "date": "2026-03-13",
+    "text": "초고속 PD 충전에 슬림한 디자인까지 갖춘 프리미엄 보조배터리입니다. 고객님들께 자신 있게 추천드립니다. 자세한 후기는 블로그에 올려 두었어요.",
+    "badges": [],
+    "hasPhoto": true,
+    "option": "10000mAh 화이트",
+    "source": "best"
+  },
+  {
+    "id": "cp-1010",
+    "rating": 2,
+    "date": "2025-12-22",
+    "text": "한 달 만에 충전 단자가 헐거워졌어요. 케이블을 살짝만 건드려도 충전이 끊깁니다.",
+    "badges": [],
+    "hasPhoto": true,
+    "option": "20000mAh 블랙",
+    "source": "latest"
+  },
+  {
+    "id": "cp-1011",
+    "rating": 1,
+    "date": "2025-12-05",
+    "text": "받자마자 잔량이 0으로 나오고 충전도 안 돼요. 교환 신청했습니다.",
+    "badges": [],
+    "hasPhoto": false,
+    "option": null,
+    "source": "latest"
+  },
+  {
+    "id": "cp-1012",
+    "rating": 4,
+    "date": "2026-02-02",
+    "text": "여행 가서 휴대폰이랑 이어폰을 번갈아 충전했어요. 동시에 두 개 꽂으면 속도가 조금 느려집니다. 사진은 크기 비교용이에요.",
+    "badges": [],
+    "hasPhoto": true,
+    "option": "10000mAh 블랙",
+    "source": "best"
+  }
+]

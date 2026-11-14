@@ -556,7 +556,7 @@ api-contract.md의 타입이 데이터 모델이다. 코어가 지키는 불변�
 
 ### Property 1: (P1) 입고 중복 제거는 멱등이다
 
-*For any* 리뷰 배열 `best`, `latest`에 대해 `r = dedupeReviews(best, latest).reviews`의 ID는 모두 다르고, `dedupeReviews(r, []).reviews`는 `r`과 같다.
+*For any* 리뷰 배열 `best`, `latest`에 대해 `r = dedupeReviews(best, latest).reviews`의 ID는 모두 다르고, `dedupeReviews(r, []).reviews`는 `r`과 ID 목록·순서가 같고 `source`를 뺀 나머지 필드가 같다. 다시 넣으면 모든 항목이 `best`에서 오므로 `source`는 `"best"`로 바뀔 수 있다 (Requirement 5.3과 충돌하지 않게 `source`는 비교에서 뺀다).
 
 **Validates: Requirements 5.1, 5.6**
 

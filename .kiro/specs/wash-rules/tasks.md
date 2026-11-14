@@ -30,12 +30,12 @@
     - 확인: `npm run typecheck --workspace packages/core` 0 에러, `npm test --workspace packages/core` 통과(테스트 없음)
     - _Requirements: 2.6, 3.1, 3.2, 3.3, 4.4, 6.12_
 
-- [ ] 2. 텍스트 정규화, 원문 포함 확인, 테스트 생성기
-  - [ ] 2.1 `utils/normalizeText.ts`와 `containsQuote` 구현
+- [x] 2. 텍스트 정규화, 원문 포함 확인, 테스트 생성기
+  - [x] 2.1 `utils/normalizeText.ts`와 `containsQuote` 구현
     - `normalizeForQuote`, `normalizeLoose`, `compact` (design "텍스트 정규화" 표). NFC 변환 안 함
     - `containsQuote`: 정규화 후 빈 `quote`면 `false`
     - _Requirements: 7.1, 7.2, 7.3, 7.4_
-  - [ ] 2.2 `utils/testArbitraries.ts` 작성
+  - [x] 2.2 `utils/testArbitraries.ts` 작성
     - `arbReview`(ID 풀 `cp-0`~`cp-19`), `arbUniqueReviews`, `arbWashTagFor`, `arbConditions`, `arbStep`, `arbSteps`(0~5), `codePointSlice`, `deepFreeze`
     - 키워드·부정 문구는 `stainKeywords.ts`에서 읽는다. `index.ts`에서 내보내지 않는다
     - _Requirements: 16.4_
@@ -44,11 +44,11 @@
     - 예시: 줄바꿈·문장부호 차이, 빈 `quote`, 이모지
     - **Validates: Requirements 7.1, 7.2, 7.3, 7.4**
 
-- [ ] 3. 입고 중복 제거 (규리가 15:35부터 사용)
-  - [ ] 3.1 `dedupeReviews` 구현
+- [x] 3. 입고 중복 제거 (규리가 15:35부터 사용)
+  - [x] 3.1 `dedupeReviews` 구현
     - best 우선, 첫 등장 순서, `source` 덮어쓰기, `sources.duplicates = best.length + latest.length - reviews.length`
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
-  - [ ] 3.2 P1 속성 테스트 (`dedupeReviews.test.ts`)
+  - [x] 3.2 P1 속성 테스트 (`dedupeReviews.test.ts`)
     - **Property 1: (P1) 입고 중복 제거는 멱등이다**
     - 예시: `best`·`latest` 겹침 1건
     - **Validates: Requirements 5.1, 5.6**
@@ -57,15 +57,15 @@
     - **Validates: Requirements 5.1, 5.2, 5.3, 5.4, 5.5**
 
 - [ ] 4. 애벌빨래 규칙 탐지 (주영의 `/wash`가 사용)
-  - [ ] 4.1 `__fixtures__/powerbank.json` 작성
+  - [x] 4.1 `__fixtures__/powerbank.json` 작성
     - AI로 만든 가상 보조배터리 리뷰 약 12개: 배지, 고지 문장, 대가성 문구, 리뷰 이벤트, "제공 받아", "제공받은 거 아니고 내돈내산입니다", "체험단 아닙니다", 의심 기준 예시, 사진·옵션 유무
     - 실존 업체·인물·실제 리뷰 문장 금지
     - _Requirements: 16.4, 16.5_
-  - [ ] 4.2 부정 표현 "아닙" 추가와 문서 갱신
+  - [x] 4.2 부정 표현 "아닙" 추가와 문서 갱신
     - `stainKeywords.ts`의 `NEGATIONS`에 "아닙" 추가
     - 같은 task에서 `.kiro/steering/stain-rules.md` 부정 표현 목록(18행)과 `.kiro/specs/wash-rules/requirements.md` 6.7의 목록에 "아닙" 추가
     - _Requirements: 6.7, 6.12_
-  - [ ] 4.3 `detectCertainStains` 구현
+  - [x] 4.3 `detectCertainStains` 구현
     - 내부 `findPhrase`(공백 제거 + `indexMap`), 부정 창(원문 기준 앞뒤 15자), `sentenceAround`(경계 `.`, `!`, `?`, `。`, `…`, 줄바꿈)
     - 우선순위 배지 → 고지 문장 → `disclosure` → `review_event`. `certain`이면 `include: false`, 없으면 `none / null / null / true`
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11_
@@ -78,7 +78,7 @@
     - **Validates: Requirements 6.2, 6.4, 6.5, 6.6, 6.7, 6.8, 17.2**
 
 - [ ] 5. 판정 검수와 섬세 세탁
-  - [ ] 5.1 `verifyJudgments` 구현
+  - [x] 5.1 `verifyJudgments` 구현
     - design 의사코드 그대로: 규칙 `certain` 우선, LLM `certain`은 `disclosure`·`review_event` + 원문 확인일 때만 유지, 실패 시 한 단계 낮추고 `evidence: null`, `normalized()`로 형태 정리
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 8.10, 8.11, 8.12_
   - [ ] 5.2 P6 속성 테스트 (`verifyJudgments.test.ts`)
@@ -92,10 +92,10 @@
   - [ ]* 5.4 S6 속성 테스트
     - **Property 21: (S6) 판정 검수는 규칙 우선이고 LLM은 platform_badge를 낼 수 없다**
     - **Validates: Requirements 8.2, 8.3, 8.4, 8.8**
-  - [ ] 5.5 `applyStrict` 구현
+  - [x] 5.5 `applyStrict` 구현
     - `include = stain === 'none' || (stain === 'suspected' && !strict)`, 다른 필드 유지
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
-  - [ ] 5.6 P3 속성 테스트 (`applyStrict.test.ts`)
+  - [x] 5.6 P3 속성 테스트 (`applyStrict.test.ts`)
     - **Property 3: (P3) strict는 포함 집합을 줄이기만 한다**
     - **Validates: Requirements 9.6**
   - [ ]* 5.7 S3 속성 테스트
@@ -104,10 +104,10 @@
     - **Validates: Requirements 6.1, 6.9, 6.10, 8.1, 8.9, 8.10, 8.11, 9.1, 9.2, 9.3, 9.4, 9.5**
 
 - [ ] 6. 평점과 영수증
-  - [ ] 6.1 `averageRating` 구현
+  - [x] 6.1 `averageRating` 구현
     - 빈 배열 `null`, `Math.round((sum * 10) / n) / 10`
     - _Requirements: 10.1, 10.2, 10.3, 10.4_
-  - [ ] 6.2 `buildReceipt` 구현
+  - [x] 6.2 `buildReceipt` 구현
     - 첫 등장 기준 `tagById`, 태그 없음 = `none / include true`, `stain ≠ none`인데 `signal: null`이면 `suspected`로 집계, `stains` 네 키 항상 존재
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7, 11.8, 11.9_
   - [ ] 6.3 P2 속성 테스트 (`buildReceipt.test.ts`)
@@ -130,7 +130,7 @@
     - **Validates: Requirements 11.2, 11.3, 11.5, 11.8, 11.9**
 
 - [ ] 7. 요약 근거 검증
-  - [ ] 7.1 `verifyCitations` 구현
+  - [x] 7.1 `verifyCitations` 구현
     - 빈 `text` 제거, 허용 ID만 남기고 첫 등장 순서로 중복 제거, 빈 근거 제거, `text` 그대로
     - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5, 12.6_
   - [ ] 7.2 P8 속성 테스트 (`verifyCitations.test.ts`)
@@ -139,7 +139,7 @@
     - **Validates: Requirements 12.1, 12.3, 12.6**
 
 - [ ] 8. 부분 세탁: 조건 필터, 결과 검수, 단계 스택 (16:35 통합 전에 합침)
-  - [ ] 8.1 `applyConditions` 구현
+  - [x] 8.1 `applyConditions` 구현
     - 필드별 술어 (design 표), `option`·`includes`·`excludes`는 `normalizeLoose`, 정규화 후 빈 항목 무시, `semantic` 무시
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7, 13.8, 13.9, 13.10, 13.11_
   - [ ] 8.2 P11 속성 테스트 (`applyConditions.test.ts`)
@@ -149,7 +149,7 @@
   - [ ] 8.3 P12 속성 테스트
     - **Property 12: (P12) 정해진 조건 필터는 멱등이고 순서와 무관하다**
     - **Validates: Requirements 13.13, 13.14**
-  - [ ] 8.4 `verifyMatches` 구현
+  - [x] 8.4 `verifyMatches` 구현
     - 첫 등장 기준 `byId`, 원문 밖 `quote` 제거, `quote: null` 유지, `seen`은 통과 항목만 기록
     - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5, 14.6, 14.7_
   - [ ] 8.5 P9 속성 테스트 (`verifyMatches.test.ts`)
@@ -165,10 +165,10 @@
   - [ ]* 8.8 S7 속성 테스트 (`verifyCitations.test.ts`, `verifyMatches.test.ts`)
     - **Property 22: (S7) 근거 검증과 매치 검수는 순서를 지키는 필터 모델과 같다**
     - **Validates: Requirements 12.1, 12.2, 12.3, 12.4, 12.5, 14.1, 14.2, 14.3, 14.4, 14.5**
-  - [ ] 8.9 단계 스택 구현 (`filter/steps.ts`)
+  - [x] 8.9 단계 스택 구현 (`filter/steps.ts`)
     - `pushStep`: 빈 `ids` 또는 5개면 `steps.slice()`, 아니면 `[...steps, step]`. `popStep`: `steps.slice(0, -1)`. `resetSteps`: `[]`
     - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5, 15.6_
-  - [ ] 8.10 P14 속성 테스트 (`steps.test.ts`)
+  - [x] 8.10 P14 속성 테스트 (`steps.test.ts`)
     - **Property 14: (P14) popStep(pushStep(s, x))는 s와 같다**
     - 예시: 6번째 push 거절
     - **Validates: Requirements 15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 15.7**

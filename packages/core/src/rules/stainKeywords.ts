@@ -26,6 +26,7 @@ export const REVIEW_EVENT_PHRASES = [
 export const NEGATIONS = [
   '아니',
   '아님',
+  '아닙',
   '않',
   '안 받',
   '없이',

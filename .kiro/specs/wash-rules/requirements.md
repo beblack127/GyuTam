@@ -112,7 +112,7 @@ wash-rules는 별점세탁소의 공통 코어 패키지 `@star-laundry/core`(`p
 3. WHEN a Review `id` appears only in `latest`, THE Dedupe_Function SHALL set `source` to `"latest"`.
 4. THE Dedupe_Function SHALL order `reviews` by first occurrence, scanning `best` first and then `latest`.
 5. THE Dedupe_Function SHALL return `sources` where `best` equals the length of the `best` input, `latest` equals the length of the `latest` input, and `duplicates` equals `best.length + latest.length - reviews.length`.
-6. WHEN the Dedupe_Function output `reviews` is passed again as `best` with an empty `latest`, THE Dedupe_Function SHALL return the same `reviews` (P1).
+6. WHEN the Dedupe_Function output `reviews` is passed again as `best` with an empty `latest`, THE Dedupe_Function SHALL return `reviews` with the same IDs in the same order, no duplicate IDs, and every field other than `source` unchanged (P1). `source` may change because every item now comes from `best`.
 
 ### Requirement 6: 애벌빨래 규칙 탐지
 
@@ -126,7 +126,7 @@ wash-rules는 별점세탁소의 공통 코어 패키지 `@star-laundry/core`(`p
 4. WHEN a Review `text` contains a Stain_Keywords disclosure phrase ("체험단", "제공받아", "제공 받아", "협찬", "원고료", "소정의", "무상으로 제공", "무료로 제공", "업체로부터", "지원받아") with no negation expression inside the Negation_Window, THE Rule_Detector SHALL return `stain: "certain"`, `signal: "disclosure"`, and `evidence` set to the sentence of the original `text` that contains the phrase.
 5. WHEN a Review `text` contains a Stain_Keywords review event phrase ("리뷰 이벤트", "리뷰이벤트", "포토리뷰 이벤트", "리뷰 작성 시", "리뷰 쓰면", "사은품 받", "적립금 받") with no negation expression inside the Negation_Window, THE Rule_Detector SHALL return `stain: "certain"`, `signal: "review_event"`, and `evidence` set to the sentence of the original `text` that contains the phrase.
 6. THE Rule_Detector SHALL match platform notice, disclosure, and review event phrases regardless of whitespace differences between the phrase and the `text` (for example, "제공 받아" matches "제공받아").
-7. IF a negation expression ("아니", "아님", "않", "안 받", "없이", "내돈내산", "내 돈 내 산", "직접 구매", "제 돈으로") appears inside the Negation_Window of a matched disclosure or review event phrase, THEN THE Rule_Detector SHALL ignore that match.
+7. IF a negation expression ("아니", "아님", "아닙", "않", "안 받", "없이", "내돈내산", "내 돈 내 산", "직접 구매", "제 돈으로") appears inside the Negation_Window of a matched disclosure or review event phrase, THEN THE Rule_Detector SHALL ignore that match.
 8. WHEN a Review matches more than one signal, THE Rule_Detector SHALL choose the signal in the priority order `platform_badge`, `disclosure`, `review_event`.
 9. WHEN a Review matches no rule, THE Rule_Detector SHALL return `stain: "none"`, `signal: null`, `evidence: null`, `include: true`.
 10. WHEN the Rule_Detector returns `stain: "certain"`, THE Rule_Detector SHALL set `include: false`.
