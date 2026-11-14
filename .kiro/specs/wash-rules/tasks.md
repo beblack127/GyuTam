@@ -142,7 +142,7 @@
   - [x] 8.1 `applyConditions` 구현
     - 필드별 술어 (design 표), `option`·`includes`·`excludes`는 `normalizeLoose`, 정규화 후 빈 항목 무시, `semantic` 무시
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7, 13.8, 13.9, 13.10, 13.11_
-  - [-] 8.2 P11 속성 테스트 (`applyConditions.test.ts`)
+  - [x] 8.2 P11 속성 테스트 (`applyConditions.test.ts`)
     - **Property 11: (P11) 정해진 조건 필터는 정확하다**
     - 오라클 술어는 `applyConditions.ts`를 import하지 않고 테스트 안에 따로 쓴다. 예시: fixture로 "사진 있음", "3점 이하"
     - **Validates: Requirements 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7, 13.8, 13.9, 13.10, 13.11, 13.12**

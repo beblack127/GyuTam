@@ -31,5 +31,6 @@ export function applyConditions(reviews: Review[], conditions: Conditions): Revi
 }
 
 function nonEmpty(list: string[] | undefined): string[] | null {
-  return list && list.length > 0 ? list.map(normalizeLoose) : null;
+  const items = (list ?? []).map(normalizeLoose).filter((s) => s !== '');
+  return items.length > 0 ? items : null;
 }
