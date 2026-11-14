@@ -1,0 +1,6 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "lib": ["ES2022"], "types": [] },
+  "include": ["src/**/*.ts", "__fixtures__/*.json"],
+  "exclude": ["src/**/*.test.ts", "src/utils/testArbitraries.ts"]
+}
