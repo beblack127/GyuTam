@@ -1,0 +1,17 @@
+{
+  "rCode": "RET0000",
+  "rMessage": "SUCCESS",
+  "rData": {
+    "ratingSummaryTotal": {
+      "ratingCount": 0,
+      "ratingAverage": 0,
+      "ratingSummaries": []
+    },
+    "paging": {
+      "currentPage": 1,
+      "pageSize": 10,
+      "totalPage": 0,
+      "contents": []
+    }
+  }
+}

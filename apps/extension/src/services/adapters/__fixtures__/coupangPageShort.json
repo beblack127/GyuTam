@@ -1,0 +1,114 @@
+{
+  "rCode": "RET0000",
+  "rMessage": "SUCCESS",
+  "rData": {
+    "ratingSummaryTotal": {
+      "ratingCount": 23,
+      "ratingAverage": 4.0,
+      "ratingSummaries": [
+        {
+          "rating": 5,
+          "count": 700
+        },
+        {
+          "rating": 4,
+          "count": 300
+        },
+        {
+          "rating": 3,
+          "count": 134
+        },
+        {
+          "rating": 2,
+          "count": 50
+        },
+        {
+          "rating": 1,
+          "count": 50
+        }
+      ]
+    },
+    "paging": {
+      "currentPage": 3,
+      "pageSize": 10,
+      "totalPage": 3,
+      "contents": [
+        {
+          "reviewId": 4001,
+          "rating": 5,
+          "title": "마지막 페이지 리뷰 1",
+          "content": "짧은 페이지의 첫 번째 가상 리뷰입니다.",
+          "createdAt": 1762138800000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자31",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-31.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-31.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 4002,
+          "rating": 4,
+          "title": "마지막 페이지 리뷰 2",
+          "content": "짧은 페이지의 두 번째 가상 리뷰입니다.",
+          "createdAt": 1762052400000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자32",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-32.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-32.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 4003,
+          "rating": 3,
+          "title": "마지막 페이지 리뷰 3",
+          "content": "짧은 페이지의 세 번째 가상 리뷰입니다.",
+          "createdAt": 1761966000000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자33",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-33.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-33.png",
+          "reviewerRank": "가상등급"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "rCode": "RET0000",
+  "rMessage": "SUCCESS",
+  "rData": {
+    "ratingSummaryTotal": {
+      "ratingCount": 7,
+      "ratingAverage": 4.4,
+      "ratingSummaries": [
+        {
+          "rating": 5,
+          "count": 700
+        },
+        {
+          "rating": 4,
+          "count": 300
+        },
+        {
+          "rating": 3,
+          "count": 134
+        },
+        {
+          "rating": 2,
+          "count": 50
+        },
+        {
+          "rating": 1,
+          "count": 50
+        }
+      ]
+    },
+    "paging": {
+      "currentPage": 1,
+      "pageSize": 10,
+      "totalPage": 124,
+      "contents": [
+        {
+          "reviewId": 2001,
+          "rating": 5,
+          "title": "체험단으로 써 봤어요",
+          "content": "디자인이 깔끔하고 충전 속도가 빨라요.\n쿠팡체험단 이벤트로 상품을 무료 제공받아 작성한 리뷰입니다.",
+          "createdAt": 1767668400000,
+          "vine": true,
+          "isAdventurerReview": true,
+          "reviewerBadges": [
+            {
+              "reviewerBadgeType": "ADVENTURER",
+              "badgeTitle": "쿠팡체험단"
+            }
+          ],
+          "incentive": false,
+          "attachments": [
+            {
+              "attachmentId": 900011,
+              "imgSrcOrigin": "https://example.invalid/review/photo-11.jpg",
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-11.jpg"
+            }
+          ],
+          "videoAttachments": [],
+          "itemName": "블랙 / 10000mAh",
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자11",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-11.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-11.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 2002,
+          "rating": 5,
+          "title": "만족스러운 체험",
+          "content": "한 주 동안 매일 들고 다녔는데 문제없었어요. 쿠팡체험단 이벤트로 상품을 무료 제공받아 작성한 리뷰입니다.",
+          "createdAt": 1767668400000,
+          "vine": true,
+          "isAdventurerReview": true,
+          "reviewerBadges": [
+            {
+              "reviewerBadgeType": "ADVENTURER",
+              "badgeTitle": "쿠팡체험단"
+            }
+          ],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자12",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-12.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-12.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 2003,
+          "rating": 4,
+          "title": "vine 신호만 있는 리뷰",
+          "content": "배지 목록은 비어 있고 vine 값만 참인 가상 리뷰입니다.",
+          "createdAt": 1767582000000,
+          "vine": true,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자13",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-13.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-13.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 2004,
+          "rating": 4,
+          "title": "isAdventurerReview 신호만",
+          "content": "배지 목록 없이 isAdventurerReview만 참인 가상 리뷰입니다.",
+          "createdAt": 1767582000000,
+          "vine": false,
+          "isAdventurerReview": true,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자14",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-14.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-14.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 2005,
+          "rating": 5,
+          "title": "체험단 + 상위 리뷰어",
+          "content": "두 배지가 함께 있는 가상 리뷰입니다. 쿠팡체험단 이벤트로 상품을 무료 제공받아 작성한 리뷰입니다.",
+          "createdAt": 1767495600000,
+          "vine": true,
+          "isAdventurerReview": true,
+          "reviewerBadges": [
+            {
+              "reviewerBadgeType": "TOP_REVIEWER",
+              "badgeTitle": "TOP 500"
+            },
+            {
+              "reviewerBadgeType": "ADVENTURER",
+              "badgeTitle": "쿠팡체험단"
+            },
+            {
+              "reviewerBadgeType": "ADVENTURER",
+              "badgeTitle": "쿠팡체험단"
+            }
+          ],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자15",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-15.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-15.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 2006,
+          "rating": 3,
+          "title": "일반 구매 후기",
+          "content": "제 돈 주고 샀어요. 보통입니다.",
+          "createdAt": 1767409200000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "itemName": "화이트 / 10000mAh",
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자16",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-16.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-16.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 2007,
+          "rating": 5,
+          "title": "상위 리뷰어 일반 후기",
+          "content": "꼼꼼히 써 본 뒤 남기는 가상 후기입니다.",
+          "createdAt": 1767322800000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [
+            {
+              "reviewerBadgeType": "TOP_REVIEWER",
+              "badgeTitle": "TOP 500"
+            }
+          ],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자17",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-17.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-17.png",
+          "reviewerRank": "가상등급"
+        }
+      ]
+    }
+  }
+}

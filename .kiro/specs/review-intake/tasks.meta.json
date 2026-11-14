@@ -1,0 +1,415 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 `apps/extension/src/services/adapters/intakeTypes.ts` 작성": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954129
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640964845
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641104072
+      }
+    ],
+    "1.2 `apps/extension/src/services/adapters/intakeConstants.ts` 작성": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954178
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640965636
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641104242
+      }
+    ],
+    "2.1 가상 fixture 작성 (`apps/extension/src/services/adapters/__fixtures__/`)": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954223
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640966464
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641104900
+      }
+    ],
+    "2.2 `apps/extension/src/services/adapters/coupangFields.ts` 구현": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954255
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641110443
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641236836
+      }
+    ],
+    "2.3 `apps/extension/src/services/adapters/coupangFields.test.ts` 작성 (fixture 기반 예시 테스트)": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954288
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641248987
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641450012
+      }
+    ],
+    "3.1 `apps/extension/src/services/adapters/dedupeReviews.ts` 구현 (임시)": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954314
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641111435
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641237650
+      }
+    ],
+    "3.2 `apps/extension/src/services/adapters/dedupeReviews.test.ts`에 P1 속성 테스트 작성": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954346
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641250504
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641450879
+      }
+    ],
+    "4.1 `apps/extension/src/services/adapters/coupangAdapter.ts`에 `readProductId`, `buildReviewUrl`, `classifyResponse` 구현": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954374
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641251497
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641452477
+      }
+    ],
+    "4.2 같은 파일에 `runCoupangIntake`와 `coupangAdapter` 구현": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954404
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641458239
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641571209
+      }
+    ],
+    "4.3 `apps/extension/src/services/adapters/coupangAdapter.test.ts`에 요청 예시 테스트 작성": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954438
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641576927
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641749326
+      }
+    ],
+    "4.4 `coupangAdapter.test.ts`에 멈춤 예시 테스트 추가": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954481
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641754414
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641845183
+      }
+    ],
+    "4.5 `coupangAdapter.test.ts`에 P2 속성 테스트 추가": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954523
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641850692
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794642043949
+      }
+    ],
+    "5. Checkpoint - 어댑터 테스트 통과 확인": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954572
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794642064929
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794642366427
+      }
+    ],
+    "6.1 `apps/extension/src/content/visibility.ts`에 `waitUntilVisible(doc)` 구현": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954623
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641113009
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641239066
+      }
+    ],
+    "6.2 `apps/extension/src/content/sessionStore.ts` 구현": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954657
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641113932
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641240065
+      }
+    ],
+    "6.3 `apps/extension/src/content/intakeController.ts`에 `createIntakeController(deps)` 구현": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954690
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641577589
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641749137
+      }
+    ],
+    "6.5 `apps/extension/src/content/index.ts`에서 실제 의존성 연결": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954721
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641755001
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641846038
+      }
+    ],
+    "7.1 `apps/extension/src/background/intakeRelay.ts` 구현": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954754
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641114481
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641240752
+      }
+    ],
+    "7.2 `apps/extension/src/background/index.ts`에서 `registerIntakeRelay()` 호출": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954781
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641252291
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641452966
+      }
+    ],
+    "8. Checkpoint - 전체 테스트와 타입 확인": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954831
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794642065612
+      },
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794642366512
+      }
+    ],
+    "9.1 사용자와 미확인 필드를 확인하고 `coupangFields.ts`만 고친다": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954888
+      }
+    ],
+    "9.2 `.kiro/steering/intake.md`의 \"쿠팡 페이지 확인 결과 (규리)\" 체크리스트 갱신": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954921
+      }
+    ],
+    "10.1 `intakeTypes.ts`·`dedupeReviews.ts`의 사용처를 `@star-laundry/core`의 `Review`, 메시지 타입, `dedupeReviews`로 바꾼다": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954956
+      }
+    ],
+    "11. Final checkpoint - 모든 테스트 통과 확인": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794640954988
+      }
+    ],
+    "1. 임시 타입과 상수": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641104277
+      }
+    ],
+    "2. 리뷰 필드 매핑": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641450060
+      }
+    ],
+    "3. 중복 제거": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641450923
+      }
+    ],
+    "7. background 입고 중계": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641453001
+      }
+    ],
+    "6. content script 연결": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794641846075
+      }
+    ],
+    "4. 쿠팡 어댑터": [
+      {
+        "executionId": "0d6545d3-954d-46c4-b7e7-146275dd9808",
+        "chatSessionId": "sess_b1355418-a087-4b31-b3d3-50977910087f",
+        "timestamp": 1794642043992
+      }
+    ]
+  }
+}
