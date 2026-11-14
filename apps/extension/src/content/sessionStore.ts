@@ -1,4 +1,5 @@
 // 탭별 입고 결과 저장소. intake.md "저장 위치": `chrome.storage.session`의 `tab:{tabId}`.
+// content script가 이 키에 직접 쓴다. 접근 수준(TRUSTED_AND_UNTRUSTED_CONTEXTS)은 background/index.ts가 연다.
 // `chrome.storage.local`은 쓰지 않는다 (fairness.md).
 import type { IntakeResult, TabSession } from '../services/adapters/intakeTypes';
 
@@ -36,6 +37,10 @@ export async function readTabSession(
 /**
  * 입고 결과를 쓴다. 기존 값의 `productId`가 같으면 `wash`, `steps`를 보존하고
  * `productId`, `reviews`, `intake`만 덮어쓴다. 다르거나 없으면 새 값으로 쓴다.
+ *
+ * 끝까지 읽은 입고(`partial: false`)는 `total`을 실제 리뷰 수로 맞춘다.
+ * 예상 최대치(100)를 그대로 두면 베스트·최신 중복을 뺀 뒤(예: 96개) `done < total`이 되어,
+ * 사이드 패널(useTabSession의 finished)이 저장값만 보고는 입고가 끝났다고 판단하지 못한다.
  */
 export async function writeIntakeResult(
   tabId: number,
@@ -45,12 +50,13 @@ export async function writeIntakeResult(
   area: SessionArea = defaultArea(),
 ): Promise<void> {
   const prev = await readTabSession(tabId, area);
+  const done = result.reviews.length;
   const next: TabSession = {
     productId,
     reviews: result.reviews,
     intake: {
-      done: result.reviews.length,
-      total,
+      done,
+      total: result.partial ? total : done,
       partial: result.partial,
       reason: result.reason,
       sources: result.sources,

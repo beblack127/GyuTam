@@ -72,11 +72,7 @@ async function clearIfProductChanged(tabId: number, url: string): Promise<void> 
 }
 
 export function registerIntakeRelay(): void {
-  // content script가 storage.session을 직접 읽고 쓰도록 접근 수준을 연다.
-  chrome.storage.session
-    .setAccessLevel({ accessLevel: chrome.storage.AccessLevel.TRUSTED_AND_UNTRUSTED_CONTEXTS })
-    .catch(() => undefined);
-
+  // storage.session 접근 수준은 background/index.ts 최상위에서 연다. 여기서는 다시 하지 않는다.
   chrome.runtime.onMessage.addListener((msg: unknown, sender: chrome.runtime.MessageSender) => {
     // 패널(확장 페이지)에서 온 intake:start만 처리한다. content script발 메시지는 sender.tab이 있다.
     if (sender.tab !== undefined || sender.id !== chrome.runtime.id) return;
