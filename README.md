@@ -1,5 +1,8 @@
 # 🧺 별점세탁소
 
+[발표자료]
+[byeoljeom-laundry-pitch.pdf](https://github.com/user-attachments/files/34847168/byeoljeom-laundry-pitch.pdf)
+
 [시연영상]
 https://youtu.be/pqPKkVvwT8U
 
