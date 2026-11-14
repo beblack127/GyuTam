@@ -1,0 +1,12 @@
+{
+  "name": "@star-laundry/infra",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "aws-cdk-lib": "^2.277.0",
+    "constructs": "^10.8.1"
+  },
+  "devDependencies": {
+    "aws-cdk": "^2.1148.1"
+  }
+}

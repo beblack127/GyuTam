@@ -1,0 +1,14 @@
+{
+  "name": "@star-laundry/extension",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@star-laundry/core": "*",
+    "@types/chrome": "^0.3.7",
+    "@vitejs/plugin-react": "^6.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "vite": "^8.3.8"
+  }
+}
