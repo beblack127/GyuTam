@@ -8,7 +8,7 @@
 | Spec | __ / 4개 (requirements → design → tasks 완료) | [.kiro/specs](../.kiro/specs) |
 | 완료한 task | __ / __ | 각 spec의 `tasks.md` |
 | task 번호가 붙은 커밋 | __개 | `git log --grep "feat("` |
-| Correctness property (속성 기반 테스트) | __ / 10개 통과 | [testing.md](../.kiro/steering/testing.md) |
+| Correctness property (속성 기반 테스트) | __ / 14개 통과 | [testing.md](../.kiro/steering/testing.md) |
 | Steering | 10개 (always 5 · fileMatch 3 · auto 1 · manual 1) + AGENTS.md | [.kiro/steering](../.kiro/steering) |
 | Hooks | 7개 | [.kiro/hooks](../.kiro/hooks) |
 | 품질 검사 자동 실행 | __회 | [eval-history.md](eval-history.md) |
@@ -18,13 +18,13 @@
 ## 1. Spec 기반 개발
 | Spec | 담당 | 범위 | 상태 |
 |---|---|---|---|
-| [wash-pipeline](../.kiro/specs/wash-pipeline) | __ | 공통 타입, 규칙 탐지, 평점 계산, `/wash`, `/ask`, 프롬프트 | __ |
-| [review-intake](../.kiro/specs/review-intake) | __ | 쿠팡 자동 입고, 세탁 태그, 근거 하이라이트 | __ |
-| [side-panel-receipt](../.kiro/specs/side-panel-receipt) | __ | 세탁하기, 질문 창, 영수증, 오류 화면 | __ |
-| [infra](../.kiro/specs/infra) | __ | CDK, 요청 제한, 비용 알림, 품질 검사 | __ |
+| [wash-rules](../.kiro/specs/wash-rules) | 재현 | 공통 타입, 규칙 탐지, 평점 계산, 정해진 조건 필터, 단계 스택, 근거 검증 | __ |
+| [wash-llm](../.kiro/specs/wash-llm) | 주영 | 의심 얼룩 판정, 질문 해석, 의미 조건 고르기, 요약, `/wash`·`/ask` | __ |
+| [review-intake](../.kiro/specs/review-intake) | 규리 | 쿠팡 자동 입고, 세탁 태그, 근거 하이라이트 | __ |
+| [side-panel-receipt](../.kiro/specs/side-panel-receipt) | 정민 | 세탁하기, 영수증, 질문 창, 조건 칩, 리뷰 원문 목록 | __ |
 
 - 각 spec은 Kiro Spec 세션에서 requirements → design → tasks 순서로 만들고, 단계마다 사람이 검토하고 승인했다.
-- design에 correctness property를 적고, 그대로 fast-check 테스트로 옮겼다 (P1~P10).
+- design에 correctness property를 적고, 그대로 fast-check 테스트로 옮겼다 (P1~P14).
 - 구현은 tasks의 Start task로 진행했고, `task-start`·`task-done` hook이 spec 확인과 테스트·커밋을 맡았다.
 
 ## 2. Steering: 필요한 때만 불러오기
@@ -80,5 +80,6 @@ spec 검토, hook, 에이전트가 계획이나 코드를 바꾼 사례. 날짜�
 |---|---|---|---|
 | 2026-11-14 | steering 검토 | "특정 기간에 몰린 5점" 신호를 불확실해서 제외 | `d5a756f` |
 | 2026-11-14 | steering 검토 | API Gateway 29초 제한 때문에 리뷰 100개, 25개씩 병렬 판정으로 확정 | `fdcb243` |
+| 2026-11-14 | steering 검토 | 부분 세탁의 별점·기간·사진 조건을 LLM 대신 코드가 거르도록 분리 ("숫자는 코드가" 원칙) | __ |
 | 2026-11-14 | hook 첫 실행 | guard-shell hook이 자기 스크립트의 문법 오류로 셸을 막는 걸 발견하고 패턴을 고침 | __ |
 | __ | | | |

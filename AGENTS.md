@@ -26,5 +26,5 @@
 - 세탁 API (Lambda): `apps/api`
 - AWS 인프라 (CDK): `infra`
 - 크롬 확장 (쿠팡 입고, 사이드 패널, 세탁 태그. 카카오맵은 다음 단계): `apps/extension`
-- 타입, 평점 계산, 규칙 판별: `packages/core`
+- 타입, 평점 계산, 규칙 판별, 조건 필터: `packages/core`
 - 기능 명세: `.kiro/specs/`

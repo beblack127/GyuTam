@@ -19,6 +19,9 @@ fileMatchPattern: ["apps/extension/src/content/**", "apps/extension/src/services
   - 헤더 위조, 쿠키 조작, 차단 우회는 하지 않는다.
 - 리뷰 `id`: 쿠팡 리뷰 ID에 `cp-`를 붙인다. 없으면 작성자·날짜·본문 앞부분의 해시. DOM 요소와 1:1로 대응해야 한다 (태그, 하이라이트).
 - 각 리뷰에 `source: "best" | "latest"`를 붙인다. 두 정렬에 모두 나오면 `"best"`로 둔다.
+- 리뷰마다 추출: `id`, `rating`, `date`(YYYY-MM-DD), `text`, `badges`, `hasPhoto`, `option`(구매 옵션, 없으면 `null`). 부분 세탁의 정해진 조건이 이 필드를 쓴다.
+- 작성자 이름은 추출하지 않는다. 사이드 패널과 API에 보내지 않는다.
+- 리뷰가 지금 페이지 DOM에 있으면 그 요소를 기억해 둔다 (`inPage: true`). 세탁 태그와 "페이지에서 보기"는 이 리뷰에만 쓴다.
 
 
 ## 쿠팡 페이지 확인 결과

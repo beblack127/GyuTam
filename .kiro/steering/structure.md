@@ -14,7 +14,7 @@ inclusion: always
 ├── README.md
 ├── LICENSE
 ├── .kiro/
-│   ├── specs/                        # review-intake · wash-pipeline · side-panel-receipt · infra
+│   ├── specs/                        # wash-rules · wash-llm · review-intake · side-panel-receipt
 │   ├── steering/                     # always: product·tech·structure·fairness·hackathon / fileMatch: intake·api-contract·testing / auto: kakaomap / manual: kiro-evidence
 │   ├── hooks/                        # secret-scan · guard-shell · eval-on-save · readme-sync · task-start · task-done · session-context
 │   ├── agents/                       # fairness-reviewer · kiro-evidence-writer
@@ -32,6 +32,8 @@ inclusion: always
 │   │       │   └── features/
 │   │       │       ├── wash-request/ # 세탁 요청 입력
 │   │       │       ├── receipt/      # 세탁 영수증, 평점 애니메이션
+│   │       │       ├── review-list/  # 리뷰 원문 목록, quote 강조, 페이지에서 보기
+│   │       │       ├── refine/       # 조건 칩, 뒤로, 처음부터
 │   │       │       └── wash-tag/     # 리뷰 옆 판정 배지
 │   │       ├── services/
 │   │       │   ├── adapters/         # 입고 어댑터 (coupangAdapter.ts, 다음 단계 kakaomapAdapter.ts)
@@ -43,13 +45,15 @@ inclusion: always
 │           ├── services/
 │           │   ├── wash/             # 세탁하기·부분 세탁 과정 조립 (washPipeline.ts, askPipeline.ts)
 │           │   └── llm/              # Bedrock 클라이언트, 응답 스키마 검증
-│           ├── prompts/              # LLM 프롬프트 (본세탁, 세탁 후 요약, 부분 세탁)
+│           ├── prompts/              # LLM 프롬프트 (본세탁, 세탁 후 요약, 질문 해석, 의미 조건 고르기)
+│           ├── dev/                  # 통합용 로컬 API 서버 (배포 전 확장 연결)
 │           └── utils/
 ├── packages/core/                    # 순수 함수만 (DOM, fs, 네트워크 금지)
 │   ├── src/
 │   │   ├── types/                    # Review, Stain, Signal, WashCourse, WashTag, Receipt
 │   │   ├── rating/                   # 세탁 전·후 평점, 얼룩 수 계산 (검수)
 │   │   ├── rules/                    # 규칙 기반 확실한 얼룩 탐지 (애벌빨래), evidence·quote 원문 확인
+│   │   ├── filter/                   # 정해진 조건 필터, 단계 스택 (pushStep, popStep, resetSteps)
 │   │   └── utils/
 │   └── __fixtures__/                 # AI로 만든 가상 리뷰 (단위 테스트 전용)
 ├── infra/                            # AWS CDK (API Gateway, Lambda, 요청 제한, Budgets)

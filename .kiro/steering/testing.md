@@ -6,12 +6,12 @@ fileMatchPattern: ["**/*.test.ts", "**/*.test.tsx", "packages/core/__fixtures__/
 # 테스트 규칙
 
 - 도구: Vitest + fast-check. 단발 실행은 `vitest --run`.
-- 대상: `packages/core`(평점, 규칙, 검수)와 어댑터 파싱. UI 테스트와 E2E는 만들지 않는다.
+- 대상: `packages/core`(평점, 규칙, 검수, 조건 필터, 단계 스택)와 어댑터 파싱. UI 테스트와 E2E는 만들지 않는다.
 - 테스트 데이터: `packages/core/__fixtures__`의 AI로 만든 가상 리뷰만. 실제 리뷰 원문 금지.
 - 어댑터 파싱 테스트는 가상 리뷰로 만든 HTML/JSON 조각을 쓴다. 실제 쿠팡 응답을 그대로 넣지 않는다.
 
 ## Correctness property (속성 기반 테스트로 검증)
-spec의 design에 아래 속성을 적고, 각 속성마다 fast-check 테스트를 하나씩 둔다. 테스트 이름에 속성 번호를 붙인다 (`P3: strict는 포함 집합을 줄이기만 한다`).
+spec의 design에 아래 속성을 적고(대부분 wash-rules, P1·P2는 review-intake와 함께), 각 속성마다 fast-check 테스트를 하나씩 둔다. 테스트 이름에 속성 번호를 붙인다 (`P3: strict는 포함 집합을 줄이기만 한다`).
 
 | 번호 | 속성 |
 |---|---|
@@ -25,3 +25,7 @@ spec의 design에 아래 속성을 적고, 각 속성마다 fast-check 테스트
 | P8 | `summary`, `pros`, `cons`의 `reviewIds`는 항상 `include: true` 리뷰 ID의 부분집합이고, 비어 있지 않다 |
 | P9 | `/ask`의 `quote`는 항상 해당 리뷰 원문에 들어 있다 |
 | P10 | `stains`의 합은 얼룩으로 판정된 리뷰 수와 같고, `removed`는 `include: false` 리뷰 수와 같다 |
+| P11 | 정해진 조건 필터는 정확하다: 결과의 모든 리뷰가 조건을 만족하고, 입력 중 조건을 만족하는 리뷰는 모두 결과에 있다 |
+| P12 | 정해진 조건 필터는 멱등이고 순서와 무관하다: 같은 조건을 두 번 적용하거나 조건을 나눠 차례로 적용해도 결과가 같다 |
+| P13 | `/ask`의 결과는 항상 입력 `reviews`의 부분집합이다. 단계를 쌓을수록 목록은 줄거나 같다 |
+| P14 | 단계 스택: `popStep(pushStep(s, x))`는 `s`와 같고, `resetSteps`는 세탁된 리뷰 전체로 돌아간다. 결과가 0개인 단계는 쌓이지 않는다 |
