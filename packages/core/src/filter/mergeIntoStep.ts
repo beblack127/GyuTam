@@ -1,7 +1,15 @@
 import type { Step } from '../types/ask.ts';
 import type { Review } from '../types/review.ts';
+import { stepRating } from './stepRating.ts';
 
-export function mergeIntoStep(step: Step, _reviews: Review[], _addedIds: string[]): Step {
-  // TODO(wash-rules task 10.3)
-  return { ...step };
+export function mergeIntoStep(step: Step, reviews: Review[], addedIds: string[]): Step {
+  const seen = new Set<string>();
+  const ids: string[] = [];
+  for (const id of [...step.ids, ...addedIds]) {
+    if (!seen.has(id)) {
+      seen.add(id);
+      ids.push(id);
+    }
+  }
+  return { ...step, ids, rating: stepRating(ids, reviews) };
 }
