@@ -92,7 +92,7 @@
   - [ ]* 5.4 S6 속성 테스트
     - **Property 21: (S6) 판정 검수는 규칙 우선이고 LLM은 platform_badge를 낼 수 없다**
     - **Validates: Requirements 8.2, 8.3, 8.4, 8.8**
-  - [ ] 5.5 `applyStrict` 구현
+  - [x] 5.5 `applyStrict` 구현
     - `include = stain === 'none' || (stain === 'suspected' && !strict)`, 다른 필드 유지
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
   - [ ] 5.6 P3 속성 테스트 (`applyStrict.test.ts`)
@@ -104,7 +104,7 @@
     - **Validates: Requirements 6.1, 6.9, 6.10, 8.1, 8.9, 8.10, 8.11, 9.1, 9.2, 9.3, 9.4, 9.5**
 
 - [ ] 6. 평점과 영수증
-  - [ ] 6.1 `averageRating` 구현
+  - [x] 6.1 `averageRating` 구현
     - 빈 배열 `null`, `Math.round((sum * 10) / n) / 10`
     - _Requirements: 10.1, 10.2, 10.3, 10.4_
   - [ ] 6.2 `buildReceipt` 구현
@@ -130,7 +130,7 @@
     - **Validates: Requirements 11.2, 11.3, 11.5, 11.8, 11.9**
 
 - [ ] 7. 요약 근거 검증
-  - [ ] 7.1 `verifyCitations` 구현
+  - [x] 7.1 `verifyCitations` 구현
     - 빈 `text` 제거, 허용 ID만 남기고 첫 등장 순서로 중복 제거, 빈 근거 제거, `text` 그대로
     - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5, 12.6_
   - [ ] 7.2 P8 속성 테스트 (`verifyCitations.test.ts`)
