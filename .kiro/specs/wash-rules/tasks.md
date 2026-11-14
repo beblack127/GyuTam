@@ -56,7 +56,7 @@
     - **Property 17: (S2) 중복 제거는 best 우선 합집합 모델과 같다**
     - **Validates: Requirements 5.1, 5.2, 5.3, 5.4, 5.5**
 
-- [ ] 4. 애벌빨래 규칙 탐지 (주영의 `/wash`가 사용)
+- [x] 4. 애벌빨래 규칙 탐지 (주영의 `/wash`가 사용)
   - [x] 4.1 `__fixtures__/powerbank.json` 작성
     - AI로 만든 가상 보조배터리 리뷰 약 12개: 배지, 고지 문장, 대가성 문구, 리뷰 이벤트, "제공 받아", "제공받은 거 아니고 내돈내산입니다", "체험단 아닙니다", 의심 기준 예시, 사진·옵션 유무
     - 실존 업체·인물·실제 리뷰 문장 금지
@@ -69,7 +69,7 @@
     - 내부 `findPhrase`(공백 제거 + `indexMap`), 부정 창(원문 기준 앞뒤 15자), `sentenceAround`(경계 `.`, `!`, `?`, `。`, `…`, 줄바꿈)
     - 우선순위 배지 → 고지 문장 → `disclosure` → `review_event`. `certain`이면 `include: false`, 없으면 `none / null / null / true`
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11_
-  - [ ] 4.4 규칙 탐지 예시 테스트 (`detectCertainStains.test.ts`)
+  - [x] 4.4 규칙 탐지 예시 테스트 (`detectCertainStains.test.ts`)
     - fixture로 신호별 1건, "제공 받아", 고지 문장 → `platform_badge` + 문장, "제공받은 거 아니고 내돈내산입니다" → `none`, "체험단 아닙니다" → `none`
     - _Requirements: 16.3_
   - [ ]* 4.5 S4 속성 테스트
@@ -81,7 +81,7 @@
   - [x] 5.1 `verifyJudgments` 구현
     - design 의사코드 그대로: 규칙 `certain` 우선, LLM `certain`은 `disclosure`·`review_event` + 원문 확인일 때만 유지, 실패 시 한 단계 낮추고 `evidence: null`, `normalized()`로 형태 정리
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 8.10, 8.11, 8.12_
-  - [ ] 5.2 P6 속성 테스트 (`verifyJudgments.test.ts`)
+  - [x] 5.2 P6 속성 테스트 (`verifyJudgments.test.ts`)
     - **Property 6: (P6) evidence가 null이 아니면 항상 원문에 들어 있다**
     - `detectCertainStains` 결과와 `verifyJudgments` 결과 둘 다 검사
     - 예시: LLM `certain` + 원문 문장 → 유지
@@ -110,7 +110,7 @@
   - [x] 6.2 `buildReceipt` 구현
     - 첫 등장 기준 `tagById`, 태그 없음 = `none / include true`, `stain ≠ none`인데 `signal: null`이면 `suspected`로 집계, `stains` 네 키 항상 존재
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7, 11.8, 11.9_
-  - [ ] 6.3 P2 속성 테스트 (`buildReceipt.test.ts`)
+  - [x] 6.3 P2 속성 테스트 (`buildReceipt.test.ts`)
     - **Property 2: (P2) basedOn은 중복 제거 후 리뷰 수와 같다**
     - 예시: api-contract.md 응답 예시 형태 1건
     - **Validates: Requirements 5.5, 11.1**
@@ -129,11 +129,11 @@
     - **Property 23: (S8) 영수증은 리뷰와 태그의 직접 집계와 같다**
     - **Validates: Requirements 11.2, 11.3, 11.5, 11.8, 11.9**
 
-- [ ] 7. 요약 근거 검증
+- [x] 7. 요약 근거 검증
   - [x] 7.1 `verifyCitations` 구현
     - 빈 `text` 제거, 허용 ID만 남기고 첫 등장 순서로 중복 제거, 빈 근거 제거, `text` 그대로
     - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5, 12.6_
-  - [ ] 7.2 P8 속성 테스트 (`verifyCitations.test.ts`)
+  - [x] 7.2 P8 속성 테스트 (`verifyCitations.test.ts`)
     - **Property 8: (P8) 요약 근거 ID는 비어 있지 않은 허용 ID 부분집합이다**
     - `/wash` 조합(`applyStrict`의 `include: true` ID)과 `/ask` 조합(`verifyMatches` 결과 ID) 포함
     - **Validates: Requirements 12.1, 12.3, 12.6**
@@ -142,7 +142,7 @@
   - [x] 8.1 `applyConditions` 구현
     - 필드별 술어 (design 표), `option`·`includes`·`excludes`는 `normalizeLoose`, 정규화 후 빈 항목 무시, `semantic` 무시
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7, 13.8, 13.9, 13.10, 13.11_
-  - [ ] 8.2 P11 속성 테스트 (`applyConditions.test.ts`)
+  - [-] 8.2 P11 속성 테스트 (`applyConditions.test.ts`)
     - **Property 11: (P11) 정해진 조건 필터는 정확하다**
     - 오라클 술어는 `applyConditions.ts`를 import하지 않고 테스트 안에 따로 쓴다. 예시: fixture로 "사진 있음", "3점 이하"
     - **Validates: Requirements 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7, 13.8, 13.9, 13.10, 13.11, 13.12**
