@@ -152,7 +152,7 @@
   - [x] 8.4 `verifyMatches` 구현
     - 첫 등장 기준 `byId`, 원문 밖 `quote` 제거, `quote: null` 유지, `seen`은 통과 항목만 기록
     - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5, 14.6, 14.7_
-  - [ ] 8.5 P9 속성 테스트 (`verifyMatches.test.ts`)
+  - [x] 8.5 P9 속성 테스트 (`verifyMatches.test.ts`)
     - **Property 9: (P9) /ask의 quote는 항상 원문에 들어 있다**
     - **Validates: Requirements 14.2, 14.6**
   - [ ] 8.6 P13 속성 테스트
