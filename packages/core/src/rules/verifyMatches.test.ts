@@ -53,4 +53,34 @@ describe('verifyMatches', () => {
       { numRuns: 300 },
     );
   });
+
+  it('P13: /ask 결과는 입력의 부분집합이고 단계를 쌓을수록 줄거나 같다', () => {
+    // **Validates: Requirements 14.7, 14.8**
+    fc.assert(
+      fc.property(
+        arbReviews.chain((reviews) =>
+          fc.tuple(
+            fc.constant(reviews),
+            fc.array(arbMatchesFor(reviews), { minLength: 1, maxLength: 5 }),
+          ),
+        ),
+        ([reviews, stepMatches]) => {
+          let current = reviews;
+          let prevLength = new Set(reviews.map((r) => r.id)).size;
+          for (const matches of stepMatches) {
+            const out = verifyMatches(current, matches);
+            const inputIds = new Set(current.map((r) => r.id));
+            const outIds = out.map((m) => m.id);
+            for (const id of outIds) expect(inputIds.has(id)).toBe(true);
+            expect(new Set(outIds).size).toBe(outIds.length);
+            expect(out.length).toBeLessThanOrEqual(prevLength);
+            prevLength = out.length;
+            const keep = new Set(outIds);
+            current = current.filter((r) => keep.has(r.id));
+          }
+        },
+      ),
+      { numRuns: 300 },
+    );
+  });
 });

@@ -39,6 +39,46 @@ describe('verifyJudgments', () => {
     );
   });
 
+  // Feature: wash-rules, Property 7 (P7): 원문에 없는 evidence를 댄 LLM 판정은 한 단계 낮아진다
+  // **Validates: Requirements 8.5, 8.6, 8.7**
+  it('P7: evidence가 null이거나 원문에 없으면 LLM 판정이 한 단계 낮아진다', () => {
+    const arbBadLlm = arbUniqueReviews.chain((reviews) =>
+      fc
+        .tuple(
+          ...reviews.map((r) =>
+            fc.record({
+              id: fc.constant(r.id),
+              stain: fc.constantFrom('certain' as const, 'suspected' as const),
+              signal: fc.constantFrom('disclosure' as const, 'review_event' as const, 'suspected' as const, null),
+              evidence: fc.option(
+                fc.string({ minLength: 1 }).filter((e) => !containsQuote(r.text, e)),
+                { nil: null },
+              ),
+              include: fc.boolean(),
+            }),
+          ),
+        )
+        .map((llmTags) => ({ reviews, llmTags: llmTags as WashTag[] })),
+    );
+    fc.assert(
+      fc.property(arbBadLlm, ({ reviews, llmTags }) => {
+        const ruleTags = detectCertainStains(reviews);
+        const ruleCertain = new Set(ruleTags.filter((t) => t.stain === 'certain').map((t) => t.id));
+        const llmById = new Map(llmTags.map((t) => [t.id, t]));
+        for (const out of verifyJudgments(reviews, ruleTags, llmTags)) {
+          if (ruleCertain.has(out.id)) continue;
+          const llm = llmById.get(out.id)!;
+          if (llm.stain === 'certain') {
+            expect([out.stain, out.signal, out.evidence]).toEqual(['suspected', 'suspected', null]);
+          } else {
+            expect([out.stain, out.signal, out.evidence]).toEqual(['none', null, null]);
+          }
+        }
+      }),
+      { numRuns: 200 },
+    );
+  });
+
   it('LLM certain + 원문 문장 → certain 유지', () => {
     const review: Review = {
       id: 'cp-1',

@@ -78,6 +78,32 @@ describe('applyConditions', () => {
     );
   });
 
+  // Feature: wash-rules, Property 12 (P12): 정해진 조건 필터는 멱등이고 순서와 무관하다
+  // **Validates: Requirements 13.13, 13.14**
+  it('P12: 두 번 적용해도, 필드별로 나눠 차례로 적용해도 한 번에 적용한 결과와 같다', () => {
+    const keys = ['rating', 'date', 'hasPhoto', 'source', 'option', 'includes', 'excludes', 'semantic'] as const;
+    fc.assert(
+      fc.property(
+        fc.oneof(arbConditions, arbNoisyConditions),
+        arbReviews,
+        fc.array(fc.boolean(), { minLength: keys.length, maxLength: keys.length }),
+        (c, reviews, inFirst) => {
+          const c1: Conditions = {};
+          const c2: Conditions = {};
+          keys.forEach((k, i) => {
+            if (c[k] === undefined) return;
+            Object.assign(inFirst[i] ? c1 : c2, { [k]: c[k] });
+          });
+          const once = applyConditions(reviews, c);
+          expect(applyConditions(once, c)).toEqual(once);
+          expect(applyConditions(applyConditions(reviews, c1), c2)).toEqual(once);
+          expect(applyConditions(applyConditions(reviews, c2), c1)).toEqual(once);
+        },
+      ),
+      { numRuns: 300 },
+    );
+  });
+
   it('예시: fixture에서 "사진 있음", "3점 이하"', () => {
     const reviews = powerbank as Review[];
     const photo = applyConditions(reviews, { hasPhoto: true });

@@ -77,7 +77,7 @@
     - 생성기는 `stainKeywords.ts` 상수에서 문구를 읽는다
     - **Validates: Requirements 6.2, 6.4, 6.5, 6.6, 6.7, 6.8, 17.2**
 
-- [ ] 5. 판정 검수와 섬세 세탁
+- [x] 5. 판정 검수와 섬세 세탁
   - [x] 5.1 `verifyJudgments` 구현
     - design 의사코드 그대로: 규칙 `certain` 우선, LLM `certain`은 `disclosure`·`review_event` + 원문 확인일 때만 유지, 실패 시 한 단계 낮추고 `evidence: null`, `normalized()`로 형태 정리
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 8.10, 8.11, 8.12_
@@ -86,7 +86,7 @@
     - `detectCertainStains` 결과와 `verifyJudgments` 결과 둘 다 검사
     - 예시: LLM `certain` + 원문 문장 → 유지
     - **Validates: Requirements 6.3, 6.4, 6.5, 6.11, 8.12**
-  - [ ] 5.3 P7 속성 테스트
+  - [x] 5.3 P7 속성 테스트
     - **Property 7: (P7) 원문에 없는 evidence를 댄 LLM 판정은 한 단계 낮아진다**
     - **Validates: Requirements 8.5, 8.6, 8.7**
   - [ ]* 5.4 S6 속성 테스트
@@ -114,11 +114,11 @@
     - **Property 2: (P2) basedOn은 중복 제거 후 리뷰 수와 같다**
     - 예시: api-contract.md 응답 예시 형태 1건
     - **Validates: Requirements 5.5, 11.1**
-  - [ ] 6.4 P4 속성 테스트 (`averageRating.test.ts`, `buildReceipt.test.ts`)
+  - [x] 6.4 P4 속성 테스트 (`averageRating.test.ts`, `buildReceipt.test.ts`)
     - **Property 4: (P4) after는 포함 리뷰 평균의 반올림이고 1.0~5.0 사이다**
     - 오라클 `Math.floor((20 * sum + n) / (2 * n)) / 10`. 예시: `[4, 5]` → 4.5, `[4, 4, 5]` → 4.3
     - **Validates: Requirements 10.1, 10.2, 11.4**
-  - [ ] 6.5 P5 속성 테스트 (`averageRating.test.ts`, `buildReceipt.test.ts`)
+  - [-] 6.5 P5 속성 테스트 (`averageRating.test.ts`, `buildReceipt.test.ts`)
     - **Property 5: (P5) 포함 리뷰가 없을 때만 after가 null이다**
     - 예시: `[]` → `null`
     - **Validates: Requirements 10.3, 10.4, 11.4**
@@ -146,7 +146,7 @@
     - **Property 11: (P11) 정해진 조건 필터는 정확하다**
     - 오라클 술어는 `applyConditions.ts`를 import하지 않고 테스트 안에 따로 쓴다. 예시: fixture로 "사진 있음", "3점 이하"
     - **Validates: Requirements 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7, 13.8, 13.9, 13.10, 13.11, 13.12**
-  - [ ] 8.3 P12 속성 테스트
+  - [x] 8.3 P12 속성 테스트
     - **Property 12: (P12) 정해진 조건 필터는 멱등이고 순서와 무관하다**
     - **Validates: Requirements 13.13, 13.14**
   - [x] 8.4 `verifyMatches` 구현
@@ -155,10 +155,10 @@
   - [x] 8.5 P9 속성 테스트 (`verifyMatches.test.ts`)
     - **Property 9: (P9) /ask의 quote는 항상 원문에 들어 있다**
     - **Validates: Requirements 14.2, 14.6**
-  - [ ] 8.6 P13 속성 테스트
+  - [x] 8.6 P13 속성 테스트
     - **Property 13: (P13) /ask 결과는 입력의 부분집합이고 단계를 쌓을수록 줄거나 같다**
     - **Validates: Requirements 14.7, 14.8**
-  - [ ] 8.7 P15 속성 테스트
+  - [-] 8.7 P15 속성 테스트
     - **Property 15: (P15) /ask의 rating은 matches 평균이고 count는 matched와 같다**
     - `verifyMatches` + `averageRating` 조합 그대로 검증 (별도 함수 없음)
     - **Validates: Requirements 10.5**
@@ -180,7 +180,7 @@
 - [ ] 10. 부분 세탁 바탕 전환: 단계 평균, 바탕 좁히기·넓히기 (16:45 전에 합침, 정민의 방식 전환이 사용)
   - `averageRating`(6.1)과 `verifyCitations`(7.1)에 기대므로 Task 6, 7 뒤에 한다
   - 시간이 모자라면 이 task를 통째로 미루고 Task 1.3의 빈 구현(`narrowSteps` → `steps.slice()`, `mergeIntoStep` → `{ ...step }`)을 그대로 남긴다. 화면은 "바탕을 바꿔도 단계는 그대로"로 동작한다. 이때도 10.4, 10.5(P16, P17)는 제출 체크리스트 항목이므로 체크하지 않고 미완료로 남겨 실제 상태와 맞춘다
-  - [ ] 10.1 `filter/stepRating.ts` 구현 (내부, `index.ts`에서 내보내지 않음)
+  - [-] 10.1 `filter/stepRating.ts` 구현 (내부, `index.ts`에서 내보내지 않음)
     - `reviews`의 첫 등장 기준 `byId`, `ids` 중 `reviews`에 있는 리뷰만 `averageRating`, `count = ids.length`, 빈 `ids` → `{ average: null, count: 0 }`
     - _Requirements: 19.2, 19.10, 20.3_
   - [ ] 10.2 `filter/narrowSteps.ts` 구현
@@ -203,7 +203,7 @@
     - **Validates: Requirements 20.1, 20.2, 20.3, 20.4, 20.5**
 
 - [ ] 11. 체험단 문구 교체 (intake.md "쿠팡 페이지 확인 결과"가 채워진 뒤)
-  - [ ] 11.1 `stainKeywords.ts` 상수와 관련 예시 테스트만 교체
+  - [-] 11.1 `stainKeywords.ts` 상수와 관련 예시 테스트만 교체
     - intake.md에 기록된 실제 배지 문구·고지 문장으로 `PLATFORM_BADGE_TERM`, `PLATFORM_NOTICE`를 바꾸고, `detectCertainStains.test.ts`와 `__fixtures__/powerbank.json`의 해당 예시만 맞춘다. `detectCertainStains.ts` 로직은 건드리지 않는다
     - 확인 결과가 초기값과 같으면 바꾸지 않고 체크만 한다
     - _Requirements: 17.1, 17.2_

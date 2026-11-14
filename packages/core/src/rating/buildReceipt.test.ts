@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { WashTag } from '../types/wash.ts';
 import { dedupeReviews } from '../utils/dedupeReviews.ts';
 import { arbReview, arbWashTagFor, deepFreeze } from '../utils/testArbitraries.ts';
+import { averageRating } from './averageRating.ts';
 import { buildReceipt } from './buildReceipt.ts';
 
 /** 임의 리뷰(같은 ID 포함)에 대한 임의 태그 배열. 입력에 없는 ID, 중복 ID 태그가 섞인다. */
@@ -52,6 +53,28 @@ describe('buildReceipt', () => {
           expect(receipt.sources.duplicates).toBe(best.length + latest.length - reviews.length);
         },
       ),
+    );
+  });
+
+  // **Validates: Requirements 10.1, 10.2, 11.4**
+  it('P4: after는 include: true(태그 없음 포함) 리뷰의 averageRating과 같다', () => {
+    fc.assert(
+      fc.property(fc.array(arbReview, { maxLength: 30 }), arbTags, (reviews, tags) => {
+        const firstTag = new Map<string, WashTag>();
+        for (const t of tags) if (!firstTag.has(t.id)) firstTag.set(t.id, t);
+        const included = reviews.filter((r) => firstTag.get(r.id)?.include ?? true);
+        const receipt = buildReceipt(
+          deepFreeze(reviews),
+          deepFreeze(tags),
+          { best: reviews.length, latest: 0, duplicates: 0 },
+          false,
+        );
+        expect(receipt.after).toBe(averageRating(included));
+        if (receipt.after !== null) {
+          expect(receipt.after).toBeGreaterThanOrEqual(1);
+          expect(receipt.after).toBeLessThanOrEqual(5);
+        }
+      }),
     );
   });
 });
