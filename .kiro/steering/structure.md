@@ -35,22 +35,21 @@ inclusion: always
 │   │       │       └── wash-tag/     # 리뷰 옆 판정 배지
 │   │       ├── services/
 │   │       │   ├── adapters/         # 입고 어댑터 (coupangAdapter.ts, 다음 단계 kakaomapAdapter.ts)
-│   │       │   └── api/              # POST /wash 클라이언트
+│   │       │   └── api/              # POST /wash, POST /ask 클라이언트
 │   │       ├── hooks/ types/ utils/ constants/ styles/
 │   └── api/                          # 세탁 API (AWS Lambda)
 │       └── src/
-│           ├── handlers/             # Lambda 진입점 (washHandler.ts)
+│           ├── handlers/             # Lambda 진입점 (washHandler.ts, askHandler.ts)
 │           ├── services/
-│           │   ├── wash/             # 세탁 과정 ①~⑤ 조립 (washPipeline.ts)
+│           │   ├── wash/             # 세탁하기·부분 세탁 과정 조립 (washPipeline.ts, askPipeline.ts)
 │           │   └── llm/              # Bedrock 클라이언트, 응답 스키마 검증
-│           ├── prompts/              # LLM 프롬프트 (접수, 본세탁, 영수증)
+│           ├── prompts/              # LLM 프롬프트 (본세탁, 세탁 후 요약, 부분 세탁)
 │           └── utils/
 ├── packages/core/                    # 순수 함수만 (DOM, fs, 네트워크 금지)
 │   ├── src/
 │   │   ├── types/                    # Review, Stain, Signal, WashCourse, WashTag, Receipt
-│   │   ├── rating/                   # 세탁 전·후 평점, 얼룩 수 계산 (④ 검수)
-│   │   ├── rules/                    # 규칙 기반 확실한 얼룩 탐지 (② 애벌빨래)
-│   │   ├── course/                   # 세탁 요청 규칙 해석 보조 (① 접수)
+│   │   ├── rating/                   # 세탁 전·후 평점, 얼룩 수 계산 (검수)
+│   │   ├── rules/                    # 규칙 기반 확실한 얼룩 탐지 (애벌빨래), evidence·quote 원문 확인
 │   │   └── utils/
 │   └── __fixtures__/                 # AI로 만든 가상 리뷰 (단위 테스트 전용)
 ├── infra/                            # AWS CDK (API Gateway, Lambda, 요청 제한, Budgets)

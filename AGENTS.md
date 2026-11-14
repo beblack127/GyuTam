@@ -6,7 +6,7 @@
 | 파일 | 내용 |
 |---|---|
 | `.kiro/steering/product.md` | 문제, 세탁소 용어, 평가자 체험 시나리오 |
-| `.kiro/steering/tech.md` | 스택, 세탁 과정 ①~⑤, `/api/wash` 계약 |
+| `.kiro/steering/tech.md` | 스택, 입고 규칙, `/wash`·`/ask` 계약 |
 | `.kiro/steering/structure.md` | 폴더 구조, 명명 규칙 |
 | `.kiro/steering/fairness.md` | 표현·근거·데이터 수집 기준 |
 | `.kiro/steering/hackathon.md` | 심사 기준, 우선순위, 역할 분담, 커밋 규칙 |
