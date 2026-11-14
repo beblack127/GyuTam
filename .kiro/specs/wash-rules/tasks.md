@@ -9,18 +9,18 @@
 ## Tasks
 
 - [ ] 1. 워크스페이스, 공통 타입, 빈 구현 (15:25 PR, 가장 먼저 `main`에 합침)
-  - [ ] 1.1 라이브러리 일괄 설치와 TS 설정
+  - [x] 1.1 라이브러리 일괄 설치와 TS 설정
     - tech.md 라이브러리 표 그대로 한 번에 설치: 루트 dev `typescript`, `vitest`, `fast-check` / `packages/core` `zod` / `apps/api` `@aws-sdk/client-bedrock-runtime`, `zod` / `apps/extension` `react`, `react-dom`, `vite`, `@vitejs/plugin-react`, `@types/chrome` / `infra` `aws-cdk-lib`, `constructs`, dev `aws-cdk`
     - 루트 `tsconfig.base.json` (design "설정 파일"의 compilerOptions 그대로)
     - `packages/core/package.json` (`@star-laundry/core`, `exports`·`main`·`types` → `./src/index.ts`, `test: vitest --run --passWithNoTests`, `typecheck: tsc --noEmit -p .`, `build` 없음)
     - `packages/core/tsconfig.json` (`lib: ["ES2022"]`, `types: []`, 테스트 파일과 `testArbitraries.ts` 제외)
     - `apps/api`, `apps/extension`, `infra`에 base만 상속하는 최소 `tsconfig.json`과 의존성만 있는 `package.json`. `apps/api`, `apps/extension`은 `"@star-laundry/core": "*"`
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
-  - [ ] 1.2 공통 타입 4개 파일
+  - [x] 1.2 공통 타입 4개 파일
     - `src/types/review.ts` (`Site`, `Source`, `Review`), `wash.ts` (`Stain`, `Signal`, `WashTag`, `Cited`, `Receipt`, `ReceiptCounts`), `ask.ts` (`Conditions`, `Match`, `Step`), `messages.ts` (Intake 메시지 4종, `IntakeMessage` 유니온, `IntakeDoneReason`, `IntakeErrorReason`)
     - api-contract.md 정의를 글자 그대로 옮긴다. `enum` 없이 리터럴 유니온만 쓴다
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
-  - [ ] 1.3 `stainKeywords.ts`, 함수 15개 빈 구현, `index.ts`
+  - [x] 1.3 `stainKeywords.ts`, 함수 15개 빈 구현, `index.ts`
     - `rules/stainKeywords.ts`에 Requirement 6의 초기값 (`PLATFORM_BADGE_TERM`, `PLATFORM_NOTICE`, `DISCLOSURE_PHRASES`, `REVIEW_EVENT_PHRASES`, `NEGATIONS`, `NEGATION_WINDOW = 15`)
     - design 파일 구조대로 함수 파일 생성(공개 함수 15개). design 표의 "PR 1 임시 구현" 값을 반환하고 첫 줄에 `// TODO(wash-rules task N)`. 안 쓰는 매개변수는 `_` 접두사
     - 바탕 전환 두 함수의 빈 구현: `filter/narrowSteps.ts`는 `steps.slice()`, `filter/mergeIntoStep.ts`는 `{ ...step }` (바탕을 바꿔도 단계가 그대로 남는 상태)
