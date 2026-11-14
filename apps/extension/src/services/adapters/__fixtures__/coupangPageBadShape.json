@@ -1,0 +1,11 @@
+{
+  "rCode": "RET0000",
+  "rMessage": "SUCCESS",
+  "rData": {
+    "ratingSummaryTotal": {
+      "ratingCount": 10,
+      "ratingAverage": 4.0,
+      "ratingSummaries": []
+    }
+  }
+}

@@ -1,0 +1,387 @@
+{
+  "rCode": "RET0000",
+  "rMessage": "SUCCESS",
+  "rData": {
+    "ratingSummaryTotal": {
+      "ratingCount": 1234,
+      "ratingAverage": 4.2,
+      "ratingSummaries": [
+        {
+          "rating": 5,
+          "count": 700
+        },
+        {
+          "rating": 4,
+          "count": 300
+        },
+        {
+          "rating": 3,
+          "count": 134
+        },
+        {
+          "rating": 2,
+          "count": 50
+        },
+        {
+          "rating": 1,
+          "count": 50
+        }
+      ]
+    },
+    "paging": {
+      "currentPage": 1,
+      "pageSize": 10,
+      "totalPage": 124,
+      "contents": [
+        {
+          "reviewId": 1001,
+          "rating": 5,
+          "title": "가볍고 충전이 빨라요",
+          "content": "가방에 넣어도 부담이 없고 출근길에 휴대폰을 두 번 충전했어요.",
+          "reviewAt": 1767582000000,
+          "createdAt": 1767582000000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [
+            {
+              "id": 900001,
+              "uploadedFilePath": "/fake/review/1001/900001.jpg",
+              "ordering": 0,
+              "imgSrcOrigin": "https://example.invalid/review/photo-1.jpg",
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-1.jpg",
+              "reviewId": 1001,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            },
+            {
+              "id": 900002,
+              "uploadedFilePath": "/fake/review/1001/900002.jpg",
+              "ordering": 1,
+              "imgSrcOrigin": "https://example.invalid/review/photo-2.jpg",
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-2.jpg",
+              "reviewId": 1001,
+              "index": 1,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            }
+          ],
+          "videoAttachments": [],
+          "itemName": "가상 보조배터리 10000mAh, 블랙, 1개",
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자1",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-1.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-1.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 1002,
+          "rating": 4,
+          "title": "무난합니다",
+          "content": "케이블이 짧은 게 조금 아쉽지만 전체적으로 만족해요.",
+          "reviewAt": 1773975600000,
+          "createdAt": 1767409200000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": null,
+          "attachments": [],
+          "videoAttachments": [],
+          "itemName": "가상 보조배터리 10000mAh, 화이트, 1개",
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자2",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-2.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-2.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 1003,
+          "rating": 3,
+          "title": "제목만 남겨요",
+          "content": "",
+          "createdAt": 1767322800000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "itemName": "  가상 보조배터리 20000mAh, 블랙, 1개  ",
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자3",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-3.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-3.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 1004,
+          "rating": 5,
+          "title": "",
+          "content": "제목 없이 본문만 쓰는 가상 리뷰입니다. 표시등이 밝아서 밤에 잘 보여요.",
+          "createdAt": 1767063600000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [
+            {
+              "id": 900003,
+              "uploadedFilePath": "/fake/review/1004/900003.jpg",
+              "ordering": 0,
+              "imgSrcOrigin": "https://example.invalid/review/photo-3.jpg",
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-3.jpg",
+              "reviewId": 1004,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            }
+          ],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자4",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-4.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-4.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 1005,
+          "rating": 2,
+          "title": "발열이 있어요",
+          "content": "고속 충전 중에 손으로 잡기 어려울 만큼 따뜻해졌어요.",
+          "reviewAt": 1766890800000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자5",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-5.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-5.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 1006,
+          "rating": 1,
+          "title": "하루 만에 고장",
+          "content": "충전이 되다 말다 해서 교환 신청했습니다.",
+          "reviewAt": 1766804400000,
+          "createdAt": 1766804400000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "itemName": "가상 보조배터리 10000mAh, 블랙, 1개",
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자6",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-6.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-6.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 1007,
+          "rating": 5,
+          "title": "선물용으로 샀어요",
+          "content": "포장이 깔끔해서 따로 포장할 필요가 없었어요.",
+          "createdAt": 1766631600000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [
+            {
+              "id": 900004,
+              "uploadedFilePath": "/fake/review/1007/900004.jpg",
+              "ordering": 0,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-4.jpg",
+              "reviewId": 1007,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            }
+          ],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자7",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-7.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-7.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 1008,
+          "rating": 4,
+          "title": "",
+          "content": "숫자 표시가 있어서 남은 양을 알기 쉬워요.",
+          "reviewAt": 1766199600000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "itemName": "가상 보조배터리 10000mAh, 그레이, 1개",
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자8",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-8.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-8.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 1009,
+          "rating": 4,
+          "title": "두 번째 구매",
+          "content": "",
+          "createdAt": 1766026800000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자9",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-9.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-9.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 1010,
+          "rating": 5,
+          "title": "캠핑에서 잘 썼어요",
+          "content": "이틀 동안 랜턴과 휴대폰을 같이 충전했는데 넉넉했어요.",
+          "reviewAt": 1765854000000,
+          "createdAt": 1765767600000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [
+            {
+              "id": 900005,
+              "uploadedFilePath": "/fake/review/1010/900005.jpg",
+              "ordering": 0,
+              "imgSrcOrigin": "https://example.invalid/review/photo-5.jpg",
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-5.jpg",
+              "reviewId": 1010,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            },
+            {
+              "id": 900006,
+              "uploadedFilePath": "/fake/review/1010/900006.jpg",
+              "ordering": 1,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-6.jpg",
+              "reviewId": 1010,
+              "index": 1,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            },
+            {
+              "id": 900007,
+              "uploadedFilePath": "/fake/review/1010/900007.jpg",
+              "ordering": 2,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-7.jpg",
+              "reviewId": 1010,
+              "index": 2,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            }
+          ],
+          "videoAttachments": [],
+          "itemName": "가상 보조배터리 20000mAh, 블랙, 1개",
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자10",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-10.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-10.png",
+          "reviewerRank": "가상등급"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,325 @@
+{
+  "rCode": "RET0000",
+  "rMessage": "SUCCESS",
+  "rData": {
+    "ratingSummaryTotal": {
+      "ratingCount": 8,
+      "ratingAverage": 3.6,
+      "ratingSummaries": [
+        {
+          "rating": 5,
+          "count": 700
+        },
+        {
+          "rating": 4,
+          "count": 300
+        },
+        {
+          "rating": 3,
+          "count": 134
+        },
+        {
+          "rating": 2,
+          "count": 50
+        },
+        {
+          "rating": 1,
+          "count": 50
+        }
+      ]
+    },
+    "paging": {
+      "currentPage": 1,
+      "pageSize": 10,
+      "totalPage": 124,
+      "contents": [
+        {
+          "reviewId": 3001,
+          "rating": 4,
+          "title": "긴 리뷰",
+          "content": "🔋😀🔋😀🔋😀🔋😀🔋😀아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 아주 긴 가상 본문입니다. 충전기를 한 달 동안 매일 썼고 느낀 점을 적습니다. 끝",
+          "createdAt": 1767236400000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자21",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-21.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-21.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 3002,
+          "rating": 5,
+          "title": "사진 7장",
+          "content": "사진을 일곱 장 올린 가상 리뷰입니다.",
+          "createdAt": 1767236400000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [
+            {
+              "id": 900021,
+              "uploadedFilePath": "/fake/review/3002/900021.jpg",
+              "ordering": 0,
+              "imgSrcOrigin": "https://example.invalid/review/photo-21.jpg",
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-21.jpg",
+              "reviewId": 3002,
+              "index": 0,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            },
+            {
+              "id": 900022,
+              "uploadedFilePath": "/fake/review/3002/900022.jpg",
+              "ordering": 1,
+              "imgSrcOrigin": "//example.invalid/review/photo-22.jpg",
+              "imgSrcThumbnail": "//example.invalid/review/photo-22.jpg",
+              "reviewId": 3002,
+              "index": 1,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            },
+            {
+              "id": 900023,
+              "uploadedFilePath": "/fake/review/3002/900023.jpg",
+              "ordering": 2,
+              "imgSrcOrigin": "http://example.invalid/review/photo-23.jpg",
+              "imgSrcThumbnail": "http://example.invalid/review/photo-23.jpg",
+              "reviewId": 3002,
+              "index": 2,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            },
+            {
+              "id": 900021,
+              "uploadedFilePath": "/fake/review/3002/900021.jpg",
+              "ordering": 3,
+              "imgSrcOrigin": "https://example.invalid/review/photo-21.jpg",
+              "imgSrcThumbnail": "https://example.invalid/review/thumb-21.jpg",
+              "reviewId": 3002,
+              "index": 3,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            },
+            {
+              "id": 900024,
+              "uploadedFilePath": "/fake/review/3002/900024.jpg",
+              "ordering": 4,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-24.jpg",
+              "reviewId": 3002,
+              "index": 4,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            },
+            {
+              "id": 900025,
+              "uploadedFilePath": "/fake/review/3002/900025.jpg",
+              "ordering": 5,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-25.jpg",
+              "reviewId": 3002,
+              "index": 5,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            },
+            {
+              "id": 900026,
+              "uploadedFilePath": "/fake/review/3002/900026.jpg",
+              "ordering": 6,
+              "imgSrcOrigin": null,
+              "imgSrcThumbnail": "https://example.invalid/review/photo-26.jpg",
+              "reviewId": 3002,
+              "index": 6,
+              "needNewLine": false,
+              "attachmentType": "IMAGE",
+              "caption": null
+            }
+          ],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자22",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-22.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-22.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 3003,
+          "rating": 3,
+          "title": "옵션이 숫자",
+          "content": "itemName이 숫자인 가상 리뷰입니다.",
+          "createdAt": 1767236400000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "itemName": 10000,
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자23",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-23.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-23.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 3004,
+          "rating": 3,
+          "title": "옵션이 빈 문자열",
+          "content": "itemName이 빈 문자열인 가상 리뷰입니다.",
+          "createdAt": 1767236400000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "itemName": "",
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자24",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-24.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-24.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "rating": 5,
+          "title": "ID 없음",
+          "content": "reviewId가 없는 가상 리뷰입니다.",
+          "createdAt": 1767236400000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자25",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-25.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-25.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 3006,
+          "rating": 0,
+          "title": "별점 0",
+          "content": "rating이 0인 가상 리뷰입니다.",
+          "createdAt": 1767236400000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자26",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-26.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-26.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 3007,
+          "rating": 4,
+          "title": "UTC 15:00 경계",
+          "content": "UTC 2026-01-04T15:00:00.000Z, KST로는 2026-01-05입니다.",
+          "createdAt": 1767538800000,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자27",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-27.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-27.png",
+          "reviewerRank": "가상등급"
+        },
+        {
+          "reviewId": 3008,
+          "rating": 4,
+          "title": "UTC 14:59:59.999 경계",
+          "content": "UTC 2026-01-04T14:59:59.999Z, KST로는 2026-01-04입니다.",
+          "createdAt": 1767538799999,
+          "vine": false,
+          "isAdventurerReview": false,
+          "reviewerBadges": [],
+          "incentive": false,
+          "attachments": [],
+          "videoAttachments": [],
+          "member": {
+            "memberId": 0,
+            "name": "가상작성자",
+            "maskedName": "가*작"
+          },
+          "displayName": "가상작성자",
+          "displayWriter": "가상작성자28",
+          "displayWriterIconUrls": [
+            "https://example.invalid/icon/fake-writer-28.png"
+          ],
+          "reviewerDisplayImage": "https://example.invalid/profile/fake-writer-28.png",
+          "reviewerRank": "가상등급"
+        }
+      ]
+    }
+  }
+}
